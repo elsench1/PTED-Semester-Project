@@ -1,0 +1,18 @@
+project:
+  type: default
+  output-dir: _output
+
+title: The title of your Semesterproject
+subtitle: A subtle subtitle
+author: Firstname1 Lastname1 and Firstname2 Lastname2
+
+format:
+  html:
+    code-fold: true
+
+execute:
+  warning: false
+  message: false
+
+lang: en
+bibliography: bibliography.bib

@@ -1,0 +1,9 @@
+## Appendix
+
+### Wordcount
+
+<!-- after installing the wordcountaddin, remove the line "#| eval: false" -->
+
+```{r}
+#| eval: false
+wordcountaddin::word_count("index.qmd")
