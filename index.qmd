@@ -7,7 +7,7 @@ title: The title of your Semesterproject
 
 ``` 
 
-
+{{< include chapters/_proposal2.qmd >}}
 {{< include chapters/_abstract.qmd >}}
 {{< include chapters/_introduction.qmd >}}
 {{< include chapters/_methods.qmd >}}
