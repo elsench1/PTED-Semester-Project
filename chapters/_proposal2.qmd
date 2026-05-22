@@ -4,7 +4,7 @@
 | Semester:      | FS26                                     |
 |:---------------|:---------------------------------------- |
 | **Data:**      | Spatio-temporal mobility trajectory data (GPS and location traces)  |
-| **Title:**     | Accuraccy analysis of travel detection of different tracking methods   |
+| **Title:**     | Comparison of travel behaviour of two individuals with different tracking methods   |
 | **Student 1:** | Christopher Elsener                        |
 | **Student 2:** | Amelia Heid  
 
@@ -12,10 +12,9 @@
 ## Abstract
 
 <!-- (50-60 words) -->
-This study investigates the automatic detection of travel modes using GPS-based movement data and Google Timeline data. 
-The goal is to evaluate how the methodological approach of travel mode detection with parameters like speed and acceleration as well as road type perform in classifying transportation modes such as walking, cycling, car, and train.
-A key focus is the enhancement of detection accuracy through the integration of OpenStreetMap road type information as contextual features. 
-Additionally, the study compares how data quality and structure from different tracking methods influence classification performance and how google maps classifying system performs in comparison.
+This study investigates the analysis and comparison of human mobility patterns using GPS-based movement data and Google Timeline data.
+The project focuses on extracting and comparing movement characteristics such as average speed, travelled distance per day, movement radius from home, road types used, and time spent outside the home.
+A key objective is to evaluate how different tracking methods influence the quality and reliability of movement analysis. Additionally, the study examines differences in data structure, sampling intervals, GPS accuracy, and the preprocessing effort required for both datasets.
 
 
 ## Introduction
@@ -25,20 +24,22 @@ Additionally, the study compares how data quality and structure from different t
 
 ## Research Questions
 <!-- (50-60 words) -->
-* Is travel mode detection using GPS data combined with overlaid road type information from OpenStreetMap and parameters as speed feasible and accurate?
-* How well can travel modes be detected using different tracking methods (Google Timeline vs. GPS Logger)?
-* How do the two data sources differ in terms of accuracy and reliability for travel mode classification?
+* How much preprocessing effort is required for each dataset before meaningful analysis can be performed?
+* How do movement characteristics such as average speed, travelled distance per day, movement radius, and time spent outside the home differ between individuals and datasets?
+* How do the two tracking methods (Google Timeline vs. GPS Logger) differ regarding sampling interval, timeline gaps, and GPS accuracy?
+* Which road types are most frequently used based on the recorded trajectories?
+* How far do individuals typically move from their home location during daily activities?
+* How long does the travel time from home to ZHAW take based on the movement data?
 
 
 ## Results / products
 <!-- (50-100 words) -->
 <!-- What do you expect, anticipate? -->
-The results will be evaluated based on the number of correctly identified travel modes. The analysis will focus on:
-* Which travel modes (e.g., walking, cycling, car, train) can be detected most reliably
-* Which tracking method (Google Timeline vs. GPS Logger) produces higher classification accuracy
-Another result can be a comparison of travel modes of the two individuals.
+The results will focus on the quantitative comparison of movement behavior and dataset quality. The analysis will include things as average movement speed, distance travelled per day, frequently used road types and more.
 
-It is expected that transport modes with distinct speed patterns, such as walking and train travel, can be detected more reliably than modes with overlapping characteristics, such as cycling and slow motorized traffic. Furthermore, GPS Logger data is anticipated to achieve higher classification accuracy due to its higher temporal resolution. However, the results strongly depend on data quality, particularly GPS gaps, positional accuracy, and the irregular sampling intervals of Google Timeline data. In addition, road type information may significantly improve the classification by providing additional spatial context.
+Additionally, the project will evaluate differences between Google Timeline and GPS Logger data regarding temporal resolution, GPS accuracy, missing data gaps, and preprocessing complexity.
+
+It is expected that GPS Logger data will provide more detailed and reliable movement metrics due to its higher sampling frequency and continuous tracking. In contrast, Google Timeline data may contain larger temporal gaps and less precise trajectories but may require less preprocessing because of its partially structured format. 
 
 
 ## Data
@@ -46,12 +47,13 @@ It is expected that transport modes with distinct speed patterns, such as walkin
 <!-- What data will you use? Will you require additional context data? Where do you get this data from? Do you already have all the data? -->
 This project uses two primary mobility data sources, tracked from two individuals: Google Timeline data and GPS Logger data. 
 Google Timeline provides sparse but semantically enriched location records, including latitude/longitude coordinates, timestamps, and partially pre-classified activity labels (e.g., walking, driving, cycling). 
-However, its temporal resolution is low and irregular, which limits fine-grained movement analysis.
-
+However, its temporal resolution is low and irregular, which limits fine-grained movement analysis. The Coordinates are not as precise as GPS data and can deviate several meters from the known location.
 In contrast, GPS Logger data offers high-frequency, continuous tracking at fixed time intervals, containing raw coordinates and timestamps. 
 This allows for detailed trajectory reconstruction but introduces noise, tracking holes (crashing app) and requires preprocessing.
 
-To enhance both datasets, contextual geographic information from OpenStreetMap is incorporated, particularly road type classifications (e.g., motorway, residential, cycleway). This external context data is retrieved via OpenStreetMap APIs and spatial joins.
+Cleaning, filtering, synchronizing timestamps, and handling missing values are expected to be time-consuming tasks. Furthermore, differences in sampling intervals between the two datasets may influence calculated metrics such as average speed or daily travelled distance, making direct comparisons challenging. Additionally, the positional uncertainty may complicate analyses such as road type assignment, where small spatial inaccuracies can incorrectly match trajectories to nearby streets or paths.
+
+
 
 
 ## Analytical concepts
