@@ -2,8 +2,14 @@
 .Rhistory
 .RData
 .Ruserdata
-/Data
-/data
+
 /.quarto/
 **/*.quarto_ipynb
+<<<<<<< HEAD
 .positai
+=======
+
+# keep private data safe
+/Data
+/data
+>>>>>>> 4897e3fa73b3633ca8ac09ece42be5c8ad892220
