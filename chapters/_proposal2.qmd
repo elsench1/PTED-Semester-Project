@@ -32,7 +32,7 @@ A key objective is to evaluate how different tracking methods influence the qual
 * How long does the travel time from home to ZHAW take based on the movement data?
 
 
-## Results / products
+## Results / Products
 <!-- (50-100 words) -->
 <!-- What do you expect, anticipate? -->
 The results will focus on the quantitative comparison of movement behavior and dataset quality. The analysis will include things as average movement speed, distance travelled per day, frequently used road types and more.
@@ -56,7 +56,7 @@ Cleaning, filtering, synchronizing timestamps, and handling missing values are e
 
 
 
-## Analytical concepts
+## Analytical Concepts
 <!-- (100-200 words) -->
 <!-- Which analytical concepts will you use? What conceptual movement spaces and respective modelling approaches of trajectories will you be using? What additional spatial analysis methods will you be using? -->
 This project applies descriptive spatio-temporal trajectory analysis to compare mobility behaviour recorded with two different tracking methods. The analysis focuses on movement trajectories as sequences of timestamped geographic coordinates. Before analysis, the raw trajectories will be cleaned, ordered by time, and segmented into daily movement patterns. From these trajectories, key movement indicators will be derived, including travelled distance per day, average speed, movement radius from the home location, time spent outside the home, and travel time between home and ZHAW.
@@ -66,7 +66,8 @@ A central analytical concept is the comparison of trajectory quality between Goo
 Additional spatial analysis methods will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap road network data. Where possible, recorded movement points or trajectory segments will be matched to nearby road types in order to identify frequently used infrastructure categories such as residential roads, main roads, cycle paths, or pedestrian paths. The interpretation of the results will be supported by the participants’ own knowledge of their daily movements.
 
 
-## R concepts
+
+## R Concepts
 <!-- (50-100 words) -->
 <!-- Which R concepts, functions, packages will you mainly use. What additional spatial analysis methods will you be using? -->
 The project will be implemented in R using a combination of data wrangling, time-series handling, spatial analysis, and cartographic visualisation packages. The tidyverse package collection will be used for cleaning, restructuring, filtering, and summarising the movement data. The lubridate package will support timestamp parsing, time zone handling, and the calculation of travel durations or daily activity periods.
@@ -76,7 +77,7 @@ Spatial processing will mainly be carried out with the sf package, which allows 
 For visualisation, ggplot2 will be used for statistical plots such as daily distance, speed distributions, and time spent outside home. The package tmap will be used to display the movement data on maps, including trajectory lines, GPS points, home locations, movement radius, and possibly matched road types. This will help to visually compare the spatial patterns and data quality of the two tracking methods.
 
 
-## Risk analysis
+## Risk Analysis
 <!-- (100-150 words) -->
 <!-- What could be the biggest challenges/problems you might face? What is your plan B? -->
 The main risk of this project is the limited quality and comparability of the two mobility datasets. Google Timeline data may contain irregular sampling intervals, missing sections, simplified routes, and lower positional accuracy. GPS Logger data is expected to be more detailed, but it may still include GPS noise, signal loss, tracking gaps, or errors caused by the app stopping unexpectedly. These issues may influence calculated indicators such as travelled distance, average speed, or travel time.
