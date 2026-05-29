@@ -1,27 +1,20 @@
 ---
-title: The title of your Semesterproject
+is-index: true   # prevents the chapter title from appearing twice on this page
 ---
 
-```{r preprocessing}
-#| code-summary: preprocessing
+<!-- HTML: render the ZHAW title page here (supervisors, imprint, etc.) -->
+::: {.content-visible when-format="html"}
 
-``` 
+{{< zhaw-title-block >}}
 
-{{< include chapters/_proposal2.qmd >}}
-{{< include chapters/_abstract.qmd >}}
-{{< include chapters/_introduction.qmd >}}
-{{< include chapters/_methods.qmd >}}
-{{< include chapters/_results.qmd >}}
-{{< include chapters/_discussion.qmd >}}
-{{< include chapters/_appendix.qmd >}}
-
-### Wordcount
-
-<!-- after installing the wordcountadding, remove the line "#| eval: false" -->
-
-```{r}
-#| eval: false
-wordcountaddin::word_count("index.qmd")
-```
+:::
 
 
+<!-- Typst: render the table of contents here (hidden in HTML, handled by sidebar) -->
+::: {.content-hidden when-format="html"}
+
+# Inhaltsverzeichnis {.unnumbered .unlisted}
+
+{{< table-of-contents >}}
+
+:::
