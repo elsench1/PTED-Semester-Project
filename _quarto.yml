@@ -12,7 +12,7 @@ book:
   chapters:
     - file: index.qmd
       text: "Titelseite"   # sidebar label for the title page
-    - 1-zusammenfassung.qmd
+    - chapters1-zusammenfassung.qmd
     - 2-einleitung.qmd
     - 3-literatur.qmd
     - 4-methoden.qmd
