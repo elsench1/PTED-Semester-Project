@@ -1,18 +1,55 @@
 project:
-  type: default
+  type: book
   output-dir: docs
 
-title: The title of your Semesterproject
-subtitle: A subtle subtitle
-author: Firstname1 Lastname1 and Firstname2 Lastname2
+book:
+  title: "Robuste Regression und Outlier Erkennung"
+  subtitle: "Einfache Regression"
+  author:
+    - Peter Rousseeuw
+  date: "2024-12-15"
+  downloads: pdf           # adds a PDF download button to the HTML navbar
+  chapters:
+    - file: index.qmd
+      text: "Titelseite"   # sidebar label for the title page
+    - chapters/_abstract.qmd
+    - chapters/_introduction.qmd
+    - chapters/_methods.qmd
+    - chapters/_results.qmd
+    - chapters/_discussion.qmd
+    - chapters/_appendix.qmd
+    - chapters/references.qmd
+  appendices:
+      - chapters/_proposal2.qmd
+    # - 7-anhang-rohdaten.qmd
+    # - 8-anhang-statistik.qmd
+
+bibliography: references.bib
+lang: de                   # controls automatic text (e.g. "Abgabedatum" vs "Submission date")
+
+institut: "Institut für Umwelt und Natürliche Ressourcen"
+keywords: "Robuste Regression, Ausreisser, Allometrie, Säugetiere, Gehirngrösse, Statistik"
+confidential: true         # adds a "Vertraulich" notice on the title page
+zhaw-cover-image:
+  src: cover.png
+  max-width: 100%          # optional, constrains the image on the title page
+  max-height: 5cm
+thesis-type: "Projektarbeit 2"
+degree-type: "Bachelorstudiengang"
+study-year: "2009"
+submission-date: "2024-12-15"
+study-direction: "Umweltingenieurwesen"
+supervisors:
+  - title: "Prof. Dr."
+    name: "Max Mustermann"
+    affiliation: "ZHAW Life Sciences und Facility Management, Wädenswil"
+  - title: "Dr."
+    name: "Anna Beispiel"
+    affiliation: "ETH Zürich, Institut für Umweltingenieurwissenschaften, Zürich"
+  - title: "Prof. Dr."
+    name: "Susanne Müller"
+    affiliation: "Universität Zürich, Institut für Evolutionsbiologie und Umweltwissenschaften, Zürich"
 
 format:
-  html:
-    code-fold: true
-
-execute:
-  warning: false
-  message: false
-
-lang: en
-bibliography: bibliography.bib
+  zhaw-lsfm-typst: default
+  zhaw-lsfm-html: default
