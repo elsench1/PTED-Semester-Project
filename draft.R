@@ -74,6 +74,38 @@ source("src/R/dataPreparation.R")
 GPS_Track <- readRDS("data/processedData/GPS_Track_processed.rds")
 
 
+home <- st_sfc(
+  st_point(c(8.519625,47.156997)),
+  crs = 4326
+) |> 
+  st_transform(crs =2056)
+
+home_buffer <- st_buffer(home, 300)
+
+GPS_Track <- GPS_Track |> 
+  mutate(
+    near_home = as.logical(st_intersects(geometry, home_buffer, sparse = FALSE)[, 1]),
+    bad_near_home = near_home & speed_kmh > 50
+  )
+
+sum(GPS_Track$bad_near_home, na.rm = TRUE)
+
+library(dplyr)
+GPS_Track <- GPS_Track |>
+  filter(bad_near_home != TRUE | is.na(bad_near_home))
+
+
+GPS_Track <- GPS_Track |>
+  mutate(
+    low_sat = sat < 6
+  )
+
+sum(GPS_Track$low_sat, na.rm = TRUE)
+
+GPS_Track <- GPS_Track |> 
+  filter(low_sat != TRUE | is.na(low_sat))
+
+
 # hide_points <- get_df_of_hide_points(
 #   hide_point_csv = "data/metaData/hidePoint.csv",
 #   target_crs = 2056)
@@ -88,16 +120,18 @@ GPS_Track <- readRDS("data/processedData/GPS_Track_processed.rds")
 #   dist = 300
 # )
 # 
-# GPS_Track_line <- GPS_Track |>
-#   summarise(do_union = FALSE) |>
-#   st_cast("LINESTRING")
-# 
-# tmap_mode("view")
-# 
-# map <- tm_shape(GPS_Track_line) +
-#   tm_lines(col = "green", lwd = 5)
-# 
-# print(map)
+library(tmap)
+
+GPS_Track_line <- GPS_Track |>
+  summarise(do_union = FALSE) |>
+  st_cast("LINESTRING")
+
+tmap_mode("view")
+
+map <- tm_shape(GPS_Track_line) +
+  tm_lines(col = "green", lwd = 5)
+
+print(map)
 # # 
 
 
