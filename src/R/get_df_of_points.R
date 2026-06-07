@@ -1,4 +1,4 @@
-get_df_of_hide_points <- function(hide_point_csv, target_crs = 2056) {
+get_df_of_points <- function(hide_point_csv, target_crs = 2056) {
   
   library(sf)
   
@@ -21,15 +21,16 @@ get_df_of_hide_points <- function(hide_point_csv, target_crs = 2056) {
     return(NULL)
   }
   
-  required_cols <- c("x", "y", "crs")
+  required_cols <- c("ID","x", "y", "crs")
   
   if (!all(required_cols %in% names(csv_data))) {
     stop(
-      "CSV muss die Spalten x, y und crs enthalten. ",
-      "Beispiel: x,y,crs"
+      "CSV muss die Spalten ID, x, y und crs enthalten. ",
+      "Beispiel: ID,x,y,crs"
     )
   }
   
+  csv_data$ID <- as.character(csv_data$ID)
   csv_data$x <- as.numeric(csv_data$x)
   csv_data$y <- as.numeric(csv_data$y)
   csv_data$crs <- as.integer(csv_data$crs)
@@ -41,6 +42,7 @@ get_df_of_hide_points <- function(hide_point_csv, target_crs = 2056) {
   hide_points_list <- lapply(seq_len(nrow(csv_data)), function(i) {
     
     point_df <- data.frame(
+      ID = csv_data$ID[i],
       x = csv_data$x[i],
       y = csv_data$y[i]
     )
