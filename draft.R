@@ -69,7 +69,7 @@ library(tmap)
 
 
 
-
+saveRDS(GPS_Track, "data/processedData/GPS_Track_processed.rds")
 
 
 
