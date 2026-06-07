@@ -2,41 +2,41 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Robuste Regression und Outlier Erkennung",
+    "title": "PTED Semeser Project",
     "section": "",
-    "text": "Zürcher Hochschule für Angewandte WissenschaftenDepartement Life Sciences und Facility ManagementInstitut für Umwelt und Natürliche Ressourcen\nRobuste Regression und Outlier Erkennung\nEinfache Regression\n\nVertraulich\nProjektarbeit 2\nvon\nPeter Rousseeuw\n\nBachelorstudiengang 2009\nAbgabedatum 2024-12-15\nStudienrichtung Umweltingenieurwesen\nBetreuer / Betreuerinnen:\nProf. Dr. Max MustermannZHAW Life Sciences und Facility Management, Wädenswil\nDr. Anna BeispielETH Zürich, Institut für Umweltingenieurwissenschaften, Zürich\nProf. Dr. Susanne MüllerUniversität Zürich, Institut für Evolutionsbiologie und Umweltwissenschaften, Zürich\n\n\n\nImpressum\nZitiervorschlag:\nPeter Rousseeuw (15. Dezember 2024). Robuste Regression und Outlier Erkennung: Einfache Regression. Zürcher Hochschule für Angewandte Wissenschaften, Departement Life Sciences und Facility Management, Institut für Umwelt und Natürliche Ressourcen.\nSchlagworte: Robuste Regression, Ausreisser, Allometrie, Säugetiere, Gehirngrösse, Statistik"
+    "text": "Zurich University of Applied SciencesDepartement Life Sciences and Facility ManagementInstitut für Umwelt und Natürliche Ressourcen\nPTED Semeser Project\nsomething with gps data\n\nConfidential\nProjektarbeit 2\nby\nAmeliaChristopher\n\nBachelorstudiengang 2009\nSubmission date 2024-12-15\nStudy direction Umweltingenieurwesen\nSupervisors:\nProf. Dr. Max MustermannZHAW Life Sciences und Facility Management, Wädenswil\nDr. Anna BeispielETH Zürich, Institut für Umweltingenieurwissenschaften, Zürich\nProf. Dr. Susanne MüllerUniversität Zürich, Institut für Evolutionsbiologie und Umweltwissenschaften, Zürich\n\n\n\nImprint\nRecommended Citation:\nAmeliaChristopher (June 7, 2026). PTED Semeser Project: something with gps data. Zurich University of Applied Sciences, Departement Life Sciences and Facility Management, Institut für Umwelt und Natürliche Ressourcen.\nKeywords: Robuste Regression, Ausreisser, Allometrie, Säugetiere, Gehirngrösse, Statistik"
   },
   {
-    "objectID": "chapters/_abstract.html",
-    "href": "chapters/_abstract.html",
+    "objectID": "chapters/abstract.html",
+    "href": "chapters/abstract.html",
     "title": "1  Abstract",
     "section": "",
     "text": "1  Abstract"
   },
   {
-    "objectID": "chapters/_introduction.html",
-    "href": "chapters/_introduction.html",
+    "objectID": "chapters/introduction.html",
+    "href": "chapters/introduction.html",
     "title": "2  Introduction",
     "section": "",
     "text": "2  Introduction\n\n\n\n(laube2011?) investigate how temporal scale affects the calculation of movement parameters (speed, sinuosity and turning angle) of animal trajectories."
   },
   {
-    "objectID": "chapters/_methods.html",
-    "href": "chapters/_methods.html",
+    "objectID": "chapters/methods.html",
+    "href": "chapters/methods.html",
     "title": "3  Material and Methods",
     "section": "",
     "text": "3  Material and Methods\n\n\n\nText here…"
   },
   {
-    "objectID": "chapters/_results.html",
-    "href": "chapters/_results.html",
+    "objectID": "chapters/results.html",
+    "href": "chapters/results.html",
     "title": "4  Results",
     "section": "",
     "text": "4  Results\n\n\n\nText here…"
   },
   {
-    "objectID": "chapters/_appendix.html",
-    "href": "chapters/_appendix.html",
+    "objectID": "chapters/appendix.html",
+    "href": "chapters/appendix.html",
     "title": "6  Appendix",
     "section": "",
     "text": "6  Appendix\n\n\n\n\n6.0.1 Wordcount\n\n#| eval: false wordcountaddin::word_count(“index.qmd”)"
@@ -49,51 +49,51 @@
     "text": "Literaturverzeichnis"
   },
   {
-    "objectID": "chapters/_proposal2.html",
-    "href": "chapters/_proposal2.html",
-    "title": "Anhang A — Abstract",
+    "objectID": "chapters/proposal2.html",
+    "href": "chapters/proposal2.html",
+    "title": "Appendix A — Abstract",
     "section": "",
     "text": "A.1 Introduction\nPatterns & Trends in Environmental Data / Computational Movement Analysis / Geo 880\nThis study investigates the analysis and comparison of human mobility patterns using GPS-based movement data and Google Timeline data. The project focuses on extracting and comparing movement characteristics such as average speed, travelled distance per day, movement radius from home, road types used, and time spent outside the home. A key objective is to evaluate how different tracking methods influence the quality and reliability of movement analysis. Additionally, the study examines differences in data structure, sampling intervals, GPS accuracy, and the preprocessing effort required for both datasets."
   },
   {
-    "objectID": "chapters/_proposal2.html#research-questions",
-    "href": "chapters/_proposal2.html#research-questions",
-    "title": "Anhang A — Abstract",
+    "objectID": "chapters/proposal2.html#research-questions",
+    "href": "chapters/proposal2.html#research-questions",
+    "title": "Appendix A — Abstract",
     "section": "A.2 Research Questions",
     "text": "A.2 Research Questions\n\n\nHow much preprocessing effort is required for each dataset before meaningful analysis can be performed?\nHow do movement characteristics such as average speed, travelled distance per day, movement radius, and time spent outside the home differ between individuals and datasets?\nHow do the two tracking methods (Google Timeline vs. GPS Logger) differ regarding sampling interval, timeline gaps, and GPS accuracy?\nWhich road types are most frequently used based on the recorded trajectories?\nHow far do individuals typically move from their home location during daily activities?\nHow long does the travel time from home to ZHAW take based on the movement data?"
   },
   {
-    "objectID": "chapters/_proposal2.html#results-products",
-    "href": "chapters/_proposal2.html#results-products",
-    "title": "Anhang A — Abstract",
+    "objectID": "chapters/proposal2.html#results-products",
+    "href": "chapters/proposal2.html#results-products",
+    "title": "Appendix A — Abstract",
     "section": "A.3 Results / Products",
     "text": "A.3 Results / Products\n\n\nThe results will focus on the quantitative comparison of movement behavior and dataset quality. The analysis will include things as average movement speed, distance travelled per day, frequently used road types and more.\nAdditionally, the project will evaluate differences between Google Timeline and GPS Logger data regarding temporal resolution, GPS accuracy, missing data gaps, and preprocessing complexity.\nIt is expected that GPS Logger data will provide more detailed and reliable movement metrics due to its higher sampling frequency and continuous tracking. In contrast, Google Timeline data may contain larger temporal gaps and less precise trajectories but may require less preprocessing because of its partially structured format."
   },
   {
-    "objectID": "chapters/_proposal2.html#data",
-    "href": "chapters/_proposal2.html#data",
-    "title": "Anhang A — Abstract",
+    "objectID": "chapters/proposal2.html#data",
+    "href": "chapters/proposal2.html#data",
+    "title": "Appendix A — Abstract",
     "section": "A.4 Data",
     "text": "A.4 Data\n\n\nThis project uses two primary mobility data sources, tracked from two individuals: Google Timeline data and GPS Logger data. Google Timeline provides sparse but semantically enriched location records, including latitude/longitude coordinates, timestamps, and partially pre-classified activity labels (e.g., walking, driving, cycling). However, its temporal resolution is low and irregular, which limits fine-grained movement analysis. The Coordinates are not as precise as GPS data and can deviate several meters from the known location. In contrast, GPS Logger data offers high-frequency, continuous tracking at fixed time intervals, containing raw coordinates and timestamps. This allows for detailed trajectory reconstruction but introduces noise, tracking holes (crashing app) and requires preprocessing.\nCleaning, filtering, synchronizing timestamps, and handling missing values are expected to be time-consuming tasks. Furthermore, differences in sampling intervals between the two datasets may influence calculated metrics such as average speed or daily travelled distance, making direct comparisons challenging. Additionally, the positional uncertainty may complicate analyses such as road type assignment, where small spatial inaccuracies can incorrectly match trajectories to nearby streets or paths."
   },
   {
-    "objectID": "chapters/_proposal2.html#analytical-concepts",
-    "href": "chapters/_proposal2.html#analytical-concepts",
-    "title": "Anhang A — Abstract",
+    "objectID": "chapters/proposal2.html#analytical-concepts",
+    "href": "chapters/proposal2.html#analytical-concepts",
+    "title": "Appendix A — Abstract",
     "section": "A.5 Analytical Concepts",
     "text": "A.5 Analytical Concepts\n\n\nThis project applies descriptive spatio-temporal trajectory analysis to compare mobility behaviour recorded with two different tracking methods. The analysis focuses on movement trajectories as sequences of timestamped geographic coordinates. Before analysis, the raw trajectories will be cleaned, ordered by time, and segmented into daily movement patterns. From these trajectories, key movement indicators will be derived, including travelled distance per day, average speed, movement radius from the home location, time spent outside the home, and travel time between home and ZHAW.\nA central analytical concept is the comparison of trajectory quality between Google Timeline and GPS Logger data. This includes assessing sampling intervals, temporal gaps, positional accuracy, and the level of preprocessing required. Since the datasets differ in resolution and structure, the analysis will not rely on complex movement classification models, but rather on robust descriptive measures that can be calculated for both data sources.\nAdditional spatial analysis methods will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap road network data. Where possible, recorded movement points or trajectory segments will be matched to nearby road types in order to identify frequently used infrastructure categories such as residential roads, main roads, cycle paths, or pedestrian paths. The interpretation of the results will be supported by the participants’ own knowledge of their daily movements."
   },
   {
-    "objectID": "chapters/_proposal2.html#r-concepts",
-    "href": "chapters/_proposal2.html#r-concepts",
-    "title": "Anhang A — Abstract",
+    "objectID": "chapters/proposal2.html#r-concepts",
+    "href": "chapters/proposal2.html#r-concepts",
+    "title": "Appendix A — Abstract",
     "section": "A.6 R Concepts",
     "text": "A.6 R Concepts\n\n\nThe project will be implemented in R using a combination of data wrangling, time-series handling, spatial analysis, and cartographic visualisation packages. The tidyverse package collection will be used for cleaning, restructuring, filtering, and summarising the movement data. The lubridate package will support timestamp parsing, time zone handling, and the calculation of travel durations or daily activity periods.\nSpatial processing will mainly be carried out with the sf package, which allows GPS Logger and Google Timeline coordinates to be converted into spatial objects. Distance calculations, coordinate transformations, spatial joins, and buffer operations will also be performed with sf. OpenStreetMap road network data may be accessed using osmdata and linked to the mobility trajectories through spatial overlay or nearest-feature matching.\nFor visualisation, ggplot2 will be used for statistical plots such as daily distance, speed distributions, and time spent outside home. The package tmap will be used to display the movement data on maps, including trajectory lines, GPS points, home locations, movement radius, and possibly matched road types. This will help to visually compare the spatial patterns and data quality of the two tracking methods."
   },
   {
-    "objectID": "chapters/_proposal2.html#risk-analysis",
-    "href": "chapters/_proposal2.html#risk-analysis",
-    "title": "Anhang A — Abstract",
+    "objectID": "chapters/proposal2.html#risk-analysis",
+    "href": "chapters/proposal2.html#risk-analysis",
+    "title": "Appendix A — Abstract",
     "section": "A.7 Risk Analysis",
     "text": "A.7 Risk Analysis\n\n\nThe main risk of this project is the limited quality and comparability of the two mobility datasets. Google Timeline data may contain irregular sampling intervals, missing sections, simplified routes, and lower positional accuracy. GPS Logger data is expected to be more detailed, but it may still include GPS noise, signal loss, tracking gaps, or errors caused by the app stopping unexpectedly. These issues may influence calculated indicators such as travelled distance, average speed, or travel time.\nAnother challenge is that the datasets are collected from only two individuals. Therefore, the results cannot be generalised to broader mobility behaviour. Instead, the project will focus on a careful comparison of the two tracking methods and on individual movement patterns. Road type assignment may also be uncertain because small GPS inaccuracies can lead to incorrect matching with nearby roads or paths.\nAs a contingency plan, the analysis will prioritise simple and robust indicators rather than complex classification models. If travel mode detection proves unreliable, the project will focus on descriptive mobility metrics such as daily distance, movement radius, data gaps, and time spent outside home. If road type matching is too inaccurate, it will be treated as an exploratory part of the analysis rather than a central result."
   }

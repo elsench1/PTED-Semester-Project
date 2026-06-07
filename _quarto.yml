@@ -13,16 +13,16 @@ book:
   chapters:
     - file: index.qmd
       text: "Titelseite"   # sidebar label for the title page
-    - chapters/_abstract.qmd
-    - chapters/_introduction.qmd
-    - chapters/_methods.qmd
-    - chapters/_results.qmd
-    - chapters/_discussion.qmd
-    - chapters/_appendix.qmd
+    - chapters/abstract.qmd
+    - chapters/introduction.qmd
+    - chapters/methods.qmd
+    - chapters/results.qmd
+    - chapters/discussion.qmd
+    - chapters/appendix.qmd
     - chapters/references.qmd
     
   appendices:
-      - chapters/_proposal2.qmd
+      - chapters/proposal2.qmd
     # - 7-anhang-rohdaten.qmd
     # - 8-anhang-statistik.qmd
 
