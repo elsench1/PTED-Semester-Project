@@ -10,6 +10,7 @@ book:
     - Christopher
   date: "2026-06-07"
   downloads: pdf           # adds a PDF download button to the HTML navbar
+
   chapters:
     - file: index.qmd
       text: "Titelseite"   # sidebar label for the title page
@@ -31,7 +32,7 @@ lang: en                   # controls automatic text (e.g. "Abgabedatum" vs "Sub
 
 institut: "Institut für Umwelt und Natürliche Ressourcen"
 keywords: "Robuste Regression, Ausreisser, Allometrie, Säugetiere, Gehirngrösse, Statistik"
-confidential: true         # adds a "Vertraulich" notice on the title page
+confidential: false         # adds a "Vertraulich" notice on the title page
 zhaw-cover-image:
   src: cover.png
   max-width: 100%          # optional, constrains the image on the title page
