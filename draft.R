@@ -1,20 +1,20 @@
 # Draft
 
-# source("src/R/move_points_to_circle_exit.R")
+source("src/R/move_points_to_circle_exit.R")
 source("src/R/dataPreparation.R")
-
-GPXFileLink <- "data/rawData/Trackingdata_Christopher/20260312-172538.gpx"
-
-
-
-GPS_Track <- load_GPX_File(GPXFile = GPXFileLink) |> 
-  remove_all_na_columns() |> 
-  add_speed_and_accel_to_GSP_df() |> 
-  mark_suspicious_points()
-
-library(dplyr)
-GPS_Track <- GPS_Track |> 
-  filter(bad_point != TRUE | is.na(bad_point))
+# 
+# GPXFileLink <- "data/rawData/Trackingdata_Christopher/20260312-172538.gpx"
+# 
+# 
+# 
+# GPS_Track <- load_GPX_File(GPXFile = GPXFileLink) |> 
+#   remove_all_na_columns() |> 
+#   add_speed_and_accel_to_GSP_df() |> 
+#   mark_suspicious_points()
+# 
+# library(dplyr)
+# GPS_Track <- GPS_Track |> 
+#   filter(bad_point != TRUE | is.na(bad_point))
 # 
 # 
 # library(ggplot2)
@@ -60,17 +60,18 @@ GPS_Track <- GPS_Track |>
 #   )
 
 
+# 
+# sum(GPS_Track$is_suspicious_spike, na.rm = TRUE)
+# sum(GPS_Track$suspicious_accel, na.rm = TRUE)
+# sum(GPS_Track$bad_point, na.rm = TRUE)
+# 
+# library(tmap)
 
-sum(GPS_Track$is_suspicious_spike, na.rm = TRUE)
-sum(GPS_Track$suspicious_accel, na.rm = TRUE)
-sum(GPS_Track$bad_point, na.rm = TRUE)
-
-library(tmap)
 
 
+# saveRDS(GPS_Track, "data/processedData/GPS_Track_processed.rds")
 
-saveRDS(GPS_Track, "data/processedData/GPS_Track_processed.rds")
-
+GPS_Track <- readRDS("data/processedData/GPS_Track_processed.rds")
 
 
 # hide_points <- get_df_of_hide_points(
@@ -87,17 +88,17 @@ saveRDS(GPS_Track, "data/processedData/GPS_Track_processed.rds")
 #   dist = 300
 # )
 # 
-GPS_Track_line <- GPS_Track |>
-  summarise(do_union = FALSE) |>
-  st_cast("LINESTRING")
-
-tmap_mode("view")
-
-map <- tm_shape(GPS_Track_line) +
-  tm_lines(col = "green", lwd = 5)
-
-print(map)
+# GPS_Track_line <- GPS_Track |>
+#   summarise(do_union = FALSE) |>
+#   st_cast("LINESTRING")
 # 
+# tmap_mode("view")
+# 
+# map <- tm_shape(GPS_Track_line) +
+#   tm_lines(col = "green", lwd = 5)
+# 
+# print(map)
+# # 
 
 
 # main <- function() {
