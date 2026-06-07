@@ -44,7 +44,7 @@ add_speed_and_accel_to_GSP_df <- function(gpx) {
     )
 }
 
-mark_suspicious_spikes <- function(df,
+mark_suspicious_points <- function(df,
                                    jump_m = 80,
                                    return_m = 30,
                                    max_dt = 20) {
