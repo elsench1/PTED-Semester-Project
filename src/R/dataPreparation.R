@@ -47,7 +47,8 @@ add_speed_and_accel_to_GSP_df <- function(gpx) {
 mark_suspicious_points <- function(df,
                                    jump_m = 80,
                                    return_m = 30,
-                                   max_dt = 20) {
+                                   max_dt = 20,
+                                   max_accel = 8) {
   df |>
     mutate(
       x_prev = lag(x),
@@ -67,6 +68,13 @@ mark_suspicious_points <- function(df,
         dist_next > jump_m &
         dist_skip < return_m &
         dt_prev <= max_dt &
-        dt_next <= max_dt
+        dt_next <= max_dt,
+      
+      suspicious_accel = abs(accel) > max_accel,
+      
+    ) |> 
+    mutate(
+      bad_point = is_suspicious_spike | suspicious_accel
     )
+  
 }
