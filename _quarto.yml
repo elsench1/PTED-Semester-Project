@@ -37,10 +37,10 @@ zhaw-cover-image:
   src: cover.png
   max-width: 100%          # optional, constrains the image on the title page
   max-height: 5cm
-thesis-type: "Projektarbeit 2"
-degree-type: "Bachelorstudiengang"
-study-year: "2009"
-submission-date: "2024-12-15"
+thesis-type: "Semester Project"
+degree-type: "Master cours"
+study-year: "2026"
+submission-date: "2026-12-15"
 study-direction: "Umweltingenieurwesen"
 supervisors:
   - title: "Prof. Dr."
@@ -54,20 +54,24 @@ supervisors:
     affiliation: "Universität Zürich, Institut für Evolutionsbiologie und Umweltwissenschaften, Zürich"
 
 format:
-  zhaw-lsfm-typst: default
-  html:
-    toc: true
-    number-sections: true
-    css:
-      - _extensions/zhaw-lsfm/zhaw-lsfm/zhaw-html.css
-    filters:
-      - _extensions/zhaw-lsfm/zhaw-lsfm/html-labels.lua
-    template-partials:
-      - _extensions/zhaw-lsfm/zhaw-lsfm/partials/title-block.html
-    shortcodes:
-      - _extensions/zhaw-lsfm/zhaw-lsfm/shortcodes.lua
-    execute:
-      warning: false
-      error: true
+  zhaw-lsfm-html: default
+    # format-links: false
+      # format-links: false
 
-  # zhaw-lsfm-html: default
+  zhaw-lsfm-typst: default
+  # html:
+  #   toc: true
+  #   number-sections: true
+  #   css:
+  #     - _extensions/zhaw-lsfm/zhaw-lsfm/zhaw-html.css
+  #   filters:
+  #     - _extensions/zhaw-lsfm/zhaw-lsfm/html-labels.lua
+  #   template-partials:
+  #     - _extensions/zhaw-lsfm/zhaw-lsfm/partials/title-block.html
+  #   shortcodes:
+  #     - _extensions/zhaw-lsfm/zhaw-lsfm/shortcodes.lua
+  #   execute:
+  #     warning: false
+  #     error: true
+
+
