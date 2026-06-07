@@ -3,11 +3,12 @@ project:
   output-dir: docs
 
 book:
-  title: "Robuste Regression und Outlier Erkennung"
-  subtitle: "Einfache Regression"
+  title: "PTED Semeser Project"
+  subtitle: "something with gps data"
   author:
-    - Peter Rousseeuw
-  date: "2024-12-15"
+    - Amelia
+    - Christopher
+  date: "2026-06-07"
   downloads: pdf           # adds a PDF download button to the HTML navbar
   chapters:
     - file: index.qmd
@@ -19,13 +20,14 @@ book:
     - chapters/_discussion.qmd
     - chapters/_appendix.qmd
     - chapters/references.qmd
+    
   appendices:
       - chapters/_proposal2.qmd
     # - 7-anhang-rohdaten.qmd
     # - 8-anhang-statistik.qmd
 
 bibliography: references.bib
-lang: de                   # controls automatic text (e.g. "Abgabedatum" vs "Submission date")
+lang: en                   # controls automatic text (e.g. "Abgabedatum" vs "Submission date")
 
 institut: "Institut für Umwelt und Natürliche Ressourcen"
 keywords: "Robuste Regression, Ausreisser, Allometrie, Säugetiere, Gehirngrösse, Statistik"
