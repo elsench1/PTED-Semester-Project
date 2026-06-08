@@ -63,13 +63,14 @@ segment_tracks <- function(df,
     mutate(
       dt_min = as.numeric(difftime(time, lag(time), units = "mins")),
       
-      moving = !is_stop & speed_kmh >= min_move_speed_kmh,
+      moving = coalesce(!is_stop, FALSE) &
+        coalesce(speed_kmh >= min_move_speed_kmh, FALSE),
       
       new_segment =
         row_number() == 1 |
-        dt_min > gap_app_crash_min |
-        (lag(is_stop, default = TRUE) & moving),
+        coalesce(dt_min > gap_app_crash_min, FALSE) |
+        (lag(coalesce(is_stop, TRUE), default = TRUE) & moving),
       
-      segment_id = cumsum(replace_na(new_segment, FALSE))
+      segment_id = cumsum(new_segment)
     )
 }
