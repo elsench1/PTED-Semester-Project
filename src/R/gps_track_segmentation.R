@@ -1,5 +1,5 @@
 library(Rcpp)
-
+library(tidyr)
 
 # very slow!!! ~ 2'000'000 × 2'000'000 = 4'000'000'000'000 comparison
 
@@ -51,4 +51,25 @@ detect_stops_rcpp <- function(df,
   )
   
   df
+}
+
+segment_tracks <- function(df,
+                           gap_app_crash_min = 60,
+                           gap_tunnel_min = 20,
+                           min_move_speed_kmh = 2) {
+  
+  df |>
+    arrange(time) |>
+    mutate(
+      dt_min = as.numeric(difftime(time, lag(time), units = "mins")),
+      
+      moving = !is_stop & speed_kmh >= min_move_speed_kmh,
+      
+      new_segment =
+        row_number() == 1 |
+        dt_min > gap_app_crash_min |
+        (lag(is_stop, default = TRUE) & moving),
+      
+      segment_id = cumsum(replace_na(new_segment, FALSE))
+    )
 }
