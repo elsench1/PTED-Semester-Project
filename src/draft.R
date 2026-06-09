@@ -74,7 +74,7 @@ source("src/R/compress_stop_blocks.R")
 # Datei Speichern und laden
 # saveRDS(GPS_Track, "data/processedData/GPS_Track_processed.rds")
 
-# GPS_Track <- readRDS("data/processedData/GPS_Track_processed.rds")
+GPS_Track_test <- readRDS("data/processedData/GPS_Track_compress.rds")
 
 ############################################################################
 # Eigen Regeln für gewisse Gebiete
