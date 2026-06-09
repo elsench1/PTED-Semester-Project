@@ -74,7 +74,7 @@ source("src/R/compress_stop_blocks.R")
 # Datei Speichern und laden
 # saveRDS(GPS_Track, "data/processedData/GPS_Track_processed.rds")
 
-GPS_Track <- readRDS("data/processedData/GPS_Track_processed.rds")
+# GPS_Track <- readRDS("data/processedData/GPS_Track_processed.rds")
 
 ############################################################################
 # Eigen Regeln für gewisse Gebiete
@@ -120,83 +120,146 @@ GPS_Track <- readRDS("data/processedData/GPS_Track_processed.rds")
 
 # GPS_Track <- detect_stops(GPS_Track)
 
-test <- GPS_Track[1:10000, ]
-system.time(
-  result <- detect_stops(test)
-)
-
-
-
-
-df_test <- GPS_Track[1:10000, ]
-
-system.time({
-  result_test <- detect_stops_rcpp(df_test)
-})
-
-
-GPS_Track <- detect_stops_rcpp(GPS_Track)
-GPS_Track <- segment_tracks(GPS_Track)
+# test <- GPS_Track[1:10000, ]
+# system.time(
+#   result <- detect_stops(test)
+# )
+# 
+# 
+# 
+# 
+# df_test <- GPS_Track[1:10000, ]
+# 
+# system.time({
+#   result_test <- detect_stops_rcpp(df_test)
+# })
+# 
+# 
+# GPS_Track <- detect_stops_rcpp(GPS_Track)
+# GPS_Track <- segment_tracks(GPS_Track)
 
 #####################################################################
 
 # remove stop blocks
 
-GPS_Track <- GPS_Track |>
-  arrange(time) |>
-  mutate(
-    bad_point = coalesce(bad_point, FALSE),
-    is_suspicious_spike = coalesce(is_suspicious_spike, FALSE),
-    suspicious_accel = coalesce(suspicious_accel, FALSE),
-    is_stop = coalesce(is_stop, FALSE),
-    moving = coalesce(moving, FALSE),
-    new_segment = if_else(row_number() == 1, TRUE, coalesce(new_segment, FALSE))
-  )
-
-GPS_Track_compressed <- compress_stop_blocks(GPS_Track)
-
-nrow(GPS_Track)
-nrow(GPS_Track_compressed)
-
-GPS_Track_compressed <- GPS_Track_compressed |>
-  select(
-    -any_of(c(
-      "dt", "dx", "dy", "dist_m", "speed_calc", "speed_kmh", "accel",
-      "x_prev", "y_prev", "x_next", "y_next",
-      "dist_prev", "dist_next", "dist_skip",
-      "dt_prev", "dt_next"
-    ))
-  )
+# GPS_Track <- GPS_Track |>
+#   arrange(time) |>
+#   mutate(
+#     bad_point = coalesce(bad_point, FALSE),
+#     is_suspicious_spike = coalesce(is_suspicious_spike, FALSE),
+#     suspicious_accel = coalesce(suspicious_accel, FALSE),
+#     is_stop = coalesce(is_stop, FALSE),
+#     moving = coalesce(moving, FALSE),
+#     new_segment = if_else(row_number() == 1, TRUE, coalesce(new_segment, FALSE))
+#   )
+# 
+# GPS_Track_compressed <- compress_stop_blocks(GPS_Track)
+# 
+# nrow(GPS_Track)
+# nrow(GPS_Track_compressed)
+# 
+# GPS_Track_compressed <- GPS_Track_compressed |>
+#   select(
+#     -any_of(c(
+#       "dt", "dx", "dy", "dist_m", "speed_calc", "speed_kmh", "accel",
+#       "x_prev", "y_prev", "x_next", "y_next",
+#       "dist_prev", "dist_next", "dist_skip",
+#       "dt_prev", "dt_next"
+#     ))
+#   )
 #########################################################
 
-library(tmap)
-library(colorspace)
+# library(tmap)
+# library(colorspace)
+# 
+# GPS_segments <- GPS_segments |>
+#   mutate(segment_id = as.factor(segment_id))
+# 
+# segment_palette <- qualitative_hcl(
+#   n = nlevels(GPS_segments$segment_id),
+#   palette = "Dark 3"
+# )
+# 
+# tmap_mode("view")
+# 
+# tm_basemap("OpenStreetMap") +
+#   tm_shape(st_transform(GPS_segments, 4326)) +
+#   tm_lines(
+#     col = "segment_id",
+#     lwd = 3,
+#     palette = segment_palette,
+#     legend.col.show = FALSE,
+#     popup.vars = c(
+#       "Segment" = "segment_id",
+#       "Start" = "start_time",
+#       "Ende" = "end_time",
+#       "Punkte" = "n_points"
+#     )
+#   )
 
-GPS_segments <- GPS_segments |>
-  mutate(segment_id = as.factor(segment_id))
-
-segment_palette <- qualitative_hcl(
-  n = nlevels(GPS_segments$segment_id),
-  palette = "Dark 3"
-)
-
-tmap_mode("view")
-
-tm_basemap("OpenStreetMap") +
-  tm_shape(st_transform(GPS_segments, 4326)) +
-  tm_lines(
-    col = "segment_id",
-    lwd = 3,
-    palette = segment_palette,
-    legend.col.show = FALSE,
-    popup.vars = c(
-      "Segment" = "segment_id",
-      "Start" = "start_time",
-      "Ende" = "end_time",
-      "Punkte" = "n_points"
-    )
-  )
-
+# library(sf)
+# library(dplyr)
+# 
+# make_segment_lines <- function(df,
+#                                segment_col = "segment_id",
+#                                time_col = "time",
+#                                moving_col = "moving") {
+#   
+#   crs_original <- st_crs(df)
+#   
+#   df_clean <- df |>
+#     filter(.data[[moving_col]]) |>
+#     arrange(.data[[segment_col]], .data[[time_col]])
+#   
+#   df_clean |>
+#     group_by(.data[[segment_col]]) |>
+#     group_modify(~ {
+#       
+#       x <- .x |>
+#         arrange(.data[[time_col]])
+#       
+#       coords <- st_coordinates(x)
+#       
+#       if (nrow(coords) < 2) {
+#         return(st_sf())
+#       }
+#       
+#       line <- st_linestring(coords[, c("X", "Y"), drop = FALSE])
+#       
+#       st_sf(
+#         n_points = nrow(x),
+#         start_time = min(x[[time_col]], na.rm = TRUE),
+#         end_time = max(x[[time_col]], na.rm = TRUE),
+#         geometry = st_sfc(line, crs = crs_original)
+#       )
+#     }) |>
+#     ungroup() |>
+#     rename(segment_id = !!segment_col)
+# }
+# 
+# GPS_segments <- make_segment_lines(GPS_Track_compressed)
+# 
+# GPS_segments <- GPS_segments |>
+#   mutate(segment_id = as.factor(segment_id))
+# 
+# library(tmap)
+# library(colorspace)
+# 
+# segment_palette <- qualitative_hcl(
+#   n = nlevels(GPS_segments$segment_id),
+#   palette = "Dark 3"
+# )
+# 
+# tmap_mode("view")
+# 
+# tm_basemap("OpenStreetMap") +
+#   tm_shape(st_transform(GPS_segments, 4326)) +
+#   tm_lines(
+#     col = "segment_id",
+#     lwd = 3,
+#     palette = segment_palette,
+#     legend.col.show = FALSE
+#   )
 #############################################################
 # hide_points <- get_df_of_hide_points(
 #   hide_point_csv = "data/metaData/hidePoint.csv",
@@ -230,6 +293,216 @@ tm_basemap("OpenStreetMap") +
 # # #######################################################################
 
 
+# library(sf)
+# library(dplyr)
+# library(tmap)
+# library(colorspace)
+# 
+# # tmap interaktiv anzeigen
+# tmap_mode("view")
+# 
+# # Segment-Linien erstellen
+# # Segmente mit nur einem Punkt werden entfernt, da daraus keine LINESTRING-Geometrie
+# # gebildet werden kann.
+# GPS_segments <- GPS_Track_compress %>%
+#   arrange(segment_id, time) %>%
+#   group_by(segment_id) %>%
+#   filter(n() >= 2) %>%
+#   summarise(
+#     n_points = n(),
+#     geometry = st_combine(geometry) |> st_cast("LINESTRING"),
+#     .groups = "drop"
+#   ) %>%
+#   mutate(segment_id = as.factor(segment_id))
+# 
+# # Dynamische Farbpalette für alle vorhandenen Segmente
+# seg_palette <- qualitative_hcl(
+#   n = n_distinct(GPS_segments$segment_id),
+#   palette = "Dark 3"
+# )
+# 
+# # Karte anzeigen
+# tm_shape(GPS_segments) +
+#   tm_lines(
+#     col = "segment_id",
+#     palette = seg_palette,
+#     lwd = 3,
+#     title.col = "Segment ID"
+#   ) +
+#   tm_shape(GPS_Track_compress) +
+#   tm_dots(
+#     size = 0.03,
+#     col = "black"
+#   )
+
+# 
+# library(sf)
+# library(dplyr)
+# library(tmap)
+# library(colorspace)
+# 
+# tmap_mode("view")
+# 
+# # Parameter: bei Bedarf anpassen
+# max_gap_min <- 5      # Zeitlücke ab 5 Minuten trennt ein Segment
+# max_dist_m  <- 50     # Distanzsprung ab 50 m trennt ein Segment
+# 
+# GPS_plot_points <- GPS_Track_compress %>%
+#   arrange(time) %>%
+#   mutate(
+#     dist_to_prev_m = as.numeric(st_distance(geometry, lag(geometry), by_element = TRUE)),
+#     time_gap_min = as.numeric(difftime(time, lag(time), units = "mins")),
+#     
+#     # Neue Unterbrechung, wenn:
+#     # - es der erste Punkt ist
+#     # - segment_id wechselt
+#     # - new_segment schon TRUE ist
+#     # - Zeitlücke zu gross ist
+#     # - Distanzsprung zu gross ist
+#     plot_break = is.na(lag(segment_id)) |
+#       segment_id != lag(segment_id) |
+#       new_segment |
+#       time_gap_min > max_gap_min |
+#       dist_to_prev_m > max_dist_m,
+#     
+#     plot_segment_id = cumsum(plot_break)
+#   )
+# 
+# # Linien nur für Abschnitte mit mindestens 2 Punkten
+# GPS_plot_lines <- GPS_plot_points %>%
+#   group_by(plot_segment_id) %>%
+#   filter(n() >= 2) %>%
+#   summarise(
+#     original_segment_id = first(segment_id),
+#     n_points = n(),
+#     geometry = st_linestring(do.call(rbind, st_coordinates(geometry)[, c("X", "Y"), drop = FALSE])) |> 
+#       st_sfc(crs = st_crs(GPS_plot_points)),
+#     .groups = "drop"
+#   ) %>%
+#   st_as_sf() %>%
+#   mutate(plot_segment_id = as.factor(plot_segment_id))
+# 
+# # Einzelpunkte separat behalten
+# GPS_single_points <- GPS_plot_points %>%
+#   group_by(plot_segment_id) %>%
+#   filter(n() == 1) %>%
+#   ungroup() %>%
+#   mutate(plot_segment_id = as.factor(plot_segment_id))
+# 
+# # Dynamische Farbpalette
+# n_seg <- n_distinct(GPS_plot_lines$plot_segment_id)
+# 
+# seg_palette <- qualitative_hcl(
+#   n = max(n_seg, 1),
+#   palette = "Dark 3"
+# )
+# 
+# # Karte
+# tm_shape(GPS_plot_lines) +
+#   tm_lines(
+#     col = "plot_segment_id",
+#     palette = seg_palette,
+#     lwd = 3,
+#     title.col = "Plot-Segment"
+#   ) +
+#   tm_shape(GPS_single_points) +
+#   tm_dots(
+#     col = "plot_segment_id",
+#     palette = seg_palette,
+#     size = 0.08,
+#     title.col = "Einzelpunkt-Segment"
+#   ) +
+#   tm_shape(GPS_plot_points) +
+#   tm_dots(
+#     size = 0.02,
+#     col = "black",
+#     alpha = 0.4
+#   )
+
+
+library(sf)
+library(dplyr)
+library(tmap)
+library(colorspace)
+
+tmap_mode("view")
+
+# Parameter: bei Bedarf anpassen
+max_gap_min <- 5      # Zeitlücke ab 5 Minuten trennt ein Segment
+max_dist_m  <- 50     # Distanzsprung ab 50 m trennt ein Segment
+
+# Punkte vorbereiten und zusätzliche Plot-Segmentierung erzeugen
+GPS_plot_points <- GPS_Track_compress %>%
+  arrange(time) %>%
+  mutate(
+    dist_to_prev_m = as.numeric(st_distance(geometry, lag(geometry), by_element = TRUE)),
+    time_gap_min = as.numeric(difftime(time, lag(time), units = "mins")),
+    
+    plot_break = is.na(lag(segment_id)) |
+      segment_id != lag(segment_id) |
+      new_segment |
+      time_gap_min > max_gap_min |
+      dist_to_prev_m > max_dist_m,
+    
+    plot_segment_id = cumsum(plot_break)
+  )
+
+# Linien nur innerhalb der Plot-Segmente bauen
+GPS_plot_lines <- GPS_plot_points %>%
+  mutate(
+    X = st_coordinates(.)[, "X"],
+    Y = st_coordinates(.)[, "Y"]
+  ) %>%
+  st_drop_geometry() %>%
+  group_by(plot_segment_id) %>%
+  filter(n() >= 2) %>%
+  summarise(
+    original_segment_id = first(segment_id),
+    n_points = n(),
+    geometry = st_sfc(
+      st_linestring(as.matrix(cbind(X, Y))),
+      crs = st_crs(GPS_Track_compress)
+    ),
+    .groups = "drop"
+  ) %>%
+  st_as_sf() %>%
+  mutate(plot_segment_id = as.factor(plot_segment_id))
+
+# Einzelpunkt-Segmente separat darstellen
+GPS_single_points <- GPS_plot_points %>%
+  group_by(plot_segment_id) %>%
+  filter(n() == 1) %>%
+  ungroup() %>%
+  mutate(plot_segment_id = as.factor(plot_segment_id))
+
+# Dynamische Farbpalette für Linien
+seg_palette <- qualitative_hcl(
+  n = max(n_distinct(GPS_plot_lines$plot_segment_id), 1),
+  palette = "Dark 3"
+)
+
+# Karte anzeigen
+tm_shape(GPS_plot_lines) +
+  tm_lines(
+    col = "plot_segment_id",
+    palette = seg_palette,
+    lwd = 3,
+    title.col = "Plot-Segment"
+  ) +
+  tm_shape(GPS_single_points) +
+  tm_dots(
+    col = "plot_segment_id",
+    palette = seg_palette,
+    size = 0.08,
+    title.col = "Einzelpunkt-Segment"
+  ) +
+  tm_shape(GPS_plot_points) +
+  tm_dots(
+    size = 0.02,
+    col = "black",
+    alpha = 0.4
+  )
+######################################################################
 # main <- function() {
 #   
 #   library(tmap)
