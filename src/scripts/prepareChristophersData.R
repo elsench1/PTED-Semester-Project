@@ -33,7 +33,12 @@ GPS_Track <- load_GPX_File(GPXFile = GPXFileLink) |>
     new_segment = if_else(row_number() == 1, TRUE, coalesce(new_segment, FALSE))
   )
 
-GPS_Track_compress <- compress_stop_blocks()
+GPS_Track_compress <- compress_stop_blocks(GPS_Track)
+
+saveRDS(
+  GPS_Track_compress,
+  "data/processedData/GPS_Track_compress.rds"
+)
 
 
 saveRDS(GPS_Track, "data/processedData/GPS_Track_processed.rds")
