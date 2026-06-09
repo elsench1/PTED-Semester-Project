@@ -1,17 +1,17 @@
-get_df_of_points <- function(hide_point_csv, target_crs = 2056) {
+get_df_of_points <- function(csv_file_with_points, target_crs = 2056) {
   
   library(sf)
   
   csv_data <- tryCatch(
     {
       read.csv(
-        hide_point_csv,
+        csv_file_with_points,
         header = TRUE,
         stringsAsFactors = FALSE
       )
     },
     error = function(e) {
-      message("Data could not be loaded: ", hide_point_csv)
+      message("Data could not be loaded: ", csv_file_with_points)
       message("Error was: ", e$message)
       return(NULL)
     }
