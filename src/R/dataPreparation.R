@@ -23,7 +23,7 @@ remove_all_na_columns <- function(data) {
   data[, colSums(!is.na(data)) > 0, drop = FALSE]
 }
 
-add_speed_and_accel_to_GSP_df <- function(gpx) {
+add_speed_and_accel_to_GPS_df <- function(gpx) {
   gpx <- gpx |>
     arrange(time)
   
