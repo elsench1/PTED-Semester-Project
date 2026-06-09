@@ -5,126 +5,84 @@ compress_stop_blocks <- function(df,
                                  moving_col = "moving",
                                  time_col = "time",
                                  x_col = "x",
-                                 y_col = "y") {
-  
+                                 y_col = "y",
+                                 min_stop_points = 3L) {
   stopifnot(inherits(df, "sf"))
   stopifnot(moving_col %in% names(df))
   stopifnot(time_col %in% names(df))
   
-  crs_original <- st_crs(df)
+  crs_original <- sf::st_crs(df)
   
   df2 <- df |>
     arrange(.data[[time_col]]) |>
     mutate(
+      .row_id = row_number(),
       .moving_tmp = coalesce(.data[[moving_col]], FALSE),
       .run_id = cumsum(.moving_tmp != lag(.moving_tmp, default = first(.moving_tmp)))
     )
   
-  moving_parts <- df2 |>
-    filter(.moving_tmp) |>
-    mutate(
-      compressed_type = "moving",
-      n_points_compressed = 1L
-    ) |>
-    select(-.moving_tmp, -.run_id)
+  # Falls x/y nicht existieren, aus der Geometrie holen
+  coords <- sf::st_coordinates(df2)
   
-  stop_df <- df2 |>
-    filter(!.moving_tmp) |>
-    st_drop_geometry()
-  
-  if (nrow(stop_df) == 0) {
-    return(moving_parts |> arrange(.data[[time_col]]))
+  if (!(x_col %in% names(df2))) {
+    df2[[x_col]] <- coords[, 1]
   }
   
-  if (!(x_col %in% names(stop_df)) || !(y_col %in% names(stop_df))) {
-    coords <- st_coordinates(df2 |> filter(!.moving_tmp))
-    stop_df[[x_col]] <- coords[, 1]
-    stop_df[[y_col]] <- coords[, 2]
+  if (!(y_col %in% names(df2))) {
+    df2[[y_col]] <- coords[, 2]
   }
   
-  summarise_column <- function(v, nm) {
-    
-    if (nm == time_col) {
-      return(first(v))
-    }
-    
-    if (nm == moving_col) {
-      return(FALSE)
-    }
-    
-    if (nm %in% c("track_fid", "track_seg_id", "segment_id", "new_segment")) {
-      return(first(v))
-    }
-    
-    if (nm == "track_seg_point_id") {
-      return(first(v))
-    }
-    
-    if (nm %in% c("speed", "speed_calc", "speed_kmh", "dist_m", "dt", "dx", "dy")) {
-      return(0)
-    }
-    
-    if (nm == "accel") {
-      return(NA_real_)
-    }
-    
-    if (is.numeric(v)) {
-      if (all(is.na(v))) return(NA_real_)
-      return(median(v, na.rm = TRUE))
-    }
-    
-    if (is.logical(v)) {
-      return(any(v, na.rm = TRUE))
-    }
-    
-    if (inherits(v, "POSIXct") || inherits(v, "POSIXt") || inherits(v, "Date")) {
-      return(first(v))
-    }
-    
-    v_non_na <- v[!is.na(v)]
-    
-    if (length(v_non_na) > 0) {
-      return(v_non_na[1])
-    }
-    
-    return(NA)
-  }
-  
-  cols_to_summarise <- setdiff(
-    names(stop_df),
-    c(".moving_tmp", ".run_id")
-  )
-  
-  stop_summary <- stop_df |>
+  run_info <- df2 |>
+    sf::st_drop_geometry() |>
     group_by(.run_id) |>
     summarise(
-      across(
-        .cols = all_of(cols_to_summarise),
-        .fns = ~ summarise_column(.x, cur_column())
-      ),
-      .time_start = first(.data[[time_col]]),
-      .time_end = last(.data[[time_col]]),
-      n_points_compressed = n(),
-      compressed_type = "stop",
+      .is_stop = !first(.moving_tmp),
+      .n_run = n(),
+      .start_row = first(.row_id),
+      .end_row = last(.row_id),
+      .median_x = median(.data[[x_col]], na.rm = TRUE),
+      .median_y = median(.data[[y_col]], na.rm = TRUE),
       .groups = "drop"
+    ) |>
+    mutate(
+      .compress = .is_stop & .n_run >= min_stop_points
     )
   
-  stop_start <- stop_summary |>
-    mutate("{time_col}" := .time_start)
+  out <- df2 |>
+    left_join(run_info, by = ".run_id") |>
+    filter(
+      !.compress |
+        .row_id == .start_row |
+        .row_id == .end_row
+    ) |>
+    mutate(
+      compressed_type = case_when(
+        .compress ~ "stop_compressed",
+        .moving_tmp ~ "moving",
+        TRUE ~ "stop_uncompressed"
+      ),
+      n_points_compressed = if_else(.compress, as.integer(.n_run), 1L),
+      "{x_col}" := if_else(.compress, .median_x, .data[[x_col]]),
+      "{y_col}" := if_else(.compress, .median_y, .data[[y_col]])
+    ) |>
+    sf::st_drop_geometry() |>
+    select(
+      -.row_id,
+      -.moving_tmp,
+      -.run_id,
+      -.is_stop,
+      -.n_run,
+      -.start_row,
+      -.end_row,
+      -.median_x,
+      -.median_y,
+      -.compress
+    )
   
-  stop_end <- stop_summary |>
-    filter(.time_end != .time_start) |>
-    mutate("{time_col}" := .time_end)
-  
-  stop_parts <- bind_rows(stop_start, stop_end) |>
-    select(-.time_start, -.time_end)
-  
-  stop_parts_sf <- stop_parts |>
-    st_as_sf(coords = c(x_col, y_col), crs = crs_original, remove = FALSE)
-  
-  bind_rows(
-    moving_parts,
-    stop_parts_sf
-  ) |>
-    arrange(.data[[time_col]])
+  sf::st_as_sf(
+    out,
+    coords = c(x_col, y_col),
+    crs = crs_original,
+    remove = FALSE
+  )
 }
