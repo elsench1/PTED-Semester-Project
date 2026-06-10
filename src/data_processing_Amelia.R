@@ -102,19 +102,19 @@ time_distance_by_element <- function(later, now, units = "mins") {
 
 df_sf_2056 <- df_sf_2056 |>
   mutate(
-    nMinus2_dist = distance_by_element(lag(geometry, n = 2), geometry),  # distance to pos -2 
+    #nMinus2_dist = distance_by_element(lag(geometry, n = 2), geometry),  # distance to pos -2 
     nMinus1_dist = distance_by_element(lag(geometry, 1), geometry),  # distance to pos -1
-    nPlus1_dist  = distance_by_element(geometry, lead(geometry, 1)), # distance to pos +1
-    nPlus2_dist  = distance_by_element(geometry, lead(geometry, 2))  # distance to pos +2
+    nPlus1_dist  = distance_by_element(geometry, lead(geometry, 1)) # distance to pos +1
+    #nPlus2_dist  = distance_by_element(geometry, lead(geometry, 2))  # distance to pos +2
   )
 
 
 df_sf_2056 <- df_sf_2056 |>
   mutate(
-    nMinus2_time = -time_distance_by_element(lag(time, 2), time),   # Zeitdifferenz zu -2
+    #nMinus2_time = -time_distance_by_element(lag(time, 2), time),   # Zeitdifferenz zu -2
     nMinus1_time = -time_distance_by_element(lag(time, 1), time),   # Zeitdifferenz zu -1
-    nPlus1_time  = -time_distance_by_element(time, lead(time, 1)),  # Zeitdifferenz zu +1
-    nPlus2_time  = -time_distance_by_element(time, lead(time, 2))   # Zeitdifferenz zu +2
+    nPlus1_time  = -time_distance_by_element(time, lead(time, 1))  # Zeitdifferenz zu +1
+    #nPlus2_time  = -time_distance_by_element(time, lead(time, 2))   # Zeitdifferenz zu +2
   )
 
 
@@ -122,7 +122,8 @@ df_sf_2056 <- df_sf_2056 |>
 df_sf_2056 <- df_sf_2056 |>
   rowwise() |>
   mutate(
-    stepMean = mean(c(nMinus2_dist, nMinus1_dist, nPlus1_dist, nPlus2_dist), na.rm = FALSE)
+    stepMean = mean(c(nMinus1_dist, nPlus1_dist), na.rm = FALSE)
+    #stepMean = mean(c(nMinus2_dist, nMinus1_dist, nPlus1_dist, nPlus2_dist), na.rm = FALSE)
   ) |>
   ungroup()
 
@@ -137,7 +138,7 @@ rle_id <- function(vec) {
 }
 
 
-threshold <- 100 #mean(df_sf_2056$stepMean, na.rm = TRUE)
+threshold <- 100 #mean(df_sf_2056$stepMean, na.rm = TRUE)    # m
 
 
 df_sf_2056 <- df_sf_2056 |>
@@ -249,53 +250,103 @@ df_sf_2056$transport_type_move <- df_sf_2056$transport_type
 df_sf_2056$transport_type_move[df_sf_2056$moving_ext == FALSE] <- NA
 
 
-road_counts_day <- df_sf_2056 |>
-  filter(!is.na(transport_type_move)) |>
-  group_by(day, transport_type_move) |>
-  summarise(n = n(), .groups = "drop") |> 
+df_sf_2056 <- df_sf_2056 |>
+  mutate(
+    transport_group = case_when(
+      transport_type_move %in% c("motorway", "trunk") ~ "major_road",
+      transport_type_move %in% c("primary", "secondary", "tertiary") ~ "main_road",
+      transport_type_move %in% c("residential", "service", "unclassified") ~ "local_road",
+      transport_type_move %in% c("rail", "tram", "light_rail", "subway") ~ "rail",
+      TRUE ~ NA_character_
+    )
+  )
+
+
+
+road_time_day <- df_sf_2056 |>
+  filter(!is.na(transport_group)) |>
+  group_by(day, transport_group) |>
+  summarise(
+    time_min = sum(nPlus1_time, na.rm = TRUE),  
+    .groups = "drop"
+  )|> 
   st_drop_geometry()
 
-road_share_day <- df_sf_2056 |>
-  filter(!is.na(transport_type_move)) |>
-  group_by(day, transport_type_move) |>
-  summarise(n = n(), .groups = "drop") |>
+
+road_share_day_time <- road_time_day |>
   group_by(day) |>
-  mutate(share = n / sum(n)) |>
-  ungroup() |>
+  mutate(
+    share = time_min / sum(time_min)     
+  ) |>
   st_drop_geometry()
 
-road_counts_wide <- road_counts_day |>
-  pivot_wider(names_from = transport_type_move, values_from = n, values_fill = 0)
 
-road_share_wide <- road_share_day |>
-  select(-n) |>
+road_share_wide <- road_share_day_time |>
   pivot_wider(
-    names_from = transport_type_move,
+    names_from = transport_group,
     values_from = share,
     values_fill = 0
   )
 
-road_summary <- df_sf_2056 |>
-  filter(!is.na(transport_type_move)) |>
-  group_by(transport_type_move) |>
-  summarise(n = n(), .groups = "drop") |>
-  mutate(share = n / sum(n))|>
+
+
+
+# road_counts_day <- df_sf_2056 |>
+#   filter(!is.na(transport_group)) |>
+#   group_by(day, transport_group) |>
+#   summarise(n = n(), .groups = "drop") |> 
+#   st_drop_geometry()
+
+
+# road_share_day_count <- df_sf_2056 |>
+#   filter(!is.na(transport_group)) |>
+#   group_by(day, transport_group) |>
+#   summarise(n = n(), .groups = "drop") |>
+#   group_by(day) |>
+#   mutate(share = n / sum(n)) |>
+#   ungroup() |>
+#   st_drop_geometry()
+
+
+# road_counts_wide <- road_counts_day |>
+#   pivot_wider(names_from = transport_group, values_from = n, values_fill = 0)
+
+
+# road_summary <- df_sf_2056 |>
+#   filter(!is.na(transport_group)) |>
+#   group_by(transport_group) |>
+#   summarise(n = n(), .groups = "drop") |>
+#   mutate(share = n / sum(n))|>
+#   st_drop_geometry()
+
+
+
+road_summary <- df_sf_2056 |>    # oder anstatt transport_group, transport_type_move verwenden
+  filter(!is.na(transport_group)) |>
+  group_by(transport_group) |>
+  summarise(
+    time_min = sum(nPlus1_time, na.rm = TRUE), 
+    .groups = "drop"
+  ) |>
+  mutate(
+    share = time_min / sum(time_min)
+  )|>
   st_drop_geometry()
 
 road_summary_wide <- road_summary |>
-  select(transport_type_move, share) |>
+  select(transport_group, share) |>
   tidyr::pivot_wider(
-    names_from = transport_type_move,
+    names_from = transport_group,
     values_from = share,
     values_fill = 0
   )
   
 
-pts$transport_type <- network_sf$transport_type[nearest_idx]
-
 
 
 # visualisieren
+pts$transport_type <- network_sf$transport_type[nearest_idx]
+
 pts_filtered <- pts |> 
  filter(moving_ext == TRUE)
 
@@ -319,17 +370,6 @@ pal <- colorFactor(palette = "Set3", domain = pts_map$transport_type)  #oder Set
 ###############################################################################################################################
 # comparison road_type and google Timeline Activity
   
-
-df_sf_2056 <- df_sf_2056 |>
-  mutate(
-    transport_group = case_when(
-      transport_type_move %in% c("motorway", "trunk") ~ "major_road",
-      transport_type_move %in% c("primary", "secondary", "tertiary") ~ "main_road",
-      transport_type_move %in% c("residential", "service", "unclassified") ~ "local_road",
-      transport_type_move %in% c("rail", "tram", "light_rail", "subway") ~ "rail",
-      TRUE ~ NA_character_
-    )
-  )
 
 tab_grouped <- table(
   Activity = df_sf_2056$Activity,
@@ -590,7 +630,7 @@ df_line <- df_filter_sf |>
 # test plot
 
 test <- df_sf_2056 |> 
-  filter(move_id == 9)
+  filter(day == 9)
 
 test_sf <- st_as_sf(test, coords = c("E", "N"), crs = 2056)
 
