@@ -9,8 +9,12 @@ library(tmap)
 library(ggplot2)
 library(lubridate)
 library(osmextract)
+library(leaflet)
 library(data.table)
+library(mapview)
+library(webshot)
 
+theme_set(theme_minimal())
 
 ###############################################################################################################################
 # loading data
@@ -32,6 +36,7 @@ df <- df |>
   filter(!is.na(LatLng))  
 
 df$time <- lubridate::ymd_hms(df$timestamp, tz = "Europe/Zurich")
+df$date <- as.Date(lubridate::ymd_hms(df$timestamp, tz = "Europe/Zurich"))
 
 
 
@@ -262,7 +267,6 @@ df_sf_2056 <- df_sf_2056 |>
   )
 
 
-
 road_time_day <- df_sf_2056 |>
   filter(!is.na(transport_group)) |>
   group_by(day, transport_group) |>
@@ -345,6 +349,7 @@ road_summary_wide <- road_summary |>
 
 
 # visualisieren
+pts$transport_group <- df_sf_2056$transport_group[match(pts$geometry, df_sf_2056$geometry)]
 pts$transport_type <- network_sf$transport_type[nearest_idx]
 
 pts_filtered <- pts |> 
@@ -353,18 +358,24 @@ pts_filtered <- pts |>
 pts_map <- st_transform(pts_filtered, 4326)
 network_map <- st_transform(network_sf, 4326)
 
-library(leaflet)
 
-pal <- colorFactor(palette = "Set3", domain = pts_map$transport_type)  #oder Set20
+pal <- colorFactor(palette = "Set3", domain = pts_map$transport_group)  #oder Set20
+pal2 <- colorFactor(palette = "Set3", domain = pts_map$transport_type)  #oder Set20
 
-# leaflet() |>
-#   addProviderTiles("OpenStreetMap") |>
-#   addPolylines(data = network_map, color = "grey70", weight = 1) |>
-#   addCircleMarkers(data = pts_map, radius = 3, color = "black", weight = 1, fillColor = ~pal(transport_type), fillOpacity = 1, stroke = TRUE) |> 
-#   addLegend("bottomright", pal = pal, values = pts_map$transport_type, title = "Transport type")
-# 
+plot_osm_moving <- leaflet() |>
+  addProviderTiles("OpenStreetMap") |>
+  addPolylines(data = network_map, color = "grey70", weight = 1) |>
+  addCircleMarkers(data = pts_map, radius = 3, color = "black", weight = 1, fillColor = ~pal(transport_group), fillOpacity = 1, stroke = TRUE) |>
+  addLegend("bottomright", pal = pal, values = pts_map$transport_group, title = "Transport type")
+
+plot_osm_moving_type <- leaflet() |>
+  addProviderTiles("OpenStreetMap") |>
+  addPolylines(data = network_map, color = "grey70", weight = 1) |>
+  addCircleMarkers(data = pts_map, radius = 3, color = "black", weight = 1, fillColor = ~pal(transport_type), fillOpacity = 1, stroke = TRUE) |>
+  addLegend("bottomright", pal = pal2, values = pts_map$transport_type, title = "Transport type")
 
 
+mapshot(plot_osm_moving, file = "plots/plot_osm_moving.png")
 
 
 ###############################################################################################################################
@@ -379,7 +390,7 @@ tab_grouped <- table(
 
 round(prop.table(tab_grouped, margin = 1), 2)
 
-df_sf_2056 |>
+plot_activity_road_Type <- df_sf_2056 |>
   filter(!is.na(Activity), !is.na(transport_group)) |>
   count(Activity, transport_group) |>
   complete(Activity, transport_group, fill = list(n = 0)) |> 
@@ -397,8 +408,13 @@ df_sf_2056 |>
   labs(
     x = "OSM Road Type",
     y = "Google Activity",
-    fill = "Anteil"
-  )
+    fill = "percentage"
+  )+
+  scale_x_discrete(labels = c("local_road" = "local road", "main_road" = "main road", "major_road" = "major road", "rail" = "rail")) +
+  scale_y_discrete(labels = c("WALKING" = "walking", "IN_TRAM" = "tram", "IN_TRAIN" = "train", "IN_PASSENGER_VEHICLE" = "passenger vehicle", "IN_BUS" = "bus", "CYCLING" = "cycling"))
+
+ggsave("plots/activity_road_Type.png", plot= plot_activity_road_Type, width = 6, height = 5)
+
 
 ###############################################################################################################################
 # traveltime from home to ZHAW
@@ -672,20 +688,49 @@ tm_shape(test_line) +
 #     size = 0.3
 #   )
 # 
-# 
-# 
-# tm_shape(df_line) +
-#   tm_lines(col = "black", lwd = 0.8) +
-#   tm_shape(subset(df_sf_2056, static)) +
-#   tm_dots(
-#     col = "day",
-#     palette = "-Reds",
-#     size = 0.3
-#   ) +
-#   tm_shape(subset(df_sf_2056, !static)) +
-#   tm_dots(
-#     col = "day",
-#     palette = "-Blues",
-#     size = 0.3
-#   )
 
+
+
+plot_tm_movement <- tm_basemap("CartoDB.Positron") +
+  tm_shape(df_line) +
+  tm_lines(col = "black", lwd = 0.8) +
+  tm_shape(subset(df_sf_2056, !static)) +
+  tm_dots(
+    fill = "day",
+    fill.scale = tm_scale(values = "brewer.blues", values.range = c(0.4, 1)),
+    fill.legend = tm_legend(title = "Moving, days of tracking"),
+    size = 0.5
+  ) +
+  tm_shape(subset(df_sf_2056, static)) +
+  tm_dots(
+    fill = "day",
+    fill.scale = tm_scale(values = "brewer.reds", values.range = c(0.4, 1)),
+    fill.legend = tm_legend(title = "Static, days of tracking"),
+    size = 0.5
+  )
+
+tmap_save(plot_tm_movement, "plots/tm_movement.png")
+
+
+
+# tm_basemap("CartoDB.Positron")
+# tm_basemap("OpenStreetMap")
+
+# tmap_save(
+#   tm        = name,
+#   filename  = "karte.png",
+#   width     = 10,        # Breite in Zoll (oder Pixel wenn dpi angegeben)
+#   height    = 7,         # Höhe in Zoll
+#   dpi       = 300,       # Auflösung (für Druck: 300+)
+#   units     = "in",      # "in", "cm", "mm", "px"
+#   asp       = 0          # 0 = Seitenverhältnis automatisch anpassen
+# )
+# 
+# ggsave(
+#   filename = "plot.pdf",   # Format wird aus Dateiendung erkannt
+#   plot     = name,
+#   width    = 10,
+#   height   = 7,
+#   units    = "in",         # "in", "cm", "mm", "px"
+#   dpi      = 300           # irrelevant für PDF/SVG (Vektorgrafik)
+# )
