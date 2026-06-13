@@ -1,9 +1,296 @@
 # Draft
 
-source("src/R/move_points_to_circle_exit.R")
-source("src/R/dataPreparation.R")
-source("src/R/gps_track_segmentation.R")
-source("src/R/compress_stop_blocks.R")
+# source("src/R/move_points_to_circle_exit.R")
+# source("src/R/dataPreparation.R")
+# source("src/R/gps_track_segmentation.R")
+# source("src/R/compress_stop_blocks.R")
+# source("src/R/osm_transport_matching.R")
+
+###############################################################################
+
+# library(sf)
+# library(tmap)
+# 
+# convert_csv_to_gpkg <- function(
+#     csv_file = NULL,
+#     gpkg_location = NULL
+# ){
+#   if(!csv_file|| !gpkg_location){
+#     print("file error")
+#     return(NULL)
+#   }
+#   # CSV korrekt laden: Semikolon als Trennzeichen, Punkt als Dezimalzeichen
+#   dat <- read.csv(
+#     csv_file,
+#     sep = ";",
+#     dec = ".",
+#     stringsAsFactors = FALSE
+#   )
+#   
+#   # Nur benötigte Koordinaten behalten
+#   coords <- dat[, c("Easting", "Northing")]
+#   
+#   # Sicherstellen, dass die Koordinaten numerisch sind
+#   coords$Easting  <- as.numeric(coords$Easting)
+#   coords$Northing <- as.numeric(coords$Northing)
+#   
+#   # Zeilen mit fehlenden Koordinaten entfernen, falls vorhanden
+#   coords <- coords[complete.cases(coords), ]
+#   
+#   # Polygonring schliessen, falls nötig
+#   if (!all(coords[1, ] == coords[nrow(coords), ])) {
+#     coords <- rbind(coords, coords[1, ])
+#   }
+#   
+#   # Polygon erzeugen
+#   poly <- st_polygon(list(as.matrix(coords)))
+#   
+#   # sf-Objekt mit CRS 2056
+#   zhaw_gruental <- st_sf(
+#     name = "ZHAW Grüental",
+#     geometry = st_sfc(poly, crs = 2056)
+#   )
+#   
+#   st_write(
+#     zhaw_gruental,
+#     gpkg_location,
+#     delete_dsn = TRUE
+#   )
+#   
+# }
+# 
+# convert_csv_to_gpkg <- function(
+#     csv_file,
+#     gpkg_location,
+#     crs = 2056,
+#     name = "ZHAW Grüental",
+#     layer_name = NULL,
+#     overwrite = TRUE,
+#     make_valid = TRUE,
+#     quiet = TRUE
+# ) {
+#   # Paket prüfen
+#   if (!requireNamespace("sf", quietly = TRUE)) {
+#     stop("Das Paket 'sf' ist nicht installiert. Bitte zuerst install.packages('sf') ausführen.")
+#   }
+#   
+#   # Eingaben prüfen
+#   if (missing(csv_file) || is.null(csv_file) || length(csv_file) != 1 || !nzchar(csv_file)) {
+#     stop("'csv_file' muss ein gültiger Dateipfad sein.")
+#   }
+#   
+#   if (missing(gpkg_location) || is.null(gpkg_location) || length(gpkg_location) != 1 || !nzchar(gpkg_location)) {
+#     stop("'gpkg_location' muss ein gültiger Ausgabepfad sein.")
+#   }
+#   
+#   if (!file.exists(csv_file)) {
+#     stop("Die CSV-Datei existiert nicht: ", csv_file)
+#   }
+#   
+#   if (dir.exists(csv_file)) {
+#     stop("'csv_file' zeigt auf einen Ordner, nicht auf eine Datei: ", csv_file)
+#   }
+#   
+#   if (!grepl("\\.gpkg$", gpkg_location, ignore.case = TRUE)) {
+#     stop("'gpkg_location' sollte auf '.gpkg' enden, z.B. 'zhaw_gruental.gpkg'.")
+#   }
+#   
+#   # Ausgabeordner prüfen / erstellen
+#   output_dir <- dirname(gpkg_location)
+#   
+#   if (!dir.exists(output_dir)) {
+#     dir_created <- dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+#     
+#     if (!dir_created) {
+#       stop("Ausgabeordner konnte nicht erstellt werden: ", output_dir)
+#     }
+#   }
+#   
+#   # Layername aus Dateiname ableiten, falls nicht angegeben
+#   if (is.null(layer_name)) {
+#     layer_name <- tools::file_path_sans_ext(basename(gpkg_location))
+#   }
+#   
+#   # CSV lesen
+#   dat <- tryCatch(
+#     {
+#       read.csv(
+#         csv_file,
+#         sep = ";",
+#         dec = ".",
+#         stringsAsFactors = FALSE
+#       )
+#     },
+#     error = function(e) {
+#       stop("CSV konnte nicht gelesen werden: ", conditionMessage(e))
+#     }
+#   )
+#   
+#   # Prüfen, ob benötigte Spalten vorhanden sind
+#   required_cols <- c("Easting", "Northing")
+#   missing_cols <- setdiff(required_cols, names(dat))
+#   
+#   if (length(missing_cols) > 0) {
+#     stop(
+#       "Folgende benötigte Spalten fehlen in der CSV: ",
+#       paste(missing_cols, collapse = ", ")
+#     )
+#   }
+#   
+#   # Nur benötigte Koordinaten behalten
+#   coords <- dat[, required_cols]
+#   
+#   # Koordinaten robust in numerisch umwandeln
+#   coords$Easting <- as.numeric(
+#     gsub(",", ".", gsub("'", "", trimws(as.character(coords$Easting))))
+#   )
+#   
+#   coords$Northing <- as.numeric(
+#     gsub(",", ".", gsub("'", "", trimws(as.character(coords$Northing))))
+#   )
+#   
+#   # Ungültige Koordinaten entfernen
+#   invalid_rows <- !complete.cases(coords)
+#   
+#   if (all(invalid_rows)) {
+#     stop("Keine gültigen Koordinaten gefunden. Prüfe 'Easting' und 'Northing'.")
+#   }
+#   
+#   if (any(invalid_rows)) {
+#     warning(sum(invalid_rows), " Zeile(n) mit ungültigen Koordinaten wurden entfernt.")
+#     coords <- coords[!invalid_rows, , drop = FALSE]
+#   }
+#   
+#   # Prüfen, ob genug Punkte für ein Polygon vorhanden sind
+#   if (nrow(coords) < 3) {
+#     stop("Für ein Polygon werden mindestens 3 gültige Koordinatenpunkte benötigt.")
+#   }
+#   
+#   xy <- as.matrix(coords)
+#   storage.mode(xy) <- "double"
+#   
+#   # Prüfen, ob mindestens 3 unterschiedliche Punkte vorhanden sind
+#   if (nrow(unique(xy)) < 3) {
+#     stop("Für ein Polygon werden mindestens 3 unterschiedliche Punkte benötigt.")
+#   }
+#   
+#   # Polygonring schliessen, falls nötig
+#   if (!isTRUE(all.equal(xy[1, ], xy[nrow(xy), ], tolerance = 1e-8))) {
+#     xy <- rbind(xy, xy[1, ])
+#   }
+#   
+#   # Polygon erzeugen
+#   poly <- sf::st_polygon(list(xy))
+#   
+#   # sf-Objekt mit CRS erzeugen
+#   polygon_sf <- sf::st_sf(
+#     name = name,
+#     geometry = sf::st_sfc(poly, crs = crs)
+#   )
+#   
+#   # Geometrie prüfen und optional reparieren
+#   if (!all(sf::st_is_valid(polygon_sf))) {
+#     if (make_valid) {
+#       warning("Polygon war geometrisch nicht gültig und wird mit st_make_valid() repariert.")
+#       polygon_sf <- sf::st_make_valid(polygon_sf)
+#     } else {
+#       stop("Polygon ist geometrisch nicht gültig.")
+#     }
+#   }
+#   
+#   # GeoPackage schreiben
+#   tryCatch(
+#     {
+#       sf::st_write(
+#         polygon_sf,
+#         dsn = gpkg_location,
+#         layer = layer_name,
+#         delete_layer = overwrite,
+#         quiet = quiet
+#       )
+#     },
+#     error = function(e) {
+#       stop("GeoPackage konnte nicht geschrieben werden: ", conditionMessage(e))
+#     }
+#   )
+#   
+#   message("GeoPackage erfolgreich gespeichert: ", gpkg_location)
+#   
+#   invisible(polygon_sf)
+# }
+# 
+# # CSV korrekt laden: Semikolon als Trennzeichen, Punkt als Dezimalzeichen
+# dat <- read.csv(
+#   "data/metaData/ZHAW_Gruental.csv",
+#   sep = ";",
+#   dec = ".",
+#   stringsAsFactors = FALSE
+# )
+# 
+# # Nur benötigte Koordinaten behalten
+# coords <- dat[, c("Easting", "Northing")]
+# 
+# # Sicherstellen, dass die Koordinaten numerisch sind
+# coords$Easting  <- as.numeric(coords$Easting)
+# coords$Northing <- as.numeric(coords$Northing)
+# 
+# # Zeilen mit fehlenden Koordinaten entfernen, falls vorhanden
+# coords <- coords[complete.cases(coords), ]
+# 
+# # Polygonring schliessen, falls nötig
+# if (!all(coords[1, ] == coords[nrow(coords), ])) {
+#   coords <- rbind(coords, coords[1, ])
+# }
+# 
+# # Polygon erzeugen
+# poly <- st_polygon(list(as.matrix(coords)))
+# 
+# # sf-Objekt mit CRS 2056
+# zhaw_gruental <- st_sf(
+#   name = "ZHAW Grüental",
+#   geometry = st_sfc(poly, crs = 2056)
+# )
+
+source("src/R/convert_csv_to_gpkg.R")
+
+gruental <- convert_csv_to_gpkg(
+  csv_file = "data/metaData/ZHAW_Gruental.csv",
+  gpkg_location = "data/metaData/zhaw_gruental.gpkg"
+)
+
+reidbach <- convert_csv_to_gpkg(
+  csv_file = "data/metaData/ZHAW_Reidbach_A.csv",
+  gpkg_location = "data/metaData/ZHAW_Reidbach_A.gpkg"
+)
+
+
+# zhaw_gruental <- st_read("data/metaData/zhaw_gruental.gpkg")
+# 
+# Anzeigen
+tmap_mode("view")
+
+tm_shape(gruental) +
+  tm_polygons(
+    fill = "lightblue",
+    fill_alpha = 0.4,
+    col = "black"
+  ) + 
+  tm_shape(reidbach) +
+  tm_polygons(
+    fill = "lightgreen",
+    fill_alpha = 0.4,
+    col = "black"
+  )
+
+# st_write(
+#   zhaw_gruental,
+#   "data/metaData/zhaw_gruental.gpkg",
+#   delete_dsn = TRUE
+# )
+
+
+
+###############################################################################
 # 
 # GPXFileLink <- "data/rawData/Trackingdata_Christopher/20260312-172538.gpx"
 # 
@@ -74,7 +361,7 @@ source("src/R/compress_stop_blocks.R")
 # Datei Speichern und laden
 # saveRDS(GPS_Track, "data/processedData/GPS_Track_processed.rds")
 
-GPS_Track_test <- readRDS("data/processedData/GPS_Track_compress.rds")
+# GPS_Track_test <- readRDS("data/processedData/GPS_Track_compress.rds")
 
 ############################################################################
 # Eigen Regeln für gewisse Gebiete
@@ -419,89 +706,89 @@ GPS_Track_test <- readRDS("data/processedData/GPS_Track_compress.rds")
 #     alpha = 0.4
 #   )
 
-
-library(sf)
-library(dplyr)
-library(tmap)
-library(colorspace)
-
-tmap_mode("view")
-
-# Parameter: bei Bedarf anpassen
-max_gap_min <- 5      # Zeitlücke ab 5 Minuten trennt ein Segment
-max_dist_m  <- 50     # Distanzsprung ab 50 m trennt ein Segment
-
-# Punkte vorbereiten und zusätzliche Plot-Segmentierung erzeugen
-GPS_plot_points <- GPS_Track_compress %>%
-  arrange(time) %>%
-  mutate(
-    dist_to_prev_m = as.numeric(st_distance(geometry, lag(geometry), by_element = TRUE)),
-    time_gap_min = as.numeric(difftime(time, lag(time), units = "mins")),
-    
-    plot_break = is.na(lag(segment_id)) |
-      segment_id != lag(segment_id) |
-      new_segment |
-      time_gap_min > max_gap_min |
-      dist_to_prev_m > max_dist_m,
-    
-    plot_segment_id = cumsum(plot_break)
-  )
-
-# Linien nur innerhalb der Plot-Segmente bauen
-GPS_plot_lines <- GPS_plot_points %>%
-  mutate(
-    X = st_coordinates(.)[, "X"],
-    Y = st_coordinates(.)[, "Y"]
-  ) %>%
-  st_drop_geometry() %>%
-  group_by(plot_segment_id) %>%
-  filter(n() >= 2) %>%
-  summarise(
-    original_segment_id = first(segment_id),
-    n_points = n(),
-    geometry = st_sfc(
-      st_linestring(as.matrix(cbind(X, Y))),
-      crs = st_crs(GPS_Track_compress)
-    ),
-    .groups = "drop"
-  ) %>%
-  st_as_sf() %>%
-  mutate(plot_segment_id = as.factor(plot_segment_id))
-
-# Einzelpunkt-Segmente separat darstellen
-GPS_single_points <- GPS_plot_points %>%
-  group_by(plot_segment_id) %>%
-  filter(n() == 1) %>%
-  ungroup() %>%
-  mutate(plot_segment_id = as.factor(plot_segment_id))
-
-# Dynamische Farbpalette für Linien
-seg_palette <- qualitative_hcl(
-  n = max(n_distinct(GPS_plot_lines$plot_segment_id), 1),
-  palette = "Dark 3"
-)
-
-# Karte anzeigen
-tm_shape(GPS_plot_lines) +
-  tm_lines(
-    col = "plot_segment_id",
-    palette = seg_palette,
-    lwd = 3,
-    title.col = "Plot-Segment"
-  ) +
-  tm_shape(GPS_single_points) +
-  tm_dots(
-    col = "plot_segment_id",
-    palette = seg_palette,
-    size = 0.08,
-    title.col = "Einzelpunkt-Segment"
-  ) +
-  tm_shape(GPS_plot_points) +
-  tm_dots(
-    size = 0.02,
-    col = "black",
-    alpha = 0.4
-  )
+# 
+# library(sf)
+# library(dplyr)
+# library(tmap)
+# library(colorspace)
+# 
+# tmap_mode("view")
+# 
+# # Parameter: bei Bedarf anpassen
+# max_gap_min <- 5      # Zeitlücke ab 5 Minuten trennt ein Segment
+# max_dist_m  <- 50     # Distanzsprung ab 50 m trennt ein Segment
+# 
+# # Punkte vorbereiten und zusätzliche Plot-Segmentierung erzeugen
+# GPS_plot_points <- GPS_Track_compress %>%
+#   arrange(time) %>%
+#   mutate(
+#     dist_to_prev_m = as.numeric(st_distance(geometry, lag(geometry), by_element = TRUE)),
+#     time_gap_min = as.numeric(difftime(time, lag(time), units = "mins")),
+#     
+#     plot_break = is.na(lag(segment_id)) |
+#       segment_id != lag(segment_id) |
+#       new_segment |
+#       time_gap_min > max_gap_min |
+#       dist_to_prev_m > max_dist_m,
+#     
+#     plot_segment_id = cumsum(plot_break)
+#   )
+# 
+# # Linien nur innerhalb der Plot-Segmente bauen
+# GPS_plot_lines <- GPS_plot_points %>%
+#   mutate(
+#     X = st_coordinates(.)[, "X"],
+#     Y = st_coordinates(.)[, "Y"]
+#   ) %>%
+#   st_drop_geometry() %>%
+#   group_by(plot_segment_id) %>%
+#   filter(n() >= 2) %>%
+#   summarise(
+#     original_segment_id = first(segment_id),
+#     n_points = n(),
+#     geometry = st_sfc(
+#       st_linestring(as.matrix(cbind(X, Y))),
+#       crs = st_crs(GPS_Track_compress)
+#     ),
+#     .groups = "drop"
+#   ) %>%
+#   st_as_sf() %>%
+#   mutate(plot_segment_id = as.factor(plot_segment_id))
+# 
+# # Einzelpunkt-Segmente separat darstellen
+# GPS_single_points <- GPS_plot_points %>%
+#   group_by(plot_segment_id) %>%
+#   filter(n() == 1) %>%
+#   ungroup() %>%
+#   mutate(plot_segment_id = as.factor(plot_segment_id))
+# 
+# # Dynamische Farbpalette für Linien
+# seg_palette <- qualitative_hcl(
+#   n = max(n_distinct(GPS_plot_lines$plot_segment_id), 1),
+#   palette = "Dark 3"
+# )
+# 
+# # Karte anzeigen
+# tm_shape(GPS_plot_lines) +
+#   tm_lines(
+#     col = "plot_segment_id",
+#     palette = seg_palette,
+#     lwd = 3,
+#     title.col = "Plot-Segment"
+#   ) +
+#   tm_shape(GPS_single_points) +
+#   tm_dots(
+#     col = "plot_segment_id",
+#     palette = seg_palette,
+#     size = 0.08,
+#     title.col = "Einzelpunkt-Segment"
+#   ) +
+#   tm_shape(GPS_plot_points) +
+#   tm_dots(
+#     size = 0.02,
+#     col = "black",
+#     alpha = 0.4
+#   )
 ######################################################################
 # main <- function() {
 #   

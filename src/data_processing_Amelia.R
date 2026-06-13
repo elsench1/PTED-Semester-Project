@@ -20,7 +20,7 @@ theme_set(theme_minimal())
 # loading data
 
 
-records_json <- jsonlite::read_json("data/Trackingdata_Amelia/Zeitachse_google_timeline.json",simplifyVector = TRUE)
+records_json <- jsonlite::read_json("data/rawData/Trackingdata_Amelia/Zeitachse_google_timeline.json",simplifyVector = TRUE)
 
 records <- records_json[[1]]
 
