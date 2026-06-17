@@ -22,6 +22,7 @@ PTED-Semester-Project/
 ├── chapters/                  # Quarto book chapters
 ├── docs/                      # Rendered output of the Quarto book
 ├── src/                       # Source material and scripts
+├── plots/                     # saved plot .png
 ├── _extensions/               # Quarto / ZHAW template extensions
 ├── _quarto.yml                # Quarto project configuration
 ├── index.qmd                  # Title page / book entry point
@@ -99,8 +100,8 @@ This repository was created as part of the semester project for the course **Pat
 
 ## Authors
 
-- Amelia
-- Chr Elsener
+- Amelia Heid
+- Christopher Elsener
 
 ## License
 

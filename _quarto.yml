@@ -3,12 +3,12 @@ project:
   output-dir: docs
 
 book:
-  title: "PTED Semeser Project"
-  subtitle: "something with gps data"
+  title: "Comparison of travel behaviour of two individuals with different tracking methods"
+  subtitle: "PTED Semester Project"
   author:
-    - Amelia
-    - Christopher
-  date: "2026-06-07"
+    - Amelia Heid
+    - Christopher Elsener
+  date: "2026-06-21"
   downloads: pdf           # adds a PDF download button to the HTML navbar
 
   chapters:
@@ -23,35 +23,34 @@ book:
     - chapters/references.qmd
     
   appendices:
-      - chapters/proposal2.qmd
+    - chapters/appendix.qmd
+     # - chapters/proposal2.qmd
     # - 7-anhang-rohdaten.qmd
     # - 8-anhang-statistik.qmd
 
 bibliography: chapters/references/references.bib
 lang: en                   # controls automatic text (e.g. "Abgabedatum" vs "Submission date")
 
-institut: "Institut für Umwelt und Natürliche Ressourcen"
-keywords: "Robuste Regression, Ausreisser, Allometrie, Säugetiere, Gehirngrösse, Statistik"
+institut: "Institute of Natural Resource Sciences"
+keywords: "movement analysis, google timeline, GPS, "
 confidential: false         # adds a "Vertraulich" notice on the title page
 zhaw-cover-image:
   src: figure/cover.png
   max-width: 100%          # optional, constrains the image on the title page
   max-height: 5cm
 thesis-type: "Semester Project"
-degree-type: "Master cours"
+degree-type: "Computational Movement Analysis: Patterns and Trends in Environmental Data"
 study-year: "2026"
-submission-date: "2026-12-15"
-study-direction: "Umweltingenieurwesen"
+submission-date: "2026-06-21"
+study-direction: "Master of Science in Environment and Natural Resources"
 supervisors:
   - title: "Prof. Dr."
-    name: "Max Mustermann"
-    affiliation: "ZHAW Life Sciences und Facility Management, Wädenswil"
-  - title: "Dr."
-    name: "Anna Beispiel"
-    affiliation: "ETH Zürich, Institut für Umweltingenieurwissenschaften, Zürich"
-  - title: "Prof. Dr."
-    name: "Susanne Müller"
-    affiliation: "Universität Zürich, Institut für Evolutionsbiologie und Umweltwissenschaften, Zürich"
+    name: "Patrick Laube"
+    affiliation: "ZHAW School of Life Sciences and Facility Management, Wädenswil"
+  - title: ""
+    name: "Nils Ratnaweera"
+    affiliation: "ZHAW School of Life Sciences and Facility Management, Wädenswil"
+
 
 format:
   zhaw-lsfm-html: default

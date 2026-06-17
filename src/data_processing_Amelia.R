@@ -4,15 +4,14 @@ library(dplyr)
 library(purrr)
 library(tidyr)
 library(stringr)
-library(readr)
 library(tmap)
 library(ggplot2)
 library(lubridate)
 library(osmextract)
 library(leaflet)
 library(data.table)
-library(mapview)
-library(webshot)
+# library(mapview)
+# library(webshot)
 
 theme_set(theme_minimal())
 
@@ -20,7 +19,7 @@ theme_set(theme_minimal())
 # loading data
 
 
-records_json <- jsonlite::read_json("data/rawData/Trackingdata_Amelia/Zeitachse_google_timeline.json",simplifyVector = TRUE)
+records_json <- jsonlite::read_json("data/Trackingdata_Amelia/Zeitachse_google_timeline.json",simplifyVector = TRUE)
 
 records <- records_json[[1]]
 
@@ -83,7 +82,7 @@ df_sf_2056$E <- st_coordinates(df_sf_2056)[,1]
 df_sf_2056$N <- st_coordinates(df_sf_2056)[,2]   
 
 
-# tmap_mode("view")
+tmap_mode("view")
 # tm_shape(df_sf_2056) + tm_dots()
 
 
@@ -127,7 +126,8 @@ df_sf_2056 <- df_sf_2056 |>
 df_sf_2056 <- df_sf_2056 |>
   rowwise() |>
   mutate(
-    stepMean = mean(c(nMinus1_dist, nPlus1_dist), na.rm = FALSE)
+    stepMean_dist = mean(c(nMinus1_dist, nPlus1_dist), na.rm = FALSE),
+    stepMean_time = mean(c(nMinus1_time, nPlus1_time), na.rm = FALSE)
     #stepMean = mean(c(nMinus2_dist, nMinus1_dist, nPlus1_dist, nPlus2_dist), na.rm = FALSE)
   ) |>
   ungroup()
@@ -147,7 +147,7 @@ threshold <- 100 #mean(df_sf_2056$stepMean, na.rm = TRUE)    # m
 
 
 df_sf_2056 <- df_sf_2056 |>
-  mutate(static = stepMean < threshold)
+  mutate(static = stepMean_dist < threshold)
 
 # ggplot(df_sf_2056) +
 #   geom_path(aes(E,N))+
@@ -198,13 +198,24 @@ df_sf_2056 <- df_sf_2056 |>
 df_sf_2056 <- df_sf_2056 |>
   mutate(out_home = dist_home > 80)
 
+home_point$E <- 2706285
+home_point$N <- 1231915
+st_geometry(home_point)[1] <- st_sfc(st_point(c(home_point$E, home_point$N)), crs = st_crs(home_point))
+
 
 # tm_shape(df_sf_2056) +
 #   tm_dots(col = "out_home",
 #           palette = c("blue", "red"),
 #           size = 0.05,
 #           title = "Out of home") +
-#   tm_lines()
+#   tm_lines()+
+#   tm_shape(home_point) +
+#   tm_dots(col = "black", size = 0.2)
+
+home_geom <- st_geometry(home_point)[[1]]
+
+df_sf_2056 <- df_sf_2056 %>%
+  mutate(geometry = replace(geometry, out_home == FALSE, st_sfc(rep(list(home_geom), sum(!out_home)), crs = st_crs(df_sf_2056))))
 
 
 
@@ -271,7 +282,7 @@ road_time_day <- df_sf_2056 |>
   filter(!is.na(transport_group)) |>
   group_by(day, transport_group) |>
   summarise(
-    time_min = sum(nPlus1_time, na.rm = TRUE),  
+    time_min = sum(stepMean_time, na.rm = TRUE),  
     .groups = "drop"
   )|> 
   st_drop_geometry()
@@ -282,7 +293,9 @@ road_share_day_time <- road_time_day |>
   mutate(
     share = time_min / sum(time_min)     
   ) |>
-  st_drop_geometry()
+  st_drop_geometry()|>
+  select(day, transport_group, share)
+
 
 
 road_share_wide <- road_share_day_time |>
@@ -329,7 +342,7 @@ road_summary <- df_sf_2056 |>    # oder anstatt transport_group, transport_type_
   filter(!is.na(transport_group)) |>
   group_by(transport_group) |>
   summarise(
-    time_min = sum(nPlus1_time, na.rm = TRUE), 
+    time_min = sum(stepMean_time, na.rm = TRUE), 
     .groups = "drop"
   ) |>
   mutate(
@@ -356,26 +369,37 @@ pts_filtered <- pts |>
  filter(moving_ext == TRUE)
 
 pts_map <- st_transform(pts_filtered, 4326)
+pts_map <- pts_map |>
+  mutate(
+    transport_group_label = case_when(
+      transport_group == "major_road" ~ "Major road",
+      transport_group == "main_road"  ~ "Main road",
+      transport_group == "local_road" ~ "Local road",
+      transport_group == "rail"       ~ "Rail",
+      TRUE ~ transport_group)
+  )
+
 network_map <- st_transform(network_sf, 4326)
 
-
-pal <- colorFactor(palette = "Set3", domain = pts_map$transport_group)  #oder Set20
+pal <- colorFactor(palette = "Set3", domain = pts_map$transport_group_label)  #oder Set20
 pal2 <- colorFactor(palette = "Set3", domain = pts_map$transport_type)  #oder Set20
+
 
 plot_osm_moving <- leaflet() |>
   addProviderTiles("OpenStreetMap") |>
   addPolylines(data = network_map, color = "grey70", weight = 1) |>
-  addCircleMarkers(data = pts_map, radius = 3, color = "black", weight = 1, fillColor = ~pal(transport_group), fillOpacity = 1, stroke = TRUE) |>
-  addLegend("bottomright", pal = pal, values = pts_map$transport_group, title = "Transport type")
+  addCircleMarkers(data = pts_map, radius = 4, color = "black", weight = 1, fillColor = ~pal(transport_group_label), fillOpacity = 1, stroke = TRUE) |>
+  addLegend("bottomright", pal = pal, values = pts_map$transport_group_label, title = "Matched road type")
+plot_osm_moving
 
-plot_osm_moving_type <- leaflet() |>
-  addProviderTiles("OpenStreetMap") |>
-  addPolylines(data = network_map, color = "grey70", weight = 1) |>
-  addCircleMarkers(data = pts_map, radius = 3, color = "black", weight = 1, fillColor = ~pal(transport_type), fillOpacity = 1, stroke = TRUE) |>
-  addLegend("bottomright", pal = pal2, values = pts_map$transport_type, title = "Transport type")
-
-
-mapshot(plot_osm_moving, file = "plots/plot_osm_moving.png")
+# plot_osm_moving_type <- leaflet() |>
+#   addProviderTiles("OpenStreetMap") |>
+#   addPolylines(data = network_map, color = "grey70", weight = 1) |>
+#   addCircleMarkers(data = pts_map, radius = 3, color = "black", weight = 1, fillColor = ~pal(transport_type), fillOpacity = 1, stroke = TRUE) |>
+#   addLegend("bottomright", pal = pal2, values = pts_map$transport_type, title = "Transport type")
+# 
+# 
+# mapshot(plot_osm_moving, file = "chapters/plots/plot_osm_moving.png")     #does not work
 
 
 ###############################################################################################################################
@@ -411,9 +435,11 @@ plot_activity_road_Type <- df_sf_2056 |>
     fill = "percentage"
   )+
   scale_x_discrete(labels = c("local_road" = "local road", "main_road" = "main road", "major_road" = "major road", "rail" = "rail")) +
-  scale_y_discrete(labels = c("WALKING" = "walking", "IN_TRAM" = "tram", "IN_TRAIN" = "train", "IN_PASSENGER_VEHICLE" = "passenger vehicle", "IN_BUS" = "bus", "CYCLING" = "cycling"))
+  scale_y_discrete(labels = c("WALKING" = "walking", "IN_TRAM" = "tram", "IN_TRAIN" = "train", "IN_PASSENGER_VEHICLE" = "passenger vehicle", "IN_BUS" = "bus", "CYCLING" = "cycling"))+
+  theme(axis.title.x = element_text(margin = margin(t = 15)),
+    axis.title.y = element_text(margin = margin(r = 15)))
 
-ggsave("plots/activity_road_Type.png", plot= plot_activity_road_Type, width = 6, height = 5)
+ggsave("chapters/plots/activity_road_Type.png", plot= plot_activity_road_Type, width = 6, height = 5)
 
 
 ###############################################################################################################################
@@ -538,7 +564,7 @@ df_sf_2056 <- df_sf_2056 |>
 df_sf_2056 <- df_sf_2056 |> 
   mutate(speed_after = (nPlus1_dist/1000)/(nPlus1_time/60),         #m/min -> km/h
          speed_before = (nMinus1_dist/1000)/(nMinus1_time/60),
-         speed2 = ((nPlus1_dist + nMinus1_dist)/1000)/((nPlus1_time + nMinus1_time)/60)
+         speed2 = (stepMean_dist/1000)/(stepMean_time/60)
   )
 
 
@@ -546,7 +572,7 @@ df_sf_2056 <- df_sf_2056 |>
 # distance per day
 df_sf_2056 <- df_sf_2056 |>
   group_by(day) |>
-  mutate(dist_day = sum(nPlus1_dist/1000, na.rm = TRUE)) |>    #m -> km
+  mutate(dist_day = sum(stepMean_dist/1000, na.rm = TRUE)) |>    #m -> km
   ungroup()
 
 
@@ -581,11 +607,11 @@ df_sf_2056 <- df_sf_2056 |>
 analysis_day <- df_sf_2056 |> 
   group_by(day) |> 
   summarise(
-    avgSpeed_day = mean(speed2[moving_ext == TRUE], na.rm = TRUE),     #km/h
-    dist_day = sum(nPlus1_dist / 1000, na.rm = TRUE),               #km
+    dist_day = sum(stepMean_dist / 1000, na.rm = TRUE),               #km
     time_out_home = sum(nPlus1_time[out_home], na.rm = TRUE) / 60,  #h
     max_radius = max(dist_home, na.rm = TRUE) / 1000,               #km
     max_radius_movement = max(max_radius_movement, na.rm = TRUE),   #km
+    avgSpeed_day = mean(speed2[moving_ext == TRUE], na.rm = TRUE),     #km/h
     .groups = "drop"
   )|>
   left_join(road_share_wide, by = "day") |> 
@@ -603,7 +629,7 @@ analysis <- bind_cols(
   
   df_sf_2056 |> 
     summarise(
-      avgSpeed = mean(speed2[moving_ext == TRUE], na.rm = TRUE),                    #km/h
+      avgSpeed = mean(speed2[moving_ext == TRUE], na.rm = TRUE),                 #km/h
       avgTimeZhaw = mean(c(travel_time_to_uni, travel_time_home), na.rm = TRUE)  #min
     ) |> 
     st_drop_geometry(),
@@ -617,7 +643,7 @@ analysis <- bind_cols(
 # filter movement
 
 df_filter <- df_sf_2056 |>
-  filter(!static)
+   filter(!static)
 
 # df_filter |>
 #   ggplot(aes(E, N)) +
@@ -645,25 +671,80 @@ df_line <- df_filter_sf |>
 ###############################################################################################################################
 # test plot
 
-test <- df_sf_2056 |> 
-  filter(day == 9)
+# test <- df_sf_2056 |> 
+#   filter(segment_id == 79)
+# 
+# test_sf <- st_as_sf(test, coords = c("E", "N"), crs = 2056)
+# 
+# 
+# test_line <- test_sf |>
+#   dplyr::summarise(do_union = FALSE) |>
+#   st_cast("LINESTRING")
+# 
+# tm_shape(test_line) +
+#   tm_lines(col = "black", lwd = 0.8) +
+#   tm_shape(test) +
+#   tm_dots(
+#     col = "at_uni",
+#     palette = c("TRUE" = "red", "FALSE" = "blue"),
+#     size = 0.3
+#   )
 
-test_sf <- st_as_sf(test, coords = c("E", "N"), crs = 2056)
+
+###############################################################################################################################
+# preparation visualisations
+
+pie_data <- analysis |>
+  select(any_of(c("major_road", "main_road", "local_road", "rail"))) |>
+  pivot_longer(
+    cols = everything(),
+    names_to = "transport_group",
+    values_to = "share"
+  ) |>
+  mutate(transport_group = case_when(
+    transport_group == "major_road" ~ "Major road",
+    transport_group == "main_road"  ~ "Main road",
+    transport_group == "local_road" ~ "Local road",
+    transport_group == "rail"       ~ "Rail",
+    TRUE ~ transport_group
+  ))
 
 
-test_line <- test_sf |>
-  dplyr::summarise(do_union = FALSE) |>
-  st_cast("LINESTRING")
 
-tm_shape(test_line) +
-  tm_lines(col = "black", lwd = 0.8) +
-  tm_shape(test) +
-  tm_dots(
-    col = "at_uni",
-    palette = c("TRUE" = "red", "FALSE" = "blue"),
-    size = 0.3
-  )
 
+
+summary_data <- analysis |>
+  select(avgDistDay, avgTimeOutHome, avgRadius, avgSpeed, avgTimeZhaw) |>
+  pivot_longer(
+    cols = everything(),
+    names_to = "metric",
+    values_to = "value"
+  ) |>
+  mutate(metric = case_when(
+    metric == "avgDistDay"     ~ "Avg. distance/day (km)",
+    metric == "avgTimeOutHome" ~ "Avg. time out of home/day (h)",
+    metric == "avgRadius"      ~ "Avg. max. radius (km)",
+    metric == "avgSpeed"       ~ "Avg. travel speed (km/h)",
+    metric == "avgTimeZhaw"    ~ "Avg. travel time to ZHAW (min)",
+    TRUE ~ metric
+  ))
+
+
+
+summary_data_day <- analysis_day |>
+  select(day, dist_day, time_out_home, max_radius, avgSpeed_day) |>
+  pivot_longer(
+    cols = -day,
+    names_to = "metric",
+    values_to = "value"
+  ) |>
+  mutate(metric = case_when(
+    metric == "dist_day"              ~ "Total distance (km)", 
+    metric == "time_out_home"         ~ "Time out of home (h)",
+    metric == "max_radius"            ~ "Max. radius (km)",
+    metric == "avgSpeed_day"          ~ "Avg. travel speed (km/h)",
+    TRUE ~ metric
+  ))
 
 
 
@@ -690,26 +771,116 @@ tm_shape(test_line) +
 # 
 
 
-
 plot_tm_movement <- tm_basemap("CartoDB.Positron") +
   tm_shape(df_line) +
   tm_lines(col = "black", lwd = 0.8) +
   tm_shape(subset(df_sf_2056, !static)) +
   tm_dots(
-    fill = "day",
-    fill.scale = tm_scale(values = "brewer.blues", values.range = c(0.4, 1)),
-    fill.legend = tm_legend(title = "Moving, days of tracking"),
-    size = 0.5
+    fill = "blue",
+    size = 0.4
   ) +
   tm_shape(subset(df_sf_2056, static)) +
   tm_dots(
-    fill = "day",
-    fill.scale = tm_scale(values = "brewer.reds", values.range = c(0.4, 1)),
-    fill.legend = tm_legend(title = "Static, days of tracking"),
-    size = 0.5
+    fill = "red",
+    size = 0.3
   )
 
-tmap_save(plot_tm_movement, "plots/tm_movement.png")
+
+tmap_save(plot_tm_movement, "chapters/plots/tm_movement.png")
+
+
+
+plot_road_type_pie <- ggplot(pie_data, aes(x = "", y = share, fill = transport_group)) +
+  geom_col(width = 1, color = "white") +
+  coord_polar(theta = "y") +
+  geom_text(aes(label = scales::percent(share, accuracy = 1)),
+            position = position_stack(vjust = 0.5)) +
+  scale_fill_brewer(palette = "Set3") +
+  labs(fill = "Transport type", title = "Share of travel time by road type") +
+  theme_void() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggsave("chapters/plots/road_type_pie.png", plot_road_type_pie, width = 8, height = 5)
+
+
+
+# plot_param_sum <- ggplot(summary_data, aes(x = metric, y = value, fill = metric)) +
+#   geom_col(width = 0.6, show.legend = FALSE) +
+#   geom_text(aes(label = round(value, 1)), vjust = 1.5, color = "white", fontface = "bold") +
+#   facet_wrap(~ metric, scales = "free", ncol = 3, strip.position = "bottom") +
+#   labs(x = NULL, y = NULL, title = "Comparison moving parameters") +
+#   theme(
+#     axis.text.x = element_blank(),
+#     axis.ticks.x = element_blank(),
+#     strip.placement = "outside",
+#     strip.text = element_text(face = "bold", size = 12),
+#     plot.title = element_text(hjust = 0.5, size = 14, margin = margin(b = 20)),
+#     plot.margin = margin(t = 20, r = 10, b = 10, l = 10)
+#   )
+
+
+plot_param_sum <- ggplot(summary_data_day, aes(x = metric, y = value, fill = metric)) +
+  geom_boxplot(show.legend = FALSE, width = 0.5) +
+  facet_wrap(~ metric, scales = "free", ncol = 3, strip.position = "bottom") +
+  labs(x = NULL, y = NULL, title = "Comparison moving parameters") +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    strip.placement = "outside",
+    strip.text = element_text(face = "bold", size = 12),
+    plot.title = element_text(hjust = 0.5, size = 14, margin = margin(b = 20)),
+    plot.margin = margin(t = 20, r = 10, b = 10, l = 10)
+  )
+
+
+
+
+plot_param_sum_day <- ggplot(summary_data_day, aes(x = factor(day), y = value, fill = metric)) +
+  geom_col(width = 0.6, show.legend = FALSE) +
+  geom_text(aes(label = round(value, 0)), vjust = -0.5, color = "grey60", fontface = "bold", size = 3) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  facet_wrap(~ metric, scales = "free", ncol = 3) +
+  labs(x = NULL, y = NULL) +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    strip.text = element_text(face = "bold", size = 12),
+    plot.title = element_text(hjust = 0.5, size = 14, margin = margin(b = 20)),
+    plot.margin = margin(t = 20, r = 10, b = 10, l = 10),
+    panel.grid.major.x = element_blank()
+  )
+
+ggsave("chapters/plots/param_sum_day.png", plot_param_sum_day, width = 9.5, height = 6)
+
+
+
+
+ 
+# plot_tm_movement_2 <- tm_basemap("CartoDB.Positron") +
+#   #tm_shape(df_line) +
+#   #tm_lines(col = "black", lwd = 0.8) +
+#   tm_shape(subset(df_sf_2056, !static)) +
+#   tm_dots(
+#     fill = "day",
+#     fill.scale = tm_scale(values = "brewer.blues", values.range = c(0.4, 1)),
+#     fill.legend = tm_legend(title = "Moving, days of tracking"),
+#     size = 0.5
+#   ) +
+#   tm_shape(subset(df_sf_2056, static)) +
+#   tm_dots(
+#     fill = "day",
+#     fill.scale = tm_scale(values = "brewer.reds", values.range = c(0.4, 1)),
+#     fill.legend = tm_legend(title = "Static, days of tracking"),
+#     size = 0.5
+#   )
+# 
+# tmap_save(plot_tm_movement_2, "chapters/plots/tm_movement_2.png")
+
+
+
+
+
+
 
 
 
