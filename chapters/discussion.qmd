@@ -7,5 +7,5 @@
 
 ## problems, inaccuracies, processing efforts
 
-
+Cleaning, filtering, synchronizing timestamps, and handling missing values are expected to be time-consuming tasks. Furthermore, differences in sampling intervals between the two datasets may influence calculated metrics such as average speed or daily travelled distance, making direct comparisons challenging. Additionally, the positional uncertainty may complicate analyses such as road type assignment, where small spatial inaccuracies can incorrectly match trajectories to nearby streets or paths.
 

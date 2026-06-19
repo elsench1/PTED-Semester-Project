@@ -1,23 +1,20 @@
 # Introduction
 
-This study investigates the movement behavior of two individuals. These two individuals did a tracking of their movement using different tracking methods, one using GPS-based app (Christopher) and one using Google Timeline (Amelia) @GoogleTimeline.
-The project focuses on extracting and comparing movement characteristics of the two individuals and answer research questions related to travel behaviour.
-These research questions get answered:
+This project investigates the movement behavior of two individuals. These two individuals did a tracking of their movement using different tracking methods, one using GPS-based app (Christopher) and one using Google Timeline @GoogleTimeline (Amelia).
+It applies descriptive spatio-temporal trajectory analysis to compare mobility behaviour recorded with two different tracking methods. The analysis focuses on movement trajectories as sequences of timestamped geographic coordinates. Further spatial analysis methods will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap @OpenStreetMap road network data to conclude frequently used road types. The interpretation of the results are supported by the participants’ own knowledge of their daily movements.
+
+The following research questions get analysed:
 
 * Which road types are most frequently used based on the recorded trajectories?
 * How far is the typical or maximal movement radius from their home when they travel?
 * and how far do they travel on average?
 * what is the average speed the individuals are travelling?
-* how long are the individuals out of their home on average?
+* How long are the individuals out of their home on average?
 * How long does the travel time from home to ZHAW take based on the movement data?
 
-As there are differences in data structure, sampling intervals, GPS accuracy and preprocessing effort in both datasets, an additional objective is to evaluate how different tracking methods influence the quality and reliability of movement analysis and processability. This means, how much effort is required for each dataset before meaningful analysis can be performed and how do the results differ because of travel behavior or because of differences in the tracking methods. 
+As there are differences in data structure, sampling intervals, GPS accuracy and preprocessing effort in both datasets, an additional objective is to evaluate how different tracking methods influence the quality and reliability of Trajectories, movement analysis and processability. 
 
 
-## Analytical Concepts
 
-This project applies descriptive spatio-temporal trajectory analysis to compare mobility behaviour recorded with two different tracking methods. The analysis focuses on movement trajectories as sequences of timestamped geographic coordinates. Before analysis, the raw trajectories will be cleaned, ordered by time, and segmented into daily movement patterns. From these trajectories, key movement indicators will be derived, including travelled distance per day, average speed, movement radius from the home location, time spent outside the home, and travel time between home and ZHAW.
 
-A central analytical concept is the comparison of trajectory quality between Google Timeline and GPS Logger data. This includes assessing sampling intervals, temporal gaps, positional accuracy, and the level of preprocessing required. Since the datasets differ in resolution and structure, the analysis will not rely on complex movement classification models, but rather on robust descriptive measures that can be calculated for both data sources.
 
-Additional spatial analysis methods will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap @OpenStreetMap road network data. Where possible, recorded movement points or trajectory segments will be matched to nearby road types in order to identify frequently used infrastructure categories such as residential roads, main roads, cycle paths, or pedestrian paths. The interpretation of the results will be supported by the participants’ own knowledge of their daily movements.
