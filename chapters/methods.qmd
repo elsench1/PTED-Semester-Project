@@ -23,13 +23,11 @@ Other packages used for processing or plotting include; jsonlite, dplyr, purrr, 
 
 ### google timeline data
 
-1. Importing Google Timeline JSON data.
-2. Extracting latitude, longitude, and timestamps and convert them to CH timezone, as well as delete errors.
-3. Converting coordinates into spatial features.
-4. Calculating distances and time differences between consecutive points: Distance to the previous and next point. From these, the moving window is computed as the mean of both neighboring points.
-6. Detecting stationary and moving phases using distance-based thresholds (< 100 m).
-7. Estimating relevant locations such as home and university with most frequent coordinates in certain time frames.
-8. Preparing the use of OpenStreetMap and its categories: Loading the Swiss road/rail network lines, filtering to relevant categories, grouping these categories in four groups and matched via st_nearest_feature(). 
+1. Importing Google Timeline JSON data, extracting coordinates, timestamps and convert them, as well as delete errors.
+2. Calculating distances and time differences between two consecutive points. From these, the moving window is computed as the mean of both neighboring points.
+3. Detecting stationary and moving phases using distance-based thresholds (< 100 m).
+4. Estimating relevant locations such as home and ZHAW with most frequent coordinates in certain time frames.
+
 
 
 ### GPS data:
@@ -38,16 +36,16 @@ Other packages used for processing or plotting include; jsonlite, dplyr, purrr, 
 
 ## Parameter calculation 
 
-1. Calculating mobility indicators:
- * daily travelled distance : sum of mean step of distance per day.
+1. Preparing the use of OpenStreetMap and its categories which includes loading the Swiss road/rail network lines, filtering to relevant categories, grouping these categories and match the points to the nearest feature. 
+2. Calculating mobility indicators:
+ * daily travelled distance : sum of distance per day.
  * average movement speed:  computed from distance/time.
- * time spent outside home: sum of mean step of time per day.
- * maximum daily movement radius: maximum distance to home per day is extracted.
- * travel time from home to ZHAW: arrival/departure times at university and home are determined using helper functions.
- * road type use: additional calculation of time shares per transport group per day and across the entire tracking period.
+ * time spent outside home: sum of time per day.
+ * maximum daily movement radius: maximum distance to home per day.
+ * travel time from home to ZHAW: arrival/departure times at university and home.
+ * road type use: calculation of time shares per transport group per day and across the entire tracking period.
  Additional for Google Timeline data: cross-tabulation/heatmap comparing Google Activity labels with OSM transport group.
-
-2. Visualising trajectories and movement patterns using maps and plots.
+3. Visualising trajectories and movement patterns using maps and plots.
 
 
 ## Validation

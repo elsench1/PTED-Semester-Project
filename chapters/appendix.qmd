@@ -18,19 +18,16 @@ They also declare to not upload personal data and other data requiring heightene
 ## Statement of authorship
 
 The students affirm independent completion of their work without outside help.
-
-The students declare that all printed and electronic sources used in the text and the bibliography are correctly indicated, i.e., that the work does not contain any plagiarism (no parts that have been taken in whole or in part from another's or his/her own text or from another's or his/her own work without clear identification and without stating the source).
-
+The students declare that all printed and electronic sources used in the text and the bibliography are correctly indicated, i.e., that the work does not contain any plagiarism.
 In the event of misconduct of any kind, Paragraph 39 and Paragraph 40 of the General Academic Regulations for Bachelor's and Master's degree programmes at the Zurich University of Applied Sciences (dated 29 January 2008) and the provisions of the Disciplinary Measures of the University Regulations shall apply. 
 @declarationOwnWork
 
 
 ## Wordcount
-
 <!-- after installing the wordcountaddin, remove the line "#| eval: false" -->
 
 ```{r}
-wordcountaddin::word_count("index.qmd")
+wordcountaddin::word_count("../index.qmd")
 ```
 
 
