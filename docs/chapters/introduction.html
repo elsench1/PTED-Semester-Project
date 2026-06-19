@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="keywords" content="Robuste Regression, Ausreisser, Allometrie, Säugetiere, Gehirngrösse, Statistik">
+<meta name="keywords" content="movement analysis, google timeline, GPS,">
 
-<title>2&nbsp; Introduction – PTED Semeser Project</title>
+<title>2&nbsp; Introduction – Comparison of travel behaviour of two individuals with different tracking methods</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -24,7 +24,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -42,7 +61,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-12eeb4b20e9f5a2b0bfc604bfaf942bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -102,9 +121,9 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">PTED Semeser Project</a> 
+      <a href="../">Comparison of travel behaviour of two individuals with different tracking methods</a> 
         <div class="sidebar-tools-main">
-    <a href="../PTED-Semeser-Project.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="../Comparison-of-travel-behaviour-of-two-individuals-with-different-tracking-methods.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -148,7 +167,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/discussion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">discussion.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Discussion</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -174,8 +193,8 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/proposal2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Abstract</span></span></a>
+  <a href="../chapters/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Appendix</span></span></a>
   </div>
 </li>
       </ul>
@@ -195,9 +214,27 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p><span class="citation" data-cites="laube2011">(<a href="#ref-laube2011" role="doc-biblioref"><strong>laube2011?</strong></a>)</span> investigate how temporal scale affects the calculation of movement parameters (speed, sinuosity and turning angle) of animal trajectories.</p>
+<p>This project investigates the movement behavior of two individuals. These two individuals did a tracking of their movement using different tracking methods, one using GPS-based app (Christopher) and one using Google Timeline <span class="citation" data-cites="GoogleTimeline"><em>Google <span>Timeline</span></em> (<a href="#ref-GoogleTimeline" role="doc-biblioref">n.d.</a>)</span> (Amelia). It applies descriptive spatio-temporal trajectory analysis to compare mobility behaviour recorded with two different tracking methods. The analysis focuses on movement trajectories as sequences of timestamped geographic coordinates. Further spatial analysis methods will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap <span class="citation" data-cites="OpenStreetMap"><span>“<span>OpenStreetMap</span>”</span> (<a href="#ref-OpenStreetMap" role="doc-biblioref">n.d.</a>)</span> road network data to conclude frequently used road types. The interpretation of the results are supported by the participants’ own knowledge of their daily movements.</p>
+<p>The following research questions get analysed:</p>
+<ul>
+<li>Which road types are most frequently used based on the recorded trajectories?</li>
+<li>How far is the typical or maximal movement radius from their home when they travel?</li>
+<li>and how far do they travel on average?</li>
+<li>what is the average speed the individuals are travelling?</li>
+<li>How long are the individuals out of their home on average?</li>
+<li>How long does the travel time from home to ZHAW take based on the movement data?</li>
+</ul>
+<p>As there are differences in data structure, sampling intervals, GPS accuracy and preprocessing effort in both datasets, an additional objective is to evaluate how different tracking methods influence the quality and reliability of Trajectories, movement analysis and processability.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-GoogleTimeline" class="csl-entry" role="listitem">
+<em>Google <span>Maps</span> - <span>Google</span> <span>Timeline</span></em>. n.d. Accessed June 17, 2026. <a href="https://www.google.com/maps/timeline">https://www.google.com/maps/timeline</a>.
+</div>
+<div id="ref-OpenStreetMap" class="csl-entry" role="listitem">
+<span>“<span>OpenStreetMap</span>.”</span> n.d. In <em>OpenStreetMap</em>. Accessed June 17, 2026. <a href="https://www.openstreetmap.org/">https://www.openstreetmap.org/</a>.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

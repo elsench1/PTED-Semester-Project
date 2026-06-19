@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="keywords" content="Robuste Regression, Ausreisser, Allometrie, Säugetiere, Gehirngrösse, Statistik">
+<meta name="keywords" content="movement analysis, google timeline, GPS,">
 
-<title>3&nbsp; Material and Methods – PTED Semeser Project</title>
+<title>3&nbsp; Material and Methods – Comparison of travel behaviour of two individuals with different tracking methods</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -24,7 +24,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -42,7 +61,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-12eeb4b20e9f5a2b0bfc604bfaf942bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -102,9 +121,9 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">PTED Semeser Project</a> 
+      <a href="../">Comparison of travel behaviour of two individuals with different tracking methods</a> 
         <div class="sidebar-tools-main">
-    <a href="../PTED-Semeser-Project.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="../Comparison-of-travel-behaviour-of-two-individuals-with-different-tracking-methods.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -148,7 +167,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/discussion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">discussion.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Discussion</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -174,8 +193,8 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/proposal2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Abstract</span></span></a>
+  <a href="../chapters/appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Appendix</span></span></a>
   </div>
 </li>
       </ul>
@@ -185,8 +204,22 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="header-section-number">3.1</span> Data</a></li>
+  <li><a href="#used-r-packages" id="toc-used-r-packages" class="nav-link" data-scroll-target="#used-r-packages"><span class="header-section-number">3.2</span> Used R packages</a></li>
+  <li><a href="#pre-processing" id="toc-pre-processing" class="nav-link" data-scroll-target="#pre-processing"><span class="header-section-number">3.3</span> Pre processing</a>
+  <ul class="collapse">
+  <li><a href="#google-timeline-data" id="toc-google-timeline-data" class="nav-link" data-scroll-target="#google-timeline-data"><span class="header-section-number">3.3.1</span> google timeline data</a></li>
+  <li><a href="#gps-data" id="toc-gps-data" class="nav-link" data-scroll-target="#gps-data"><span class="header-section-number">3.3.2</span> GPS data:</a></li>
+  </ul></li>
+  <li><a href="#parameter-calculation" id="toc-parameter-calculation" class="nav-link" data-scroll-target="#parameter-calculation"><span class="header-section-number">3.4</span> Parameter calculation</a></li>
+  <li><a href="#validation" id="toc-validation" class="nav-link" data-scroll-target="#validation"><span class="header-section-number">3.5</span> Validation</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
@@ -195,9 +228,65 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Text here…</p>
+<section id="data" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="data"><span class="header-section-number">3.1</span> Data</h2>
+<p>This project uses two primary mobility data sources, tracked from two individuals: Google Timeline data and GPS Logger data. Google Timeline provides sparse but semantically enriched location records, including latitude/longitude coordinates, timestamps, and partially pre-classified activity labels (e.g., walking, driving, cycling). However, its temporal resolution is low and irregular, which limits fine-grained movement analysis. The Coordinates are not as precise as GPS data and can deviate several meters from the known location. Over a tracking period of 17 days (08.04.2026 to 24.04.2026), a total of 5’420 points were recorded, of which 658 points were attributable to movement-related activity.</p>
+<p>In contrast, GPS Logger data offers high-frequency, continuous tracking at fixed time intervals, containing raw coordinates and timestamps. This allows for detailed trajectory reconstruction but introduces noise, tracking holes (crashing app) and requires preprocessing.</p>
+</section>
+<section id="used-r-packages" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="used-r-packages"><span class="header-section-number">3.2</span> Used R packages</h2>
+<p>The project is implemented in R <span class="citation" data-cites="RProject"><em>R <span>Project</span></em> (<a href="#ref-RProject" role="doc-biblioref">n.d.</a>)</span>, <span class="citation" data-cites="RStudio"><span class="nocase">team</span> (<a href="#ref-RStudio" role="doc-biblioref">2026</a>)</span> using a combination of data wrangling, time-series handling, spatial analysis, and cartographic visualisation packages. The tidyverse and lubridate packages get used for cleaning, restructuring, filtering, summarising the movement data and management of time data. Spatial processing is mainly carried out with the sf package. OpenStreetMap road network data is accessed using osmdata and linked to the mobility trajectories through nearest-feature matching. For visualisation, ggplot2 gets used for statistical plots and the package tmap will be used to display the movement data on maps. Matched road types gets displayed using leaflet. Other packages used for processing or plotting include; jsonlite, dplyr, purrr, stringr, osmextract, data.table</p>
+</section>
+<section id="pre-processing" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="pre-processing"><span class="header-section-number">3.3</span> Pre processing</h2>
+<section id="google-timeline-data" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="google-timeline-data"><span class="header-section-number">3.3.1</span> google timeline data</h3>
+<ol type="1">
+<li>Importing Google Timeline JSON data, extracting coordinates, timestamps and convert them, as well as delete errors.</li>
+<li>Calculating distances and time differences between two consecutive points. From these, the moving window is computed as the mean of both neighboring points.</li>
+<li>Detecting stationary and moving phases using distance-based thresholds (&lt; 100 m).</li>
+<li>Estimating relevant locations such as home and ZHAW with most frequent coordinates in certain time frames.</li>
+</ol>
+</section>
+<section id="gps-data" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="gps-data"><span class="header-section-number">3.3.2</span> GPS data:</h3>
+</section>
+</section>
+<section id="parameter-calculation" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="parameter-calculation"><span class="header-section-number">3.4</span> Parameter calculation</h2>
+<ol type="1">
+<li>Preparing the use of OpenStreetMap and its categories which includes loading the Swiss road/rail network lines, filtering to relevant categories, grouping these categories and match the points to the nearest feature.</li>
+<li>Calculating mobility indicators:</li>
+</ol>
+<ul>
+<li>daily travelled distance : sum of distance per day.</li>
+<li>average movement speed: computed from distance/time.</li>
+<li>time spent outside home: sum of time per day.</li>
+<li>maximum daily movement radius: maximum distance to home per day.</li>
+<li>travel time from home to ZHAW: arrival/departure times at university and home.</li>
+<li>road type use: calculation of time shares per transport group per day and across the entire tracking period. Additional for Google Timeline data: cross-tabulation/heatmap comparing Google Activity labels with OSM transport group.</li>
+</ul>
+<ol start="3" type="1">
+<li>Visualising trajectories and movement patterns using maps and plots.</li>
+</ol>
+</section>
+<section id="validation" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="validation"><span class="header-section-number">3.5</span> Validation</h2>
+<p>The validation of the different calculated parameters and the road type matching with OpenStreetMap is based on methods described by <span class="citation" data-cites="validation">Rykiel (<a href="#ref-validation" role="doc-biblioref">1996</a>)</span>. The used methods include visualization and event validity. As the tracking data was collected by the authors, they do have knowledge of the correct events and can assign errors and estimate miscalculated values.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-RProject" class="csl-entry" role="listitem">
+<em>R: <span>The</span> <span>R</span> <span>Project</span> for <span>Statistical</span> <span>Computing</span></em>. n.d. Accessed June 17, 2026. <a href="https://www.r-project.org/">https://www.r-project.org/</a>.
+</div>
+<div id="ref-validation" class="csl-entry" role="listitem">
+Rykiel, Edward J. 1996. <span>“Testing Ecological Models: The Meaning of Validation.”</span> <em>Ecological Modelling</em> 90 (3): 229–44. <a href="https://doi.org/10.1016/0304-3800(95)00152-2">https://doi.org/10.1016/0304-3800(95)00152-2</a>.
+</div>
+<div id="ref-RStudio" class="csl-entry" role="listitem">
+<span class="nocase">team, Posit</span>. 2026. <em><span>RStudio</span>: <span>Integrated</span> <span>Development</span> <span>Environment</span> for <span>R</span></em>. Posit Software, PBC. <a href="https://posit.co/">https://posit.co/</a>.
+</div>
+</div>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -1,4 +1,5 @@
 
+theme_set(theme_minimal())
 
 source("src/data_processing_Amelia.R")
 #source("src/draft.R")

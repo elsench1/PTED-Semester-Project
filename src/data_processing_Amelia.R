@@ -10,8 +10,7 @@ library(lubridate)
 library(osmextract)
 library(leaflet)
 library(data.table)
-# library(mapview)
-# library(webshot)
+
 
 theme_set(theme_minimal())
 
@@ -244,21 +243,17 @@ network_sf <- roads |>
   ))
 
 
-# Punkte vorbereiten 
 pts <- st_as_sf(df_sf_2056, coords = c("E", "N"), crs = 2056)
 bbox <- st_bbox(pts)
 
 
-# Netzwerk auf Region beschränken (wichtig für Speed)
 network_sf <- st_transform(network_sf, st_crs(pts))
 network_sf <- st_crop(network_sf, bbox)
 
 
-# Nearest Feature Matching 
 nearest_idx <- st_nearest_feature(pts, network_sf)
 
 
-# Ergebnis zuweisen
 df_sf_2056$transport_type_osm <- network_sf$transport_type[nearest_idx]
 df_sf_2056$transport_type <- df_sf_2056$transport_type_osm
 df_sf_2056$transport_type[df_sf_2056$moving_ext == FALSE] <- "static"
@@ -398,8 +393,7 @@ plot_osm_moving
 #   addCircleMarkers(data = pts_map, radius = 3, color = "black", weight = 1, fillColor = ~pal(transport_type), fillOpacity = 1, stroke = TRUE) |>
 #   addLegend("bottomright", pal = pal2, values = pts_map$transport_type, title = "Transport type")
 # 
-# 
-# mapshot(plot_osm_moving, file = "chapters/plots/plot_osm_moving.png")     #does not work
+
 
 
 ###############################################################################################################################
@@ -520,18 +514,14 @@ safe_max <- function(time, condition) {
   max(vals) }
 
 
-# pro Tag berechnen
+# pro Tag 
 travel_times <- df_zhaw |>
   group_by(date = as.Date(time)) |>
   summarise(
-    
-    # Home -> Uni
     arrive_uni = safe_min(time, state == "uni"),
     depart_home = safe_max_before(time, state == "home", arrive_uni),
     travel_time_to_uni =
       as.numeric(difftime(arrive_uni, depart_home, units = "mins")),
-    
-    # Uni -> Home
     leave_uni = safe_max(time, state == "uni"),
     arrive_home = safe_min_after(time, state == "home", leave_uni),
     travel_time_home =
@@ -883,6 +873,8 @@ ggsave("chapters/plots/param_sum_day.png", plot_param_sum_day, width = 9.5, heig
 
 
 
+
+# Vorlagen
 
 # tm_basemap("CartoDB.Positron")
 # tm_basemap("OpenStreetMap")

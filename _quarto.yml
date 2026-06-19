@@ -4,7 +4,7 @@ project:
 
 book:
   title: "Comparison of travel behaviour of two individuals with different tracking methods"
-  subtitle: "PTED Semester Project"
+  #subtitle: "PTED Semester Project"
   author:
     - Amelia Heid
     - Christopher Elsener
@@ -19,7 +19,6 @@ book:
     - chapters/methods.qmd
     - chapters/results.qmd
     - chapters/discussion.qmd
-    - chapters/appendix.qmd
     - chapters/references.qmd
     
   appendices:
@@ -38,7 +37,7 @@ zhaw-cover-image:
   src: figure/cover.png
   max-width: 100%          # optional, constrains the image on the title page
   max-height: 5cm
-thesis-type: "Semester Project"
+thesis-type: "PTED Semester Project"
 degree-type: "Computational Movement Analysis: Patterns and Trends in Environmental Data"
 study-year: "2026"
 submission-date: "2026-06-21"
