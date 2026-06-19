@@ -1,6 +1,6 @@
 # Introduction
 
-This study investigates the movement behavior of two individuals. These two individuals did a tracking of their movement using different tracking methods, one using GPS-based app (Christopher) and one using Google Timeline (Amelia).
+This study investigates the movement behavior of two individuals. These two individuals did a tracking of their movement using different tracking methods, one using GPS-based app (Christopher) and one using Google Timeline (Amelia) @GoogleTimeline.
 The project focuses on extracting and comparing movement characteristics of the two individuals and answer research questions related to travel behaviour.
 These research questions get answered:
 
@@ -20,4 +20,4 @@ This project applies descriptive spatio-temporal trajectory analysis to compare 
 
 A central analytical concept is the comparison of trajectory quality between Google Timeline and GPS Logger data. This includes assessing sampling intervals, temporal gaps, positional accuracy, and the level of preprocessing required. Since the datasets differ in resolution and structure, the analysis will not rely on complex movement classification models, but rather on robust descriptive measures that can be calculated for both data sources.
 
-Additional spatial analysis methods will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap road network data. Where possible, recorded movement points or trajectory segments will be matched to nearby road types in order to identify frequently used infrastructure categories such as residential roads, main roads, cycle paths, or pedestrian paths. The interpretation of the results will be supported by the participants’ own knowledge of their daily movements.
+Additional spatial analysis methods will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap @OpenStreetMap road network data. Where possible, recorded movement points or trajectory segments will be matched to nearby road types in order to identify frequently used infrastructure categories such as residential roads, main roads, cycle paths, or pedestrian paths. The interpretation of the results will be supported by the participants’ own knowledge of their daily movements.

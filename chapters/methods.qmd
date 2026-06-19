@@ -14,7 +14,7 @@ Cleaning, filtering, synchronizing timestamps, and handling missing values are e
 
 ## Used R packages
 
-The project is implemented in R using a combination of data wrangling, time-series handling, spatial analysis, and cartographic visualisation packages. The tidyverse package collection gets used for cleaning, restructuring, filtering, and summarising the movement data. The lubridate package supports timestamp parsing, time zone handling, and the calculation of travel durations or daily activity periods.
+The project is implemented in R @RProject, @RStudio using a combination of data wrangling, time-series handling, spatial analysis, and cartographic visualisation packages. The tidyverse package collection gets used for cleaning, restructuring, filtering, and summarising the movement data. The lubridate package supports timestamp parsing, time zone handling, and the calculation of travel durations or daily activity periods.
 
 Spatial processing is mainly carried out with the sf package, which allows GPS Logger and Google Timeline coordinates to be converted into spatial objects. Distance calculations, coordinate transformations, spatial joins, and buffer operations gets also be performed with sf. OpenStreetMap road network data is accessed using osmdata and linked to the mobility trajectories through nearest-feature matching.
 
@@ -27,16 +27,13 @@ Other packages used for processing or plotting includes; jsonlite, dplyr, purrr,
 
 ### google timeline data
 
-1. Importing Google Timeline JSON data: Reading the file, accessing semanticSegments (for activity data) and rawSignals$position (for raw GPS data).
-2. Extracting latitude, longitude, and timestamps: Filtering out rows without a LatLng value, converting timestamps with lubridate::ymd_hms() (Europe/Zurich timezone), and deriving a separate date column. Faulty timestamps are manually removed.
-3. Converting coordinates into spatial features: Splitting the LatLng string into lat/lon using separate_wider_delim(), converting to numeric values, then applying st_as_sf() with CRS 4326 (WGS84).
-4. Transforming coordinates to EPSG:2056, extracting the E/N coordinates as separate columns for later distance calculations.
-5. Calculating distances and time differences between consecutive points: Distance to the previous and next point via st_distance(), analogously time differences via difftime(). From these, the moving window is computed as the mean of both neighboring points.
-6. Detecting stationary and moving phases using distance-based thresholds: Classification as static when mean step < 100 m. A custom rle_id() function (run-length encoding) is used to form contiguous segment_ids; additionally, an extended movement window and a move ID for individual movement segments are created using lead()/lag().
-7. Estimating relevant locations such as home and university:
- * Home: the most frequent coordinate (group_by(E, N), slice_max(n)) is used as an initial estimate, then manually corrected to a more anonyme coordinate; distance from home is the Euclidean distance to this point, with an out of home flag set when > 80 m.
- * University (ZHAW): restricted to typical commuting times (Tuesday afternoon, Wednesday morning) and the most frequent position determined as uni point. Distance to ZHAW is computed accordingly, along with at home and at ZHAW flags set when distance < 250 m.
-8. Preparing the use of OpenStreetMap and its categories: Loading the Swiss road/rail network lines with oe_get(), merging highway/railway into a single transport type, and filtering to relevant categories (motorway, trunk, primary, secondary, tertiary, residential, unclassified, service, rail, tram, light_rail, subway). The network is cropped to the bounding box of the tracking points (st_crop) and matched via st_nearest_feature(). Categories are then grouped into four higher-level transport group classes (major road, main road, local road, rail); static points are separately labeled as "static".
+1. Importing Google Timeline JSON data.
+2. Extracting latitude, longitude, and timestamps and convert them to CH timezone, as well as delete errors.
+3. Converting coordinates into spatial features.
+4. Calculating distances and time differences between consecutive points: Distance to the previous and next point. From these, the moving window is computed as the mean of both neighboring points.
+6. Detecting stationary and moving phases using distance-based thresholds (< 100 m).
+7. Estimating relevant locations such as home and university with most frequent coordinates in certain time frames.
+8. Preparing the use of OpenStreetMap and its categories: Loading the Swiss road/rail network lines, filtering to relevant categories, grouping these categories in four groups and matched via st_nearest_feature(). 
 
 
 ### GPS data:
@@ -46,18 +43,18 @@ Other packages used for processing or plotting includes; jsonlite, dplyr, purrr,
 ## Parameter calculation 
 
 1. Calculating mobility indicators:
+ * daily travelled distance : sum of mean step of distance per day.
+ * average movement speed:  computed from distance/time.
+ * time spent outside home: sum of mean step of time per day.
+ * maximum daily movement radius: maximum distance to home per day is extracted.
+ * travel time from home to ZHAW: arrival/departure times at university and home are determined using helper functions.
+ * road type use: additional calculation of time shares per transport group per day and across the entire tracking period.
+ Additional for Google Timeline data: cross-tabulation/heatmap comparing Google Activity labels with OSM transport group.
 
- * daily travelled distance : sum of mean step of distance per day, converted from meters to kilometers.
- * average movement speed: speed in km/h computed from distance/time of the moving window values; daily averages are calculated only for points with movement.
- * time spent outside home: sum of mean step of time per day, only for points where moving, expressed in hours.
- * maximum daily movement radius: maximum distance to home per day in km is extracted.
- * travel time from home to ZHAW: arrival/departure times at university and home are determined using helper functions and commute durations are calculated in minutes; outliers above 200 minutes are set to NA, due to additional stays at work, which counts as out of home and therefore as travel time.
- * road type use: additional calculation of time shares per transport group per day and across the entire tracking period, as well as a cross-tabulation/heatmap comparing Google Activity labels with OSM transport group to validate the classification.
-
-2. Visualising trajectories and movement patterns using maps and plots: Interactive maps with tmap (stationary vs. moving), movement-segment line geometries (st_cast("LINESTRING")), Leaflet maps with the OSM network colored by transport type, and a heatmap (ggplot2) comparing activity assigned by google and road type.
+2. Visualising trajectories and movement patterns using maps and plots.
 
 
 ## Validation
 
-
+The validation of the different calculated parameters and the road type matching with OpenStreetMap is based on methods described by @validation. The used methods include visualization and event validity. As the tracking data was collected by the authors, they do have knowledge of the correct events and can assign errors and estimate miscalculated values.
 
