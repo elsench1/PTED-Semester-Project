@@ -123,44 +123,52 @@ gps_tagged <- gps |>
   ) |>
   arrange(time)
 
+###############################################################################
+# time, distance, home / ZHAW and travel metrics
+
 if (nrow(gps_tagged) < 2) {
   stop("Not enough GPS points to calculate movement metrics.")
 }
 
 if (!inherits(gps_tagged$time, "POSIXct")) {
-  gps_tagged$time <- ymd_hms(
+  gps_tagged$time <- lubridate::ymd_hms(
     gps_tagged$time,
     tz = "Europe/Zurich"
   )
 }
 
 gps_tagged <- gps_tagged |>
-  mutate(
-    time_local = with_tz(time, tzone = "Europe/Zurich"),
+  dplyr::arrange(time) |>
+  dplyr::mutate(
+    time_local = lubridate::with_tz(time, tzone = "Europe/Zurich"),
     day = as.Date(time_local),
-    moving = coalesce(moving, FALSE),
-    at_home = coalesce(at_home, FALSE),
-    at_zhaw = coalesce(at_zhaw, FALSE)
+    moving = dplyr::coalesce(moving, FALSE),
+    at_home = dplyr::coalesce(at_home, FALSE),
+    at_zhaw = dplyr::coalesce(at_zhaw, FALSE)
   )
 
-geom <- st_geometry(gps_tagged)
+geom <- sf::st_geometry(gps_tagged)
 n <- length(geom)
 
 step_dist_m <- c(
-  as.numeric(st_distance(
-    geom[-n],
-    geom[-1],
-    by_element = TRUE
-  )),
+  as.numeric(
+    sf::st_distance(
+      geom[-n],
+      geom[-1],
+      by_element = TRUE
+    )
+  ),
   NA_real_
 )
 
 dt_min <- c(
-  as.numeric(difftime(
-    gps_tagged$time[-1],
-    gps_tagged$time[-n],
-    units = "mins"
-  )),
+  as.numeric(
+    difftime(
+      gps_tagged$time[-1],
+      gps_tagged$time[-n],
+      units = "mins"
+    )
+  ),
   NA_real_
 )
 
@@ -170,164 +178,266 @@ same_day <- c(
 )
 
 home_area <- fixed_areas |>
-  filter(area_type == "home")
+  dplyr::filter(area_type == "home")
 
 if (nrow(home_area) != 1) {
   stop("Expected exactly one home area.")
 }
 
-home_center <- st_centroid(home_area)
+home_center <- sf::st_centroid(home_area)
 
 dist_home_m <- as.numeric(
-  st_distance(
+  sf::st_distance(
     gps_tagged,
     home_center
   )[, 1]
 )
 
 gps_tagged <- gps_tagged |>
-  mutate(
+  dplyr::mutate(
     step_dist_m = step_dist_m,
     dt_min = dt_min,
     same_day_next = same_day,
-    speed_kmh = if_else(
+    
+    at_home_next = dplyr::lead(at_home, default = dplyr::last(at_home)),
+    at_zhaw_next = dplyr::lead(at_zhaw, default = dplyr::last(at_zhaw)),
+    
+    speed_kmh = dplyr::if_else(
       !is.na(dt_min) & dt_min > 0,
       (step_dist_m / 1000) / (dt_min / 60),
       NA_real_
     ),
+    
     valid_time_step =
       same_day_next &
       !is.na(dt_min) &
       dt_min > 0 &
       dt_min <= max_dt_min,
+    
     valid_movement_step =
       valid_time_step &
       !is.na(speed_kmh) &
       speed_kmh <= max_speed_kmh,
+    
     dist_home = dist_home_m,
-    out_home = !at_home
+    out_home = !at_home,
+    
+    # Door-to-door outside-home interval:
+    # count every interval that is not completely inside home.
+    # This includes leaving home, travelling, waiting, changing trains,
+    # and returning home.
+    outside_home_interval =
+      valid_time_step &
+      !(at_home & at_home_next),
+    
+    zhaw_interval =
+      valid_time_step &
+      (at_zhaw | at_zhaw_next)
   )
 
-###############################################################################
-# travel times between home and ZHAW by segment
 
-travel_segments <- gps_tagged |>
+###############################################################################
+# daily metrics
+
+analysis_day <- gps_tagged |>
   sf::st_drop_geometry() |>
+  dplyr::group_by(day) |>
+  dplyr::summarise(
+    dist_day = sum(
+      dplyr::if_else(
+        valid_movement_step,
+        step_dist_m / 1000,
+        0
+      ),
+      na.rm = TRUE
+    ),
+    
+    time_out_home = sum(
+      dplyr::if_else(
+        outside_home_interval,
+        dt_min / 60,
+        0
+      ),
+      na.rm = TRUE
+    ),
+    
+    time_at_zhaw = sum(
+      dplyr::if_else(
+        zhaw_interval,
+        dt_min / 60,
+        0
+      ),
+      na.rm = TRUE
+    ),
+    
+    max_radius = max_na(dist_home) / 1000,
+    
+    avgSpeed_day = mean_na(
+      speed_kmh[valid_movement_step & moving]
+    ),
+    
+    .groups = "drop"
+  )
+
+
+###############################################################################
+# door-to-door travel times between home and ZHAW
+#
+# Important:
+# This does NOT use movement segments.
+# It uses state changes:
+# home -> other -> zhaw
+# zhaw -> other -> home
+#
+# Waiting time at train stations is included.
+
+travel_states <- gps_tagged |>
+  sf::st_drop_geometry() |>
+  dplyr::arrange(time) |>
   dplyr::mutate(
     state = dplyr::case_when(
       at_home ~ "home",
-      at_zhaw ~ "uni",
+      at_zhaw ~ "zhaw",
       TRUE ~ "other"
-    )
-  ) |>
-  dplyr::arrange(segment_id, time) |>
-  dplyr::group_by(segment_id) |>
-  dplyr::summarise(
-    date = as.Date(dplyr::first(time_local)),
-    
-    first_state = dplyr::first(state),
-    last_state = dplyr::last(state),
-    
-    first_home_time = safe_min(time, state == "home"),
-    last_home_time = safe_max(time, state == "home"),
-    
-    first_uni_time = safe_min(time, state == "uni"),
-    last_uni_time = safe_max(time, state == "uni"),
-    
-    has_home = any(state == "home", na.rm = TRUE),
-    has_uni = any(state == "uni", na.rm = TRUE),
-    
-    .groups = "drop"
-  ) |>
-  dplyr::filter(
-    has_home,
-    has_uni
-  ) |>
-  dplyr::mutate(
-    direction = dplyr::case_when(
-      first_home_time < first_uni_time ~ "travel_time_to_uni",
-      first_uni_time < first_home_time ~ "travel_time_home",
-      TRUE ~ NA_character_
     ),
-    
-    value = dplyr::case_when(
-      direction == "travel_time_to_uni" ~ as.numeric(
-        difftime(first_uni_time, last_home_time, units = "mins")
-      ),
-      direction == "travel_time_home" ~ as.numeric(
-        difftime(first_home_time, last_uni_time, units = "mins")
-      ),
-      TRUE ~ NA_real_
-    )
-  ) |>
-  dplyr::filter(
-    !is.na(direction),
-    !is.na(value),
-    value > 0,
-    value <= 200
+    state_change = state != dplyr::lag(
+      state,
+      default = dplyr::first(state)
+    ),
+    state_run = cumsum(
+      dplyr::coalesce(state_change, FALSE)
+    ) + 1L
   )
 
-travel_times <- travel_segments |>
-  dplyr::select(
-    date,
-    segment_id,
-    travel_direction = direction,
-    travel_time_min = value
-  )
+state_runs <- travel_states |>
+  dplyr::group_by(state_run) |>
+  dplyr::summarise(
+    state = dplyr::first(state),
+    start_time = min(time, na.rm = TRUE),
+    end_time = max(time, na.rm = TRUE),
+    start_time_local = min(time_local, na.rm = TRUE),
+    end_time_local = max(time_local, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(start_time)
+
+travel_times <- tibble::tibble(
+  date = as.Date(character()),
+  travel_direction = character(),
+  departure_time = as.POSIXct(character(), tz = "Europe/Zurich"),
+  arrival_time = as.POSIXct(character(), tz = "Europe/Zurich"),
+  travel_time_min = numeric()
+)
+
+if (nrow(state_runs) >= 2) {
+  for (i in seq_len(nrow(state_runs) - 1)) {
+    start_state <- state_runs$state[i]
+    
+    if (!start_state %in% c("home", "zhaw")) {
+      next
+    }
+    
+    target_state <- dplyr::case_when(
+      start_state == "home" ~ "zhaw",
+      start_state == "zhaw" ~ "home",
+      TRUE ~ NA_character_
+    )
+    
+    later_runs <- state_runs[(i + 1):nrow(state_runs), ]
+    
+    target_idx <- which(later_runs$state == target_state)[1]
+    origin_return_idx <- which(later_runs$state == start_state)[1]
+    
+    if (is.na(target_idx)) {
+      next
+    }
+    
+    # If we return to the origin before reaching the target,
+    # it was not a home-ZHAW trip.
+    #
+    # Examples ignored:
+    # home -> other -> home
+    # home -> roundtrip -> home
+    # zhaw -> other -> zhaw
+    if (!is.na(origin_return_idx) && origin_return_idx < target_idx) {
+      next
+    }
+    
+    departure_time <- state_runs$end_time[i]
+    arrival_time <- later_runs$start_time[target_idx]
+    
+    travel_time_min <- as.numeric(
+      difftime(
+        arrival_time,
+        departure_time,
+        units = "mins"
+      )
+    )
+    
+    if (
+      !is.na(travel_time_min) &&
+      travel_time_min > 0 &&
+      travel_time_min <= 200
+    ) {
+      travel_times <- dplyr::bind_rows(
+        travel_times,
+        tibble::tibble(
+          date = as.Date(
+            lubridate::with_tz(
+              departure_time,
+              tzone = "Europe/Zurich"
+            )
+          ),
+          travel_direction = if (start_state == "home") {
+            "travel_time_to_uni"
+          } else {
+            "travel_time_home"
+          },
+          departure_time = departure_time,
+          arrival_time = arrival_time,
+          travel_time_min = travel_time_min
+        )
+      )
+    }
+  }
+}
 
 home_zhaw_data <- travel_times |>
   dplyr::transmute(
     metric = "home_zhaw",
     value = travel_time_min
   )
-##############################################################################
-analysis_day <- gps_tagged |>
-  st_drop_geometry() |>
-  group_by(day) |>
-  summarise(
-    dist_day = sum(
-      if_else(valid_movement_step, step_dist_m / 1000, 0),
-      na.rm = TRUE
-    ),
-    time_out_home = sum(
-      if_else(valid_time_step & out_home, dt_min / 60, 0),
-      na.rm = TRUE
-    ),
-    time_at_zhaw = sum(
-      if_else(valid_time_step & at_zhaw, dt_min / 60, 0),
-      na.rm = TRUE
-    ),
-    max_radius = max_na(dist_home) / 1000,
-    avgSpeed_day = mean_na(
-      speed_kmh[valid_movement_step & moving]
-    ),
-    .groups = "drop"
-  )
 
+
+###############################################################################
+# road type pie data
 
 pie_data_raw <- gps_tagged |>
-  st_drop_geometry() |>
-  filter(
+  sf::st_drop_geometry() |>
+  dplyr::filter(
     valid_time_step,
     moving,
     !is.na(transport_group)
   ) |>
-  mutate(
-    transport_group = case_when(
-      str_to_lower(transport_group) %in% c("major_road", "major road") ~ "major_road",
-      str_to_lower(transport_group) %in% c("main_road", "main road") ~ "main_road",
-      str_to_lower(transport_group) %in% c("local_road", "local road") ~ "local_road",
-      str_to_lower(transport_group) == "rail" ~ "rail",
+  dplyr::mutate(
+    transport_group = dplyr::case_when(
+      stringr::str_to_lower(transport_group) %in%
+        c("major_road", "major road") ~ "major_road",
+      stringr::str_to_lower(transport_group) %in%
+        c("main_road", "main road") ~ "main_road",
+      stringr::str_to_lower(transport_group) %in%
+        c("local_road", "local road") ~ "local_road",
+      stringr::str_to_lower(transport_group) == "rail" ~ "rail",
       TRUE ~ transport_group
     )
   ) |>
-  group_by(transport_group) |>
-  summarise(
+  dplyr::group_by(transport_group) |>
+  dplyr::summarise(
     time_min = sum(dt_min, na.rm = TRUE),
     .groups = "drop"
   )
 
-known_transport_groups <- tibble(
+known_transport_groups <- tibble::tibble(
   transport_group = c(
     "major_road",
     "main_road",
@@ -337,9 +447,9 @@ known_transport_groups <- tibble(
 )
 
 pie_data_raw <- known_transport_groups |>
-  left_join(pie_data_raw, by = "transport_group") |>
-  mutate(
-    time_min = replace_na(time_min, 0)
+  dplyr::left_join(pie_data_raw, by = "transport_group") |>
+  dplyr::mutate(
+    time_min = tidyr::replace_na(time_min, 0)
   )
 
 total_transport_time <- sum(pie_data_raw$time_min, na.rm = TRUE)
@@ -351,17 +461,17 @@ pie_data_raw$share <- if (total_transport_time > 0) {
 }
 
 road_summary_wide <- pie_data_raw |>
-  select(transport_group, share) |>
-  pivot_wider(
+  dplyr::select(transport_group, share) |>
+  tidyr::pivot_wider(
     names_from = transport_group,
     values_from = share,
     values_fill = 0
   )
 
 pie_data <- pie_data_raw |>
-  select(transport_group, share) |>
-  mutate(
-    transport_group = case_when(
+  dplyr::select(transport_group, share) |>
+  dplyr::mutate(
+    transport_group = dplyr::case_when(
       transport_group == "major_road" ~ "Major road",
       transport_group == "main_road" ~ "Main road",
       transport_group == "local_road" ~ "Local road",
@@ -371,42 +481,42 @@ pie_data <- pie_data_raw |>
   )
 
 
-analysis <- bind_cols(
+###############################################################################
+# summary tables
+
+analysis <- dplyr::bind_cols(
   analysis_day |>
-    summarise(
+    dplyr::summarise(
       avgDistDay = mean_na(dist_day),
       avgTimeOutHome = mean_na(time_out_home),
       avgRadius = mean_na(max_radius)
     ),
+  
   gps_tagged |>
-    st_drop_geometry() |>
-    summarise(
+    sf::st_drop_geometry() |>
+    dplyr::summarise(
       avgSpeed = mean_na(speed_kmh[valid_movement_step & moving]),
-      avgTimeZhaw = mean_na(
-        c(
-          travel_times$travel_time_to_uni,
-          travel_times$travel_time_home
-        )
-      )
+      avgTimeZhaw = mean_na(travel_times$travel_time_min)
     ),
+  
   road_summary_wide
 )
 
 summary_data <- analysis |>
-  select(
+  dplyr::select(
     avgDistDay,
     avgTimeOutHome,
     avgRadius,
     avgSpeed,
     avgTimeZhaw
   ) |>
-  pivot_longer(
-    cols = everything(),
+  tidyr::pivot_longer(
+    cols = dplyr::everything(),
     names_to = "metric",
     values_to = "value"
   ) |>
-  mutate(
-    metric = case_when(
+  dplyr::mutate(
+    metric = dplyr::case_when(
       metric == "avgDistDay" ~ "Avg. distance/day (km)",
       metric == "avgTimeOutHome" ~ "Avg. time out of home/day (h)",
       metric == "avgRadius" ~ "Avg. max. radius (km)",
@@ -417,20 +527,20 @@ summary_data <- analysis |>
   )
 
 summary_data_day <- analysis_day |>
-  select(
+  dplyr::select(
     day,
     dist_day,
     time_out_home,
     max_radius,
     avgSpeed_day
   ) |>
-  pivot_longer(
+  tidyr::pivot_longer(
     cols = -day,
     names_to = "metric",
     values_to = "value"
   ) |>
-  mutate(
-    metric = case_when(
+  dplyr::mutate(
+    metric = dplyr::case_when(
       metric == "dist_day" ~ "Total distance (km)",
       metric == "time_out_home" ~ "Time out of home (h)",
       metric == "max_radius" ~ "Max. radius (km)",
