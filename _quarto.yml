@@ -11,7 +11,7 @@ book:
   title: "Comparison of travel behaviour of two individuals with different tracking methods"
   #subtitle: "PTED Semester Project"
   author:
-    - Amelia Heid
+    - Amelia Heid,  
     - Christopher Elsener
   date: "2026-06-21"
   downloads: pdf           # adds a PDF download button to the HTML navbar

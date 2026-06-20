@@ -1,16 +1,13 @@
 # Usage of AI Models
 
-Complementary, the following AI was used for the listed areas in this project:
+Complementary, the following AI were used for the listed areas in this project:
 
-@ChatGPT
-
-@Claude
+ChatGPT @ChatGPT
+Claude @Claude
 
 - Paraphrasing text
 - support with coding for more complex processing
 
 The authors of this report take the responsibility for the content. They declare to check the relevance, truthfulness and accuracy of the generative AI systems used and the output they produce and to use it in a reflective, critical and targeted manner.
-
 They also declare to not upload personal data and other data requiring heightened protection as well as data that is subject to contractual or legal confidentiality.
-
 @useofAI
