@@ -24,10 +24,17 @@ In the event of misconduct of any kind, Paragraph 39 and Paragraph 40 of the Gen
 
 
 ## Wordcount
-<!-- after installing the wordcountaddin, remove the line "#| eval: false" -->
 
-```{r}
-wordcountaddin::word_count("../index.qmd")
-```
+<!-- WORDCOUNT-START -->
+
+1'232 words
+
+and
+
+9'809 characters including spaces and references, excluding code listing
+
+<!-- WORDCOUNT-END -->
+
+
 
 
