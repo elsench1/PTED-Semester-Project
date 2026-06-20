@@ -29,7 +29,7 @@ flow_text_page_names <- c(
 reference_page_name <- "references"
 
 # Appendix file where the wordcount block is written.
-appendix_file <- "chapters/appendix.qmd"
+appendix_file <- "chapters/appendix-wordcount.qmd"
 
 # Final outputs to render after updating the appendix.
 final_renders <- list(
@@ -145,9 +145,9 @@ update_appendix_wordcount <- function(word_count,
   } else {
     "characters including spaces, excluding code listing. References were not found in the counted output"
   }
-  
+
   wordcount_block <- paste0(
-    "## Wordcount\n\n",
+    "# Wordcount\n\n",
     "<!-- WORDCOUNT-START -->\n\n",
     format_number(word_count), " words\n\n",
     "and\n\n",
@@ -161,10 +161,10 @@ update_appendix_wordcount <- function(word_count,
       "(?s)## Wordcount\\s*<!-- WORDCOUNT-START -->.*<!-- WORDCOUNT-END -->",
       wordcount_block
     )
-  } else if (str_detect(appendix, "(?s)## Wordcount.*$")) {
+  } else if (str_detect(appendix, "(?s)# Wordcount.*$")) {
     updated_appendix <- str_replace(
       appendix,
-      "(?s)## Wordcount.*$",
+      "(?s)# Wordcount.*$",
       wordcount_block
     )
   } else {

@@ -55,7 +55,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../chapters/methods.html" rel="next">
-<link href="../index.html" rel="prev">
+<link href="../chapters/abstract.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -143,6 +143,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/abstract.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abstract</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/introduction.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
@@ -165,29 +171,6 @@ div.csl-indent {
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Discussion</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Appendix</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
@@ -198,8 +181,7 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#original" id="toc-original" class="nav-link active" data-scroll-target="#original"><span class="header-section-number">1.1</span> original</a></li>
-  <li><a href="#chat-gpt" id="toc-chat-gpt" class="nav-link" data-scroll-target="#chat-gpt"><span class="header-section-number">1.2</span> chat gpt</a></li>
+  <li><a href="#bibliography" id="toc-bibliography" class="nav-link active" data-scroll-target="#bibliography">References</a></li>
   </ul>
 </nav>
     </div>
@@ -210,32 +192,15 @@ div.csl-indent {
 
 
 
-<section id="original" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="original"><span class="header-section-number">1.1</span> original</h2>
-<p>This project investigates the movement behavior of two individuals. A tracking of their movement was conducted using different tracking methods, one using GPS-based app (Christopher) and one using Google Timeline <span class="citation" data-cites="GoogleTimeline"><a href="references.html#ref-GoogleTimeline" role="doc-biblioref">[1]</a></span> (Amelia). Descriptive spatio-temporal trajectory analysis are applied to compare the mobility behavior. The analysis focuses on movement trajectories as sequences of timestamped geographic coordinates and further spatial analysis will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap <span class="citation" data-cites="OpenStreetMap"><a href="references.html#ref-OpenStreetMap" role="doc-biblioref">[2]</a></span> road network data to conclude frequently used road types. The interpretation of the results are supported by the participants’ own knowledge of their daily movements.</p>
-<p>The following research questions get analysed:</p>
-<ul>
-<li>Which road types are most frequently used based on the recorded trajectories?</li>
-<li>How far is the average or maximal movement radius from their home when they travel?</li>
-<li>How far do they travel on average and at what speed?</li>
-<li>How long are the individuals out of their home on average?</li>
-<li>How long is the commuting time from home to ZHAW?</li>
-</ul>
-<p>As there are differences in data structure, sampling intervals, GPS accuracy and preprocessing effort in both datasets, an additional objective is to evaluate how different tracking methods influence the quality and reliability of trajectories, movement analysis and processability.</p>
-</section>
-<section id="chat-gpt" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="chat-gpt"><span class="header-section-number">1.2</span> chat gpt</h2>
-<p>This project compares the mobility behaviour of two individuals using two different tracking methods: a GPS logger app for Christopher and Google Timeline data for Amelia. The aim is to analyse how personal movement patterns can be described from timestamped geographic coordinates and how the choice of tracking method affects data quality and processing effort.</p>
-<p>Descriptive spatio-temporal trajectory analysis was used to calculate movement indicators such as travelled distance, average speed, time spent away from home, commuting time to ZHAW and maximum distance from home. In addition, the trajectories were matched with OpenStreetMap road network data to estimate which road types were used most frequently. The interpretation of the results was supported by the participants’ own knowledge of their daily movements.</p>
-<p>The project addresses the following questions: Which road types are most frequently used? How far and how fast do the individuals travel? How much time do they spend away from home? How long is the commute from home to ZHAW? Finally, the project compares how GPS Logger and Google Timeline data differ in accuracy, preprocessing effort and reliability for mobility analysis.</p>
+<p>This project compares the mobility behaviour of two individuals using two different tracking methods: a GPS logger app for Christopher and Google Timeline <span class="citation" data-cites="GoogleTimeline"><a href="#ref-GoogleTimeline" role="doc-biblioref">[1]</a></span> data for Amelia. The aim is to analyse how personal movement patterns can be described from timestamped geographic coordinates and how the choice of tracking method affects data quality and processing effort.</p>
+<p>Descriptive spatio-temporal trajectory analysis was used to calculate movement indicators such as travelled distance, average speed, time spent away from home, commuting time to ZHAW and maximum distance from home. In addition, the trajectories were matched with OpenStreetMap road network data to estimate which road types were used most frequently. The interpretation of the results was supported by the participants’ own knowledge of their daily movements. Furthermore, the project compares how GPS Logger and Google Timeline data differ in accuracy, preprocessing effort and reliability for mobility analysis.</p>
 
 
-<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list" style="display: none">
+<section id="bibliography" class="level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
 <div id="ref-GoogleTimeline" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[1] </div><div class="csl-right-inline"><span>“Google <span>Maps</span> - <span>Google</span> <span>Timeline</span>.”</span> Accessed: Jun. 17, 2026. [Online]. Available: <a href="https://www.google.com/maps/timeline">https://www.google.com/maps/timeline</a></div>
-</div>
-<div id="ref-OpenStreetMap" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[2] </div><div class="csl-right-inline"><span>“<span>OpenStreetMap</span>,”</span> <em>OpenStreetMap</em>. Accessed: Jun. 17, 2026. [Online]. Available: <a href="https://www.openstreetmap.org/">https://www.openstreetmap.org/</a></div>
 </div>
 </div>
 </section>
@@ -643,8 +608,8 @@ div.csl-indent {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../index.html" class="pagination-link" aria-label="Titelseite">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Titelseite</span>
+      <a href="../chapters/abstract.html" class="pagination-link" aria-label="Abstract">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Abstract</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

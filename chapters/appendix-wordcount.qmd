@@ -1,0 +1,11 @@
+# Wordcount
+
+<!-- WORDCOUNT-START -->
+
+2'150 words
+
+and
+
+15'636 characters including spaces and references, excluding code listing
+
+<!-- WORDCOUNT-END -->

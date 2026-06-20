@@ -27,13 +27,22 @@ In the event of misconduct of any kind, Paragraph 39 and Paragraph 40 of the Gen
 
 <!-- WORDCOUNT-START -->
 
+<<<<<<< HEAD
+2'154 words
+
+and
+
+15'665 characters including spaces and references, excluding code listing
+=======
 1'636 words
 
 and
 
 11'849 characters including spaces and references, excluding code listing
+>>>>>>> a4ae29ada505b5e1bc171e23ee4611570b4c8975
 
 <!-- WORDCOUNT-END -->
+
 
 
 
