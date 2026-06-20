@@ -69,7 +69,7 @@ if (nrow(gps_tagged) < 2) {
 }
 
 if (!inherits(gps_tagged$time, "POSIXct")) {
-  gps_tagged$time <- lubridate::ymd_hms(
+  gps_tagged$time <- ymd_hms(
     gps_tagged$time,
     tz = "Europe/Zurich"
   )
@@ -77,18 +77,18 @@ if (!inherits(gps_tagged$time, "POSIXct")) {
 
 gps_tagged <- gps_tagged |>
   mutate(
-    time_local = lubridate::with_tz(time, tzone = "Europe/Zurich"),
+    time_local = with_tz(time, tzone = "Europe/Zurich"),
     day = as.Date(time_local),
-    moving = dplyr::coalesce(moving, FALSE),
-    at_home = dplyr::coalesce(at_home, FALSE),
-    at_zhaw = dplyr::coalesce(at_zhaw, FALSE)
+    moving = coalesce(moving, FALSE),
+    at_home = coalesce(at_home, FALSE),
+    at_zhaw = coalesce(at_zhaw, FALSE)
   )
 
-geom <- sf::st_geometry(gps_tagged)
+geom <- st_geometry(gps_tagged)
 n <- length(geom)
 
 step_dist_m <- c(
-  as.numeric(sf::st_distance(
+  as.numeric(st_distance(
     geom[-n],
     geom[-1],
     by_element = TRUE
@@ -117,10 +117,10 @@ if (nrow(home_area) != 1) {
   stop("Expected exactly one home area.")
 }
 
-home_center <- sf::st_centroid(home_area)
+home_center <- st_centroid(home_area)
 
 dist_home_m <- as.numeric(
-  sf::st_distance(
+  st_distance(
     gps_tagged,
     home_center
   )[, 1]
@@ -131,7 +131,7 @@ gps_tagged <- gps_tagged |>
     step_dist_m = step_dist_m,
     dt_min = dt_min,
     same_day_next = same_day,
-    speed_kmh = dplyr::if_else(
+    speed_kmh = if_else(
       !is.na(dt_min) & dt_min > 0,
       (step_dist_m / 1000) / (dt_min / 60),
       NA_real_
@@ -239,16 +239,16 @@ pie_data <- pie_data_raw |>
   )
 
 
-analysis <- dplyr::bind_cols(
+analysis <- bind_cols(
   analysis_day |>
-    dplyr::summarise(
+    summarise(
       avgDistDay = mean_na(dist_day),
       avgTimeOutHome = mean_na(time_out_home),
       avgRadius = mean_na(max_radius)
     ),
   gps_tagged |>
-    sf::st_drop_geometry() |>
-    dplyr::summarise(
+    st_drop_geometry() |>
+    summarise(
       avgSpeed = mean_na(speed_kmh[valid_movement_step & moving]),
       avgTimeZhaw = NA_real_
     ),
@@ -256,20 +256,20 @@ analysis <- dplyr::bind_cols(
 )
 
 summary_data <- analysis |>
-  dplyr::select(
+  select(
     avgDistDay,
     avgTimeOutHome,
     avgRadius,
     avgSpeed,
     avgTimeZhaw
   ) |>
-  tidyr::pivot_longer(
-    cols = dplyr::everything(),
+  pivot_longer(
+    cols = everything(),
     names_to = "metric",
     values_to = "value"
   ) |>
-  dplyr::mutate(
-    metric = dplyr::case_when(
+  mutate(
+    metric = case_when(
       metric == "avgDistDay" ~ "Avg. distance/day (km)",
       metric == "avgTimeOutHome" ~ "Avg. time out of home/day (h)",
       metric == "avgRadius" ~ "Avg. max. radius (km)",
@@ -280,20 +280,20 @@ summary_data <- analysis |>
   )
 
 summary_data_day <- analysis_day |>
-  dplyr::select(
+  select(
     day,
     dist_day,
     time_out_home,
     max_radius,
     avgSpeed_day
   ) |>
-  tidyr::pivot_longer(
+  pivot_longer(
     cols = -day,
     names_to = "metric",
     values_to = "value"
   ) |>
-  dplyr::mutate(
-    metric = dplyr::case_when(
+  mutate(
+    metric = case_when(
       metric == "dist_day" ~ "Total distance (km)",
       metric == "time_out_home" ~ "Time out of home (h)",
       metric == "max_radius" ~ "Max. radius (km)",
@@ -336,24 +336,31 @@ ggsave(
 # create Christopher movement map
 
 gps_for_movement_plot <- gps_tagged |>
-  dplyr::mutate(
+  mutate(
     static = !moving
   )
 
 gps_moving <- gps_for_movement_plot |>
-  dplyr::filter(!static)
+  filter(!static)
+
+if (!"segment_id" %in% names(gps_moving)) {
+  stop("Column segment_id not found in gps_moving.")
+}
 
 if (nrow(gps_moving) >= 2) {
   df_line_christopher <- gps_moving |>
-    dplyr::summarise(do_union = FALSE) |>
-    sf::st_cast("LINESTRING")
+    arrange(segment_id, time) |>
+    group_by(segment_id) |>
+    filter(n() >= 2) |>
+    summarise(do_union = FALSE, .groups = "drop") |>
+    st_cast("LINESTRING")
   
   plot_tm_movement_christopher <- make_tm_movement_plot(
     df_line = df_line_christopher,
     df_sf_2056 = gps_for_movement_plot
   )
   
-  tmap::tmap_save(
+  tmap_save(
     plot_tm_movement_christopher,
     "chapters/plots/tm_movement_christopher.png"
   )
