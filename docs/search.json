@@ -10,173 +10,173 @@
     ]
   },
   {
-    "objectID": "chapters/abstract.html",
-    "href": "chapters/abstract.html",
-    "title": "1  Abstract",
-    "section": "",
-    "text": "1  Abstract\n\n\n\nThis study compares the mobility behavior of two individuals tracked over few weeks using two different methods: Google Timeline and a GPS logger app. Using spatio-temporal trajectory analysis in R, movement parameters were calculated, including travel distance, speed, time away from home, commuting time to ZHAW, and road type usage via spatial overlay with OpenStreetMap data. Results show similar average speeds and commute times for both individuals, though one (Amelia) shows higher mean distances and time away from home, driven by outliers, while the other (Christopher) travels more consistently and primarily by train. A key finding concerns data quality: GPS logger data offered higher spatial precision but required substantially more cleaning effort due to app crashes and noise, whereas Google Timeline data was easier to process but suffered from low temporal resolution, leading to inaccurate road type classification.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Abstract</span>"
-    ]
-  },
-  {
     "objectID": "chapters/introduction.html",
     "href": "chapters/introduction.html",
-    "title": "2  Introduction",
+    "title": "1  Introduction",
     "section": "",
-    "text": "2.1 original\nThis project investigates the movement behavior of two individuals. A tracking of their movement was conducted using different tracking methods, one using GPS-based app (Christopher) and one using Google Timeline [1] (Amelia). Descriptive spatio-temporal trajectory analysis are applied to compare the mobility behavior. The analysis focuses on movement trajectories as sequences of timestamped geographic coordinates and further spatial analysis will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap [2] road network data to conclude frequently used road types. The interpretation of the results are supported by the participants’ own knowledge of their daily movements.\nThe following research questions get analysed:\nAs there are differences in data structure, sampling intervals, GPS accuracy and preprocessing effort in both datasets, an additional objective is to evaluate how different tracking methods influence the quality and reliability of trajectories, movement analysis and processability.",
+    "text": "1.1 original\nThis project investigates the movement behavior of two individuals. A tracking of their movement was conducted using different tracking methods, one using GPS-based app (Christopher) and one using Google Timeline [1] (Amelia). Descriptive spatio-temporal trajectory analysis are applied to compare the mobility behavior. The analysis focuses on movement trajectories as sequences of timestamped geographic coordinates and further spatial analysis will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap [2] road network data to conclude frequently used road types. The interpretation of the results are supported by the participants’ own knowledge of their daily movements.\nThe following research questions get analysed:\nAs there are differences in data structure, sampling intervals, GPS accuracy and preprocessing effort in both datasets, an additional objective is to evaluate how different tracking methods influence the quality and reliability of trajectories, movement analysis and processability.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
     "objectID": "chapters/introduction.html#original",
     "href": "chapters/introduction.html#original",
-    "title": "2  Introduction",
+    "title": "1  Introduction",
     "section": "",
     "text": "Which road types are most frequently used based on the recorded trajectories?\nHow far is the average or maximal movement radius from their home when they travel?\nHow far do they travel on average and at what speed?\nHow long are the individuals out of their home on average?\nHow long is the commuting time from home to ZHAW?",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
     "objectID": "chapters/introduction.html#chat-gpt",
     "href": "chapters/introduction.html#chat-gpt",
-    "title": "2  Introduction",
-    "section": "2.2 chat gpt",
-    "text": "2.2 chat gpt\nThis project compares the mobility behaviour of two individuals using two different tracking methods: a GPS logger app for Christopher and Google Timeline data for Amelia. The aim is to analyse how personal movement patterns can be described from timestamped geographic coordinates and how the choice of tracking method affects data quality and processing effort.\nDescriptive spatio-temporal trajectory analysis was used to calculate movement indicators such as travelled distance, average speed, time spent away from home, commuting time to ZHAW and maximum distance from home. In addition, the trajectories were matched with OpenStreetMap road network data to estimate which road types were used most frequently. The interpretation of the results was supported by the participants’ own knowledge of their daily movements.\nThe project addresses the following questions: Which road types are most frequently used? How far and how fast do the individuals travel? How much time do they spend away from home? How long is the commute from home to ZHAW? Finally, the project compares how GPS Logger and Google Timeline data differ in accuracy, preprocessing effort and reliability for mobility analysis.",
+    "title": "1  Introduction",
+    "section": "1.2 chat gpt",
+    "text": "1.2 chat gpt\nThis project compares the mobility behaviour of two individuals using two different tracking methods: a GPS logger app for Christopher and Google Timeline data for Amelia. The aim is to analyse how personal movement patterns can be described from timestamped geographic coordinates and how the choice of tracking method affects data quality and processing effort.\nDescriptive spatio-temporal trajectory analysis was used to calculate movement indicators such as travelled distance, average speed, time spent away from home, commuting time to ZHAW and maximum distance from home. In addition, the trajectories were matched with OpenStreetMap road network data to estimate which road types were used most frequently. The interpretation of the results was supported by the participants’ own knowledge of their daily movements.\nThe project addresses the following questions: Which road types are most frequently used? How far and how fast do the individuals travel? How much time do they spend away from home? How long is the commute from home to ZHAW? Finally, the project compares how GPS Logger and Google Timeline data differ in accuracy, preprocessing effort and reliability for mobility analysis.\n\n\n\n\n[1] “Google Maps - Google Timeline.” Accessed: Jun. 17, 2026. [Online]. Available: https://www.google.com/maps/timeline\n\n\n[2] “OpenStreetMap,” OpenStreetMap. Accessed: Jun. 17, 2026. [Online]. Available: https://www.openstreetmap.org/",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
     "objectID": "chapters/methods.html",
     "href": "chapters/methods.html",
-    "title": "3  Material and Methods",
+    "title": "2  Material and Methods",
     "section": "",
-    "text": "3.1 Data\nThe following methods and data were used in this project. AI tools were used to support text refinement and to assist with more advanced coding tasks.\nThis project uses two primary mobility data sources, tracked from two individuals: Google Timeline data and GPS Logger data. Google Timeline provides sparse but semantically enriched location records, including latitude/longitude coordinates, timestamps, and partially pre-classified activity labels (e.g., walking, driving, cycling). However, its temporal resolution is low and irregular, which limits fine-grained movement analysis. The Coordinates are not as precise as GPS data and can deviate several meters from the known location. Over a tracking period of 17 days (08.04.2026 to 24.04.2026), a total of 5’420 points were recorded, of which 658 points were attributable to movement-related activity.\nThe GPS Logger data consisted of raw coordinates and timestamps recorded at a planned interval of 1 s. The dataset covered 35 days (12.03.2016 to 15.04.2026) and contained approximately 2’009’100 points. In theory, the app recorded continuously, but in practice gaps occurred due to app crashes and missing GPS signal in tunnels. Under open sky the signal was highly precise, while in buildings, especially lower floors and basements, larger positional errors occurred.",
+    "text": "2.1 Data\nThe following methods and data were used in this project. AI tools were used to support text refinement and to assist with more advanced coding tasks.\nThis project uses two primary mobility data sources, tracked from two individuals: Google Timeline data and GPS Logger data. Google Timeline provides sparse but semantically enriched location records, including latitude/longitude coordinates, timestamps, and partially pre-classified activity labels (e.g., walking, driving, cycling). However, its temporal resolution is low and irregular, which limits fine-grained movement analysis. The Coordinates are not as precise as GPS data and can deviate several meters from the known location. Over a tracking period of 17 days (08.04.2026 to 24.04.2026), a total of 5’420 points were recorded, of which 658 points were attributable to movement-related activity.\nThe GPS Logger data consisted of raw coordinates and timestamps recorded at a planned interval of 1 s. The dataset covered 35 days (12.03.2016 to 15.04.2026) and contained approximately 2’009’100 points. In theory, the app recorded continuously, but in practice gaps occurred due to app crashes and missing GPS signal in tunnels. Under open sky the signal was highly precise, while in buildings, especially lower floors and basements, larger positional errors occurred.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material and Methods</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Material and Methods</span>"
     ]
   },
   {
     "objectID": "chapters/methods.html#used-r-packages",
     "href": "chapters/methods.html#used-r-packages",
-    "title": "3  Material and Methods",
-    "section": "3.2 Used R packages",
-    "text": "3.2 Used R packages\nThe project was implemented in R/RStudio. Data cleaning and time handling used dplyr, tidyr, purrr, stringr, readr, data.table and lubridate. Spatial processing used sf. Google Timeline data were imported with jsonlite, while OSM road and rail data were processed using osmdata and osmextract. Figures and maps were created with ggplot2, tmap, leaflet and scales. Rcpp was used for GPS stop detection, making this step about 20 times faster.",
+    "title": "2  Material and Methods",
+    "section": "2.2 Used R packages",
+    "text": "2.2 Used R packages\nThe project was implemented in R/RStudio. Data cleaning and time handling used dplyr, tidyr, purrr, stringr, readr, data.table and lubridate. Spatial processing used sf. Google Timeline data were imported with jsonlite, while OSM road and rail data were processed using osmdata and osmextract. Figures and maps were created with ggplot2, tmap, leaflet and scales. Rcpp was used for GPS stop detection, making this step about 20 times faster.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material and Methods</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Material and Methods</span>"
     ]
   },
   {
     "objectID": "chapters/methods.html#pre-processing",
     "href": "chapters/methods.html#pre-processing",
-    "title": "3  Material and Methods",
-    "section": "3.3 Pre-processing",
-    "text": "3.3 Pre-processing\n\n3.3.1 google timeline data\n\nImporting Google Timeline JSON data, extracting coordinates, timestamps and convert them, as well as delete errors.\nCalculating distances and time differences between two consecutive points. From these, the moving window is computed as the mean of both neighboring points.\nDetecting stationary and moving phases using distance-based thresholds (&lt; 100 m) and segment trajectories.\nEstimating relevant locations such as home and ZHAW with most frequent coordinates in certain time frames.\n\n\n\n3.3.2 GPS logger data:\n\nImported GPS Logger GPX track points, transformed them to EPSG:2056, sorted them by time and removed empty or implausible records.\nCalculated time gaps, distances, speed and acceleration between consecutive points. Stops were detected using a 50 m / 5 min threshold; longer gaps and movement phases were used to segment the tracks.\n\nSeveral approaches were tested to reduce the large GPS dataset, but most gave poor results. Removing stationary periods was the most effective step. Aggregating nearby points could have further reduced noise and data volume, but was not implemented.",
+    "title": "2  Material and Methods",
+    "section": "2.3 Pre-processing",
+    "text": "2.3 Pre-processing\n\n2.3.1 google timeline data\n\nImporting Google Timeline JSON data, extracting coordinates, timestamps and convert them, as well as delete errors.\nCalculating distances and time differences between two consecutive points. From these, the moving window is computed as the mean of both neighboring points.\nDetecting stationary and moving phases using distance-based thresholds (&lt; 100 m) and segment trajectories.\nEstimating relevant locations such as home and ZHAW with most frequent coordinates in certain time frames.\n\n\n\n2.3.2 GPS logger data:\n\nImported GPS Logger GPX track points, transformed them to EPSG:2056, sorted them by time and removed empty or implausible records.\nCalculated time gaps, distances, speed and acceleration between consecutive points. Stops were detected using a 50 m / 5 min threshold; longer gaps and movement phases were used to segment the tracks.\n\nSeveral approaches were tested to reduce the large GPS dataset, but most gave poor results. Removing stationary periods was the most effective step. Aggregating nearby points could have further reduced noise and data volume, but was not implemented.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material and Methods</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Material and Methods</span>"
     ]
   },
   {
     "objectID": "chapters/methods.html#parameter-calculation",
     "href": "chapters/methods.html#parameter-calculation",
-    "title": "3  Material and Methods",
-    "section": "3.4 Parameter calculation",
-    "text": "3.4 Parameter calculation\n\nPreparing the use of OpenStreetMap and its categories which includes loading the Swiss road/rail network lines, filtering to relevant categories, grouping these categories and match the points to the nearest feature.\nCalculating movement parameters:\nSimple calculations for speed, time out of home, travel distances and travel time to ZHAW\nRoad type as time share per road type group\nVisualising trajectories and movement patterns using maps and plots.",
+    "title": "2  Material and Methods",
+    "section": "2.4 Parameter calculation",
+    "text": "2.4 Parameter calculation\n\nPreparing the use of OpenStreetMap and its categories which includes loading the Swiss road/rail network lines, filtering to relevant categories, grouping these categories and match the points to the nearest feature.\nCalculating movement parameters:\nSimple calculations for speed, time out of home, travel distances and travel time to ZHAW\nRoad type as time share per road type group\nVisualising trajectories and movement patterns using maps and plots.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material and Methods</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Material and Methods</span>"
     ]
   },
   {
     "objectID": "chapters/methods.html#validation",
     "href": "chapters/methods.html#validation",
-    "title": "3  Material and Methods",
-    "section": "3.5 Validation",
-    "text": "3.5 Validation\nThe validation of the different calculated parameters and the road type matching with OpenStreetMap is based on methods described by [1]. The used methods include visualization and event validity. As the tracking data was collected by the authors, they do have knowledge of the correct events and can assign errors and estimate miscalculated values.",
+    "title": "2  Material and Methods",
+    "section": "2.5 Validation",
+    "text": "2.5 Validation\nThe validation of the different calculated parameters and the road type matching with OpenStreetMap is based on methods described by [1]. The used methods include visualization and event validity. As the tracking data was collected by the authors, they do have knowledge of the correct events and can assign errors and estimate miscalculated values.\n\n\n\n\n[1] E. J. Rykiel, “Testing ecological models: The meaning of validation,” Ecological Modelling, vol. 90, no. 3, pp. 229–244, Nov. 1996, doi: 10.1016/0304-3800(95)00152-2.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material and Methods</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Material and Methods</span>"
     ]
   },
   {
     "objectID": "chapters/results.html",
     "href": "chapters/results.html",
-    "title": "4  Results",
+    "title": "3  Results",
     "section": "",
-    "text": "4.1 Amelia’s movement\nAfter moderate pre processing effort, the google timeline data over more than two weeks looks like in Figure 4.1. Blue are the movement points and red are the static points. As some of the trajectories have little data points, the travelled distances and speed are likely to be underestimated.\nThe other parameters are calculated once per day and once an average over the whole tracking period. In Figure 4.2 it is shown, that the parameters vary widely at different days.",
+    "text": "3.1 Amelia’s movement\nAfter moderate pre processing effort, the google timeline data over more than two weeks looks like in Figure 3.1. Blue are the movement points and red are the static points. As some of the trajectories have little data points, the travelled distances and speed are likely to be underestimated.\nThe other parameters are calculated once per day and once an average over the whole tracking period. In Figure 3.2 it is shown, that the parameters vary widely at different days.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Results</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Results</span>"
     ]
   },
   {
     "objectID": "chapters/results.html#amelias-movement",
     "href": "chapters/results.html#amelias-movement",
-    "title": "4  Results",
+    "title": "3  Results",
     "section": "",
-    "text": "Figure 4.1: Tracked moving data with google timeline, red is static and blue is moving.\n\n\n\n\n\n\n\n\n\n\nFigure 4.2: Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Amelia.",
+    "text": "Figure 3.1: Tracked moving data with google timeline, red is static and blue is moving.\n\n\n\n\n\n\n\n\n\n\nFigure 3.2: Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Amelia.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Results</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Results</span>"
     ]
   },
   {
     "objectID": "chapters/results.html#christophers-movement",
     "href": "chapters/results.html#christophers-movement",
-    "title": "4  Results",
-    "section": "4.2 Christopher’s movement",
-    "text": "4.2 Christopher’s movement\nChristopher’s GPS Logger data shows more detailed trajectories than the Google Timeline data. After removing stationary periods, the main movement patterns become clearly visible. Most longer trips follow railway corridors, indicating that commuting and other long-distance movements were mainly done by train. The high spatial resolution also makes local movements visible, although gaps and noisy points remain due to tunnels, app crashes and poor GPS signal indoors.\n\n\n\n\n\n\nFigure 4.3: Tracked moving data with GPS app, red is static and blue is moving.\n\n\n\n\n\n\n\n\n\nFigure 4.4: Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Christopher.",
+    "title": "3  Results",
+    "section": "3.2 Christopher’s movement",
+    "text": "3.2 Christopher’s movement\nChristopher’s GPS Logger data shows more detailed trajectories than the Google Timeline data. After removing stationary periods, the main movement patterns become clearly visible. Most longer trips follow railway corridors, indicating that commuting and other long-distance movements were mainly done by train. The high spatial resolution also makes local movements visible, although gaps and noisy points remain due to tunnels, app crashes and poor GPS signal indoors.\n\n\n\n\n\n\nFigure 3.3: Tracked moving data with GPS app, red is static and blue is moving.\n\n\n\n\n\n\n\n\n\nFigure 3.4: Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Christopher.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Results</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Results</span>"
     ]
   },
   {
     "objectID": "chapters/results.html#comparison",
     "href": "chapters/results.html#comparison",
-    "title": "4  Results",
-    "section": "4.3 Comparison",
-    "text": "4.3 Comparison\nWhen comparing the movement behavior of Amelia and Christopher, several similarities emerge. Both travel at a similar average speed, suggesting comparable ratios of train/vehicle use versus walking. Commuting times to ZHAW are also similar on average. Amelia travels slightly more on average, both in total distance and time spent outside the home, though this is strongly influenced by a few outliers that raise the mean. Regarding maximum travel radius, Christopher appears to travel the same distance more consistently, as his mean value lies at the top of the boxplot’s interquartile range.\n\n\n\nComparison of movement parameters of Amelia and Christopher.\n\n\nBy examining the road types used, the likely mode of travel can be estimated. “Rail” corresponds to train travel, “main road” typically indicates bus or passenger vehicle use (and in some cases cycling), while “local road” may correspond to walking, cycling, or driving. Comparing the time shares spent on different road types reveals clear differences between the two. Christopher appears to travel primarily by train, whereas Amelia spends more time on roads in general (note that some points may be misclassified).\n\n\n\nShare of time on the road types of Amelia and Christopher.",
+    "title": "3  Results",
+    "section": "3.3 Comparison",
+    "text": "3.3 Comparison\nWhen comparing the movement behavior of Amelia and Christopher, several similarities emerge. Both travel at a similar average speed, suggesting comparable ratios of train/vehicle use versus walking. Commuting times to ZHAW are also similar on average. Amelia travels slightly more on average, both in total distance and time spent outside the home, though this is strongly influenced by a few outliers that raise the mean. Regarding maximum travel radius, Christopher appears to travel the same distance more consistently, as his mean value lies at the top of the boxplot’s interquartile range.\n\n\n\nComparison of movement parameters of Amelia and Christopher.\n\n\nBy examining the road types used, the likely mode of travel can be estimated. “Rail” corresponds to train travel, “main road” typically indicates bus or passenger vehicle use (and in some cases cycling), while “local road” may correspond to walking, cycling, or driving. Comparing the time shares spent on different road types reveals clear differences between the two. Christopher appears to travel primarily by train, whereas Amelia spends more time on roads in general (note that some points may be misclassified).\n\n\n\nShare of time on the road types of Amelia and Christopher.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Results</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Results</span>"
     ]
   },
   {
     "objectID": "chapters/discussion.html",
     "href": "chapters/discussion.html",
-    "title": "5  Discussion",
+    "title": "4  Discussion",
     "section": "",
-    "text": "5.1 Google Timeline data\nIn the Google Timeline data, the positional accuracy can be several hundred meters. Therefore, the road type matching is sometimes inaccurate. An example is the commute from home to ZHAW and back in Figure 5.1. From Rapperswil train station to Wädenswil train station, only the train was used, but several points were not matched as rail and some were even located far away from the railway line.\nAnother way to evaluate the road type matching is to compare it with the activities stated by Google. These activities may also be uncertain, but they include more information than coordinates alone, such as acceleration. The percentages of different road types within the Google activities are shown in Figure 5.2.\nSome mismatches can be explained. For example, walking points matched to rail may occur when changing trains at stations, and tram lines can overlap spatially with main roads. Nevertheless, several combinations, such as cycling on rail or train movement on local roads, are most likely classification errors.",
+    "text": "4.1 Google Timeline data\nIn the Google Timeline data, the positional accuracy can be several hundred meters. Therefore, the road type matching is sometimes inaccurate. An example is the commute from home to ZHAW and back in Figure 4.1. From Rapperswil train station to Wädenswil train station, only the train was used, but several points were not matched as rail and some were even located far away from the railway line.\nAnother way to evaluate the road type matching is to compare it with the activities stated by Google. These activities may also be uncertain, but they include more information than coordinates alone, such as acceleration. The percentages of different road types within the Google activities are shown in Figure 4.2.\nSome mismatches can be explained. For example, walking points matched to rail may occur when changing trains at stations, and tram lines can overlap spatially with main roads. Nevertheless, several combinations, such as cycling on rail or train movement on local roads, are most likely classification errors.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Discussion</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Discussion</span>"
     ]
   },
   {
     "objectID": "chapters/discussion.html#google-timeline-data",
     "href": "chapters/discussion.html#google-timeline-data",
-    "title": "5  Discussion",
+    "title": "4  Discussion",
     "section": "",
-    "text": "Figure 5.1: Example of mismatched road types on the way from home to ZHAW.\n\n\n\n\n\n\n\n\n\n\nFigure 5.2: Percentage of different road types within the Google matched activity.",
+    "text": "Figure 4.1: Example of mismatched road types on the way from home to ZHAW.\n\n\n\n\n\n\n\n\n\n\nFigure 4.2: Percentage of different road types within the Google matched activity.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Discussion</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Discussion</span>"
     ]
   },
   {
     "objectID": "chapters/discussion.html#processing-effort-and-accuracy",
     "href": "chapters/discussion.html#processing-effort-and-accuracy",
-    "title": "5  Discussion",
-    "section": "5.2 Processing effort and accuracy",
-    "text": "5.2 Processing effort and accuracy\nCleaning and filtering the GPS Logger data proved considerably more time-consuming than processing the Google Timeline data. Within buildings and tunnels, GPS measurements frequently deviated from the actual position, and repeated app crashes introduced gaps in the dataset. Furthermore, the high temporal resolution of the GPS data resulted in a very large number of recorded points, which increased processing effort. In contrast, speed and distance calculations based on Google Timeline data were less detailed, as the sampling interval ranged up to several minutes. Additionally, the positional accuracy of Google Timeline was generally lower than that of the GPS Logger data.",
+    "title": "4  Discussion",
+    "section": "4.2 Processing effort and accuracy",
+    "text": "4.2 Processing effort and accuracy\nCleaning and filtering the GPS Logger data proved considerably more time-consuming than processing the Google Timeline data. Within buildings and tunnels, GPS measurements frequently deviated from the actual position, and repeated app crashes introduced gaps in the dataset. Furthermore, the high temporal resolution of the GPS data resulted in a very large number of recorded points, which increased processing effort. In contrast, speed and distance calculations based on Google Timeline data were less detailed, as the sampling interval ranged up to several minutes. Additionally, the positional accuracy of Google Timeline was generally lower than that of the GPS Logger data.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Discussion</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Discussion</span>"
     ]
   },
   {
     "objectID": "chapters/discussion.html#overall-interpretation-and-limitations",
     "href": "chapters/discussion.html#overall-interpretation-and-limitations",
-    "title": "5  Discussion",
-    "section": "5.3 Overall interpretation and limitations",
-    "text": "5.3 Overall interpretation and limitations\nThe results show that both datasets can be used to describe general mobility patterns, but the reliability of the derived indicators depends strongly on the tracking method. Christopher’s GPS Logger data produced dense and spatially precise trajectories. This made the movement paths easier to interpret and improved the road type matching. In contrast, Amelia’s Google Timeline data contained fewer points and larger positional uncertainties. As a result, some movements were represented by straight connections between distant points, which can affect distance, speed and road type estimates.\nA clear difference is visible in the road type results. For Christopher, rail accounts for the largest share of matched movement points, with about 56%. This fits the visible trajectories and indicates that train travel was an important part of his mobility. Amelia’s road type distribution is more balanced between local roads, main roads and rail. However, the comparison with Google activity labels shows several mismatches, suggesting that road type classification is less reliable for Google Timeline data, especially where roads and railway lines are close to each other.\nThe movement indicators show both similarities and differences between the two individuals. Average travel speed and commuting time to ZHAW are relatively similar, while Amelia shows higher variability in maximum radius, total distance and time away from home. Some of these differences probably reflect real mobility behaviour, but they may also be influenced by the different data sources.\nSeveral limitations should therefore be considered. The analysis is based on only two individuals and a relatively short observation period, so the results cannot be generalized. In addition, the datasets were collected with different methods, sampling intervals and accuracy levels. Future work could include a longer tracking period, more participants and more advanced map-matching methods. For GPS Logger data, aggregating nearby points could reduce noise and processing time. For Google Timeline data, manually validating selected trips would help to assess the reliability of the derived mobility indicators.",
+    "title": "4  Discussion",
+    "section": "4.3 Overall interpretation and limitations",
+    "text": "4.3 Overall interpretation and limitations\nThe results show that both datasets can be used to describe general mobility patterns, but the reliability of the derived indicators depends strongly on the tracking method. Christopher’s GPS Logger data produced dense and spatially precise trajectories. This made the movement paths easier to interpret and improved the road type matching. In contrast, Amelia’s Google Timeline data contained fewer points and larger positional uncertainties. As a result, some movements were represented by straight connections between distant points, which can affect distance, speed and road type estimates.\nA clear difference is visible in the road type results. For Christopher, rail accounts for the largest share of matched movement points, with about 56%. This fits the visible trajectories and indicates that train travel was an important part of his mobility. Amelia’s road type distribution is more balanced between local roads, main roads and rail. However, the comparison with Google activity labels shows several mismatches, suggesting that road type classification is less reliable for Google Timeline data, especially where roads and railway lines are close to each other.\nThe movement indicators show both similarities and differences between the two individuals. Average travel speed and commuting time to ZHAW are relatively similar, while Amelia shows higher variability in maximum radius, total distance and time away from home. Some of these differences probably reflect real mobility behaviour, but they may also be influenced by the different data sources.\nSeveral limitations should therefore be considered. The analysis is based on only two individuals and a relatively short observation period, so the results cannot be generalized. In addition, the datasets were collected with different methods, sampling intervals and accuracy levels. Future work could include a longer tracking period, more participants and more advanced map-matching methods. For GPS Logger data, aggregating nearby points could reduce noise and processing time. For Google Timeline data, manually validating selected trips would help to assess the reliability of the derived mobility indicators.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Discussion</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Discussion</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/references.html",
+    "href": "chapters/references.html",
+    "title": "References",
+    "section": "",
+    "text": "References\n\n\n\n\n\n[1] E.\nJ. Rykiel, “Testing ecological models: The meaning of\nvalidation,” Ecological Modelling, vol. 90, no. 3, pp.\n229–244, Nov. 1996, doi: 10.1016/0304-3800(95)00152-2.\n\n\n[2] “OpenStreetMap,”\nOpenStreetMap. Accessed: Jun. 17, 2026. [Online]. Available: https://www.openstreetmap.org/\n\n\n[3] “ChatGPT\nVersion GPT-5.5,” ChatGPT.\nOpenAI. Accessed: Jun. 17, 2026. [Online]. Available: https://chatgpt.com\n\n\n[4] “Claude Version\nClaude Sonnet 4.6,” Claude.\nAnthropic. Accessed: Jun. 17, 2026. [Online]. Available: https://claude.ai\n\n\n[5] “Google Maps -\nGoogle Timeline.” Accessed: Jun. 17,\n2026. [Online]. Available: https://www.google.com/maps/timeline\n\n\n[6] L.\nS. and F. M. -ZHAW, “Selbststaendigkeitserklaerung studentische\nArbeiten.” Accessed: Jun. 19, 2026. [Online].\nAvailable: N_FO_Selbststaendigkeitserklaerung_studentische_Arbeiten_englisch.docx\n\n\n[7] L.\nS. and F. M. -ZHAW, “Annex on the obligation to declare the use of\ngenerative AI for graded assignments.”",
+    "crumbs": [
+      "References"
     ]
   },
   {
@@ -217,7 +217,7 @@
     "href": "chapters/appendix.html#wordcount",
     "title": "Appendix A — Appendix",
     "section": "A.3 Wordcount",
-    "text": "A.3 Wordcount\n\n2’150 words\nand\n15’636 characters including spaces and references, excluding code listing",
+    "text": "A.3 Wordcount\n\n2’150 words\nand\n15’636 characters including spaces and references, excluding code listing\n\n\n\n\n\n[1] “ChatGPT Version GPT-5.5,” ChatGPT. OpenAI. Accessed: Jun. 17, 2026. [Online]. Available: https://chatgpt.com\n\n\n[2] “Claude Version Claude Sonnet 4.6,” Claude. Anthropic. Accessed: Jun. 17, 2026. [Online]. Available: https://claude.ai\n\n\n[3] L. S. and F. M. -ZHAW, “Annex on the obligation to declare the use of generative AI for graded assignments.” \n\n\n[4] L. S. and F. M. -ZHAW, “Selbststaendigkeitserklaerung studentische Arbeiten.” Accessed: Jun. 19, 2026. [Online]. Available: N_FO_Selbststaendigkeitserklaerung_studentische_Arbeiten_englisch.docx",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
