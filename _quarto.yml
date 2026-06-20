@@ -41,26 +41,3 @@ supervisors:
     name: "Nils Ratnaweera"
     affiliation: "ZHAW School of Life Sciences and Facility Management, Wädenswil"
 
-
-format:
-  zhaw-lsfm-html: default
-    # format-links: false
-      # format-links: false
-
-  zhaw-lsfm-typst: default
-  # html:
-  #   toc: true
-  #   number-sections: true
-  #   css:
-  #     - _extensions/zhaw-lsfm/zhaw-lsfm/zhaw-html.css
-  #   filters:
-  #     - _extensions/zhaw-lsfm/zhaw-lsfm/html-labels.lua
-  #   template-partials:
-  #     - _extensions/zhaw-lsfm/zhaw-lsfm/partials/title-block.html
-  #   shortcodes:
-  #     - _extensions/zhaw-lsfm/zhaw-lsfm/shortcodes.lua
-  #   execute:
-  #     warning: false
-  #     error: true
-
-

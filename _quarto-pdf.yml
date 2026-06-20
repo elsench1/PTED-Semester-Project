@@ -8,12 +8,8 @@ book:
     - chapters/results.qmd
     - chapters/discussion.qmd
     - chapters/references.qmd
-
   appendices:
     - chapters/appendix.qmd
-
-format:
-  zhaw-lsfm-typst: default
 
 format:
   zhaw-lsfm-typst: default
