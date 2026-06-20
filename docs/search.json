@@ -84,7 +84,7 @@
     "href": "chapters/results.html",
     "title": "4  Results",
     "section": "",
-    "text": "4.1 Google timeline data\nAfter moderate pre processing effort, the google timeline data over more than two weeks looks like in Figure 4.1. Blue are the movement points and red are the static points. As some of the trajectories have little data points, the travelled distances and speed are likely to be underestimated.\nIn the google timeline data, the accuracy is stated to be up to several hundred meters. Therefore the matching with roadtypes can be difficult, as roads are only few meters wide. An example of road type mismatch is the way from home to ZHAW and back in Figure 4.2. From Rapperswil train station to Wädenswil train station, only the train was used. But in the road type matching, several points are not matched as ‘Train’ and sometimes even far away from the railroads.\nAnother attempt to evaluate the accuracy of the road type matching is to have a look at the from google stated activities at these points. Of course these activities can be wrong as well, but as they include more than the coordinates of the points (acceleration etc.) in their analysis, it is estimated to be more accurate. The percentages of different road types within the different google activities is shown in Figure 4.3.\nAt a first glance, some of the road types seem to be matched very wrong, but most of them can somehow be explained. The 26% of walking on the rail might be the changing of trains at train stations, the tram line is inside of the main road and therefore 68% matched with it. Nevertheless, a lot of the 4% to 15% (e.g. cycling on rail or train on local road) cannot be explained, other than errors.\nThe other parameters are calculated once per day and once an average over the whole tracking period. In Figure 4.4 it is shown, that the parameters vary widely at different days.",
+    "text": "4.1 Google timeline data\nAfter moderate pre processing effort, the google timeline data over more than two weeks looks like in Figure 4.1. Blue are the movement points and red are the static points. As some of the trajectories have little data points, the travelled distances and speed are likely to be underestimated.\nIn the google timeline data, the accuracy is stated to be up to several hundred meters. Therefore the matching with roadtypes can be difficult, as roads are only few meters wide. An example of road type mismatch is the way from home to ZHAW and back in ?fig-road_type_mismatch. From Rapperswil train station to Wädenswil train station, only the train was used. But in the road type matching, several points are not matched as ‘Train’ and sometimes even far away from the railroads.\nAnother attempt to evaluate the accuracy of the road type matching is to have a look at the from google stated activities at these points. Of course these activities can be wrong as well, but as they include more than the coordinates of the points (acceleration etc.) in their analysis, it is estimated to be more accurate. The percentages of different road types within the different google activities is shown in Figure 4.2.\nAt a first glance, some of the road types seem to be matched very wrong, but most of them can somehow be explained. The 26% of walking on the rail might be the changing of trains at train stations, the tram line is inside of the main road and therefore 68% matched with it. Nevertheless, a lot of the 4% to 15% (e.g. cycling on rail or train on local road) cannot be explained, other than errors.\nThe other parameters are calculated once per day and once an average over the whole tracking period. In Figure 4.3 it is shown, that the parameters vary widely at different days.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Results</span>"
     ]
@@ -94,7 +94,7 @@
     "href": "chapters/results.html#google-timeline-data",
     "title": "4  Results",
     "section": "",
-    "text": "Figure 4.1: Tracked moving data with google timeline, red is static and blue is moving.\n\n\n\n\n\n\n\n\n\n\nFigure 4.2: Example of mismatched road types on the way from home to ZHAW (only train from Rapperswil to Wädenswil).\n\n\n\n\n\n\n\n\n\n\nFigure 4.3: Percentage of different road types within the google matched activity.\n\n\n\n\n\n\n\n\n\n\n\nFigure 4.4: Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day.",
+    "text": "Figure 4.1: Tracked moving data with google timeline, red is static and blue is moving.\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 4.2: Percentage of different road types within the google matched activity.\n\n\n\n\n\n\n\n\n\n\n\nFigure 4.3: Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Results</span>"
     ]
@@ -140,6 +140,16 @@
     ]
   },
   {
+    "objectID": "chapters/references.html",
+    "href": "chapters/references.html",
+    "title": "Literaturverzeichnis",
+    "section": "",
+    "text": "Literaturverzeichnis",
+    "crumbs": [
+      "Literaturverzeichnis"
+    ]
+  },
+  {
     "objectID": "chapters/appendix.html",
     "href": "chapters/appendix.html",
     "title": "Appendix A — Appendix",
@@ -177,20 +187,10 @@
     "href": "chapters/appendix.html#wordcount",
     "title": "Appendix A — Appendix",
     "section": "A.3 Wordcount",
-    "text": "A.3 Wordcount\n\n\n\n[1] 12\n\n\n\n\n\n\n“ChatGPT Version GPT-5.5.” n.d. In ChatGPT. OpenAI. Accessed June 17, 2026. https://chatgpt.com.\n\n\n“Claude Version Claude Sonnet 4.6.” n.d. In Claude. Anthropic. Accessed June 17, 2026. https://claude.ai.\n\n\nZHAW, Life Sciences and Facility Mangement -. n.d.-a. Annex on the Obligation to Declare the Use of Generative AI for Graded Assignments.\n\n\nZHAW, Life Sciences and Facility Mangement -. n.d.-b. Selbststaendigkeitserklaerung Studentische Arbeiten. Accessed June 19, 2026. N_FO_Selbststaendigkeitserklaerung_studentische_Arbeiten_englisch.docx.",
+    "text": "A.3 Wordcount\n\n\n\nError in `loadNamespace()`:\n! there is no package called 'wordcountaddin'\n\n\n\n\n\n\n“ChatGPT Version GPT-5.5.” n.d. In ChatGPT. OpenAI. Accessed June 17, 2026. https://chatgpt.com.\n\n\n“Claude Version Claude Sonnet 4.6.” n.d. In Claude. Anthropic. Accessed June 17, 2026. https://claude.ai.\n\n\nZHAW, Life Sciences and Facility Mangement -. n.d.-a. Annex on the Obligation to Declare the Use of Generative AI for Graded Assignments.\n\n\nZHAW, Life Sciences and Facility Mangement -. n.d.-b. Selbststaendigkeitserklaerung Studentische Arbeiten. Accessed June 19, 2026. N_FO_Selbststaendigkeitserklaerung_studentische_Arbeiten_englisch.docx.",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/references.html",
-    "href": "chapters/references.html",
-    "title": "Literaturverzeichnis",
-    "section": "",
-    "text": "Literaturverzeichnis",
-    "crumbs": [
-      "Literaturverzeichnis"
     ]
   }
 ]

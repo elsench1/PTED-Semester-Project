@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -42,7 +42,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-12eeb4b20e9f5a2b0bfc604bfaf942bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -153,12 +153,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Appendix</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../chapters/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Literaturverzeichnis</span></a>
   </div>
@@ -175,7 +169,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Appendix</span></span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Appendix</span></span></a>
   </div>
 </li>
       </ul>
@@ -209,44 +203,35 @@ ul.task-list li input[type="checkbox"] {
 <div id="fig-move_google" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-move_google-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="plots/tm_movement.png" class="img-fluid figure-img">
+<img src="plots/tm_movement_amelia.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-move_google-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4.1: Tracked moving data with google timeline, red is static and blue is moving.
 </figcaption>
 </figure>
 </div>
-<p>In the google timeline data, the accuracy is stated to be up to several hundred meters. Therefore the matching with roadtypes can be difficult, as roads are only few meters wide. An example of road type mismatch is the way from home to ZHAW and back in <a href="#fig-road_type_mismatch" class="quarto-xref">Figure&nbsp;<span>4.2</span></a>. From Rapperswil train station to Wädenswil train station, only the train was used. But in the road type matching, several points are not matched as ‘Train’ and sometimes even far away from the railroads.</p>
-<div id="fig-road_type_mismatch" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-road_type_mismatch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="plots/road_type_home_zhaw.png" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-road_type_mismatch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.2: Example of mismatched road types on the way from home to ZHAW (only train from Rapperswil to Wädenswil).
-</figcaption>
-</figure>
-</div>
-<p>Another attempt to evaluate the accuracy of the road type matching is to have a look at the from google stated activities at these points. Of course these activities can be wrong as well, but as they include more than the coordinates of the points (acceleration etc.) in their analysis, it is estimated to be more accurate. The percentages of different road types within the different google activities is shown in <a href="#fig-road_type_activity" class="quarto-xref">Figure&nbsp;<span>4.3</span></a>.</p>
+<p>In the google timeline data, the accuracy is stated to be up to several hundred meters. Therefore the matching with roadtypes can be difficult, as roads are only few meters wide. An example of road type mismatch is the way from home to ZHAW and back in <span class="quarto-unresolved-ref">?fig-road_type_mismatch</span>. From Rapperswil train station to Wädenswil train station, only the train was used. But in the road type matching, several points are not matched as ‘Train’ and sometimes even far away from the railroads.</p>
+<!-- ![Example of mismatched road types on the way from home to ZHAW (only train from Rapperswil to Wädenswil).](plots/road_type_home_zhaw.png){#fig-road_type_mismatch} -->
+<p>Another attempt to evaluate the accuracy of the road type matching is to have a look at the from google stated activities at these points. Of course these activities can be wrong as well, but as they include more than the coordinates of the points (acceleration etc.) in their analysis, it is estimated to be more accurate. The percentages of different road types within the different google activities is shown in <a href="#fig-road_type_activity" class="quarto-xref">Figure&nbsp;<span>4.2</span></a>.</p>
 <div id="fig-road_type_activity" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-road_type_activity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="plots/activity_road_type.png" class="img-fluid figure-img">
+<img src="plots/activity_road_type_amelia.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-road_type_activity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.3: Percentage of different road types within the google matched activity.
+Figure&nbsp;4.2: Percentage of different road types within the google matched activity.
 </figcaption>
 </figure>
 </div>
 <p>At a first glance, some of the road types seem to be matched very wrong, but most of them can somehow be explained. The 26% of walking on the rail might be the changing of trains at train stations, the tram line is inside of the main road and therefore 68% matched with it. Nevertheless, a lot of the 4% to 15% (e.g.&nbsp;cycling on rail or train on local road) cannot be explained, other than errors.</p>
-<p>The other parameters are calculated once per day and once an average over the whole tracking period. In <a href="#fig-param_day" class="quarto-xref">Figure&nbsp;<span>4.4</span></a> it is shown, that the parameters vary widely at different days.</p>
+<p>The other parameters are calculated once per day and once an average over the whole tracking period. In <a href="#fig-param_day" class="quarto-xref">Figure&nbsp;<span>4.3</span></a> it is shown, that the parameters vary widely at different days.</p>
 <div id="fig-param_day" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-param_day-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="plots/param_sum_day.png" class="img-fluid figure-img">
+<img src="plots/param_sum_day_amelia.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-param_day-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.4: Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day.
+Figure&nbsp;4.3: Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day.
 </figcaption>
 </figure>
 </div>
