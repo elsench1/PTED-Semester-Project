@@ -10,6 +10,7 @@ theme_set(theme_minimal())
 dir.create("chapters/plots", recursive = TRUE, showWarnings = FALSE)
 
 amelia_rds_path <- "data/processedData/amelia_plot_inputs.rds"
+christopher <- readRDS("data/processedData/christopher_plot_inputs.rds")
 
 if (!file.exists(amelia_rds_path)) {
   stop(
