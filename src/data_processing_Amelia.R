@@ -12,6 +12,8 @@ library(leaflet)
 library(data.table)
 
 
+source("src/R/plot_functions.R")
+
 theme_set(theme_minimal())
 
 ###############################################################################################################################
@@ -408,32 +410,7 @@ tab_grouped <- table(
 
 round(prop.table(tab_grouped, margin = 1), 2)
 
-plot_activity_road_Type <- df_sf_2056 |>
-  filter(!is.na(Activity), !is.na(transport_group)) |>
-  count(Activity, transport_group) |>
-  complete(Activity, transport_group, fill = list(n = 0)) |> 
-  group_by(Activity) |>
-  mutate(prop = n / sum(n)) |>
-  ggplot(aes(transport_group, Activity, fill = prop)) +
-  geom_tile() +
-  geom_text(aes(label = scales::percent(prop, accuracy = 1))) +
-  scale_fill_gradient(
-    low = "#f7fcf5",
-    high = "#74c476",
-    limits = c(0, 1),
-    na.value = "white"
-  ) +
-  labs(
-    x = "OSM Road Type",
-    y = "Google Activity",
-    fill = "percentage"
-  )+
-  scale_x_discrete(labels = c("local_road" = "local road", "main_road" = "main road", "major_road" = "major road", "rail" = "rail")) +
-  scale_y_discrete(labels = c("WALKING" = "walking", "IN_TRAM" = "tram", "IN_TRAIN" = "train", "IN_PASSENGER_VEHICLE" = "passenger vehicle", "IN_BUS" = "bus", "CYCLING" = "cycling"))+
-  theme(axis.title.x = element_text(margin = margin(t = 15)),
-    axis.title.y = element_text(margin = margin(r = 15)))
 
-ggsave("chapters/plots/activity_road_Type.png", plot= plot_activity_road_Type, width = 6, height = 5)
 
 
 ###############################################################################################################################
@@ -761,37 +738,6 @@ summary_data_day <- analysis_day |>
 # 
 
 
-plot_tm_movement <- tm_basemap("CartoDB.Positron") +
-  tm_shape(df_line) +
-  tm_lines(col = "black", lwd = 0.8) +
-  tm_shape(subset(df_sf_2056, !static)) +
-  tm_dots(
-    fill = "blue",
-    size = 0.4
-  ) +
-  tm_shape(subset(df_sf_2056, static)) +
-  tm_dots(
-    fill = "red",
-    size = 0.3
-  )
-
-
-tmap_save(plot_tm_movement, "chapters/plots/tm_movement.png")
-
-
-
-plot_road_type_pie <- ggplot(pie_data, aes(x = "", y = share, fill = transport_group)) +
-  geom_col(width = 1, color = "white") +
-  coord_polar(theta = "y") +
-  geom_text(aes(label = scales::percent(share, accuracy = 1)),
-            position = position_stack(vjust = 0.5)) +
-  scale_fill_brewer(palette = "Set3") +
-  labs(fill = "Transport type", title = "Share of travel time by road type") +
-  theme_void() +
-  theme(plot.title = element_text(hjust = 0.5))
-
-ggsave("chapters/plots/road_type_pie.png", plot_road_type_pie, width = 8, height = 5)
-
 
 
 # plot_param_sum <- ggplot(summary_data, aes(x = metric, y = value, fill = metric)) +
@@ -821,26 +767,6 @@ plot_param_sum <- ggplot(summary_data_day, aes(x = metric, y = value, fill = met
     plot.title = element_text(hjust = 0.5, size = 14, margin = margin(b = 20)),
     plot.margin = margin(t = 20, r = 10, b = 10, l = 10)
   )
-
-
-
-
-plot_param_sum_day <- ggplot(summary_data_day, aes(x = factor(day), y = value, fill = metric)) +
-  geom_col(width = 0.6, show.legend = FALSE) +
-  geom_text(aes(label = round(value, 0)), vjust = -0.5, color = "grey60", fontface = "bold", size = 3) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
-  facet_wrap(~ metric, scales = "free", ncol = 3) +
-  labs(x = NULL, y = NULL) +
-  theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    strip.text = element_text(face = "bold", size = 12),
-    plot.title = element_text(hjust = 0.5, size = 14, margin = margin(b = 20)),
-    plot.margin = margin(t = 20, r = 10, b = 10, l = 10),
-    panel.grid.major.x = element_blank()
-  )
-
-ggsave("chapters/plots/param_sum_day.png", plot_param_sum_day, width = 9.5, height = 6)
 
 
 
@@ -897,3 +823,54 @@ ggsave("chapters/plots/param_sum_day.png", plot_param_sum_day, width = 9.5, heig
 #   units    = "in",         # "in", "cm", "mm", "px"
 #   dpi      = 300           # irrelevant für PDF/SVG (Vektorgrafik)
 # )
+
+
+
+###############################################################################
+# visualisation
+
+dir.create("chapters/plots", recursive = TRUE, showWarnings = FALSE)
+
+plot_tm_movement <- make_tm_movement_plot(
+  df_line = df_line,
+  df_sf_2056 = df_sf_2056
+)
+
+tmap::tmap_save(
+  plot_tm_movement,
+  "chapters/plots/tm_movement.png"
+)
+
+
+plot_activity_road_type <- make_activity_road_type_plot(df_sf_2056)
+
+ggplot2::ggsave(
+  "chapters/plots/activity_road_type.png",
+  plot = plot_activity_road_type,
+  width = 6,
+  height = 5
+)
+
+
+plot_road_type_pie <- make_road_type_pie_plot(pie_data)
+
+ggplot2::ggsave(
+  "chapters/plots/road_type_pie.png",
+  plot = plot_road_type_pie,
+  width = 8,
+  height = 5
+)
+
+
+plot_param_sum <- make_param_sum_plot(summary_data_day)
+
+
+plot_param_sum_day <- make_param_sum_day_plot(summary_data_day)
+
+ggplot2::ggsave(
+  "chapters/plots/param_sum_day.png",
+  plot = plot_param_sum_day,
+  width = 9.5,
+  height = 6
+)
+
