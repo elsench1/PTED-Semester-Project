@@ -37,14 +37,20 @@ if (length(missing_fields) > 0) {
   )
 }
 
-plot_inputs <- list(amelia)
+plot_inputs <- list(
+  amelia,
+  christopher
+)
 
 summary_data_day_comp <- bind_rows(
   lapply(
     plot_inputs,
     function(x) {
       x$summary_data_day |>
-        mutate(person = x$person)
+        mutate(
+          person = x$person,
+          day = as.character(day)
+        )
     }
   )
 )
@@ -54,7 +60,11 @@ pie_data_comp <- bind_rows(
     plot_inputs,
     function(x) {
       x$pie_data |>
-        mutate(person = x$person)
+        mutate(
+          person = x$person,
+          transport_group = as.character(transport_group),
+          share = as.numeric(share)
+        )
     }
   )
 )
