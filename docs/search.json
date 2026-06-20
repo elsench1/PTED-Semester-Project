@@ -74,7 +74,7 @@
     "href": "chapters/methods.html#pre-processing",
     "title": "3  Material and Methods",
     "section": "3.3 Pre-processing",
-    "text": "3.3 Pre-processing\n\n3.3.1 google timeline data\n\nImporting Google Timeline JSON data, extracting coordinates, timestamps and convert them, as well as delete errors.\nCalculating distances and time differences between two consecutive points. From these, the moving window is computed as the mean of both neighboring points.\nDetecting stationary and moving phases using distance-based thresholds (&lt; 100 m) and segment trajectories.\nEstimating relevant locations such as home and ZHAW with most frequent coordinates in certain time frames.\n\n\n\n3.3.2 GPS logger data:\n\nImported GPS Logger GPX track points, transformed them to EPSG:2056, sorted them by time and removed empty or implausible records.\nCalculated time gaps, distances, speed and acceleration between consecutive points. Stops were detected using a 50 m / 5 min threshold; longer gaps and movement phases were used to segment the tracks.\n\nProcessing the GPS Logger data was time-consuming due to its high temporal resolution, large number of points, signal noise and tracking gaps.\nSeveral approaches were tested to reduce the large GPS dataset, but most gave poor results. Removing stationary periods was the most effective step. Aggregating nearby points could have further reduced noise and data volume, but was not implemented.",
+    "text": "3.3 Pre-processing\n\n3.3.1 google timeline data\n\nImporting Google Timeline JSON data, extracting coordinates, timestamps and convert them, as well as delete errors.\nCalculating distances and time differences between two consecutive points. From these, the moving window is computed as the mean of both neighboring points.\nDetecting stationary and moving phases using distance-based thresholds (&lt; 100 m) and segment trajectories.\nEstimating relevant locations such as home and ZHAW with most frequent coordinates in certain time frames.\n\n\n\n3.3.2 GPS logger data:\n\nImported GPS Logger GPX track points, transformed them to EPSG:2056, sorted them by time and removed empty or implausible records.\nCalculated time gaps, distances, speed and acceleration between consecutive points. Stops were detected using a 50 m / 5 min threshold; longer gaps and movement phases were used to segment the tracks.\n\nSeveral approaches were tested to reduce the large GPS dataset, but most gave poor results. Removing stationary periods was the most effective step. Aggregating nearby points could have further reduced noise and data volume, but was not implemented.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material and Methods</span>"
     ]
@@ -164,7 +164,7 @@
     "href": "chapters/discussion.html#processing-efforts-and-accuracies",
     "title": "5  Discussion",
     "section": "5.2 Processing efforts and accuracies",
-    "text": "5.2 Processing efforts and accuracies\nCleaning and filtering the GPS data proved considerably more time-consuming than processing the Google Timeline data. Within buildings and tunnels, GPS measurements frequently deviated substantially from the actual position, and repeated app crashes introduced multiple gaps in the dataset. Furthermore, the high sampling frequency of the GPS data resulted in an extremely large number of recorded points, further increasing processing effort. In contrast, speed and travel distance calculations based on the Google Timeline data were less accurate, as the sampling interval ranged up to several minutes. Additionally, the positional accuracy of the Google Timeline data was generally lower than that of the GPS data.",
+    "text": "5.2 Processing efforts and accuracies\nCleaning and filtering the GPS data proved considerably more time-consuming than processing the Google Timeline data. Within buildings and tunnels, GPS measurements frequently deviated substantially from the actual position, and repeated app crashes introduced multiple gaps in the dataset. Furthermore, the high temporal resolution of the GPS data resulted in an extremely large number of recorded points, further increasing processing effort. In contrast, speed and travel distance calculations based on the Google Timeline data were less accurate, as the sampling interval ranged up to several minutes. Additionally, the positional accuracy of the Google Timeline data was generally lower than that of the GPS data.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Discussion</span>"
     ]
@@ -207,7 +207,7 @@
     "href": "chapters/appendix.html#wordcount",
     "title": "Appendix A — Appendix",
     "section": "A.3 Wordcount",
-    "text": "A.3 Wordcount\n\n1’909 words\nand\n13’837 characters including spaces and references, excluding code listing",
+    "text": "A.3 Wordcount\n\n1’887 words\nand\n13’695 characters including spaces and references, excluding code listing",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
