@@ -158,5 +158,38 @@
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Discussion</span>"
     ]
+  },
+  {
+    "objectID": "chapters/appendix-ai.html",
+    "href": "chapters/appendix-ai.html",
+    "title": "Appendix A — Usage of AI Models",
+    "section": "",
+    "text": "Appendix A — Usage of AI Models\n\n\n\nComplementary, the following AI was used for the listed areas in this project:\n[1]\n[2]\n\nParaphrasing text\nsupport with coding for more complex processing\n\nThe authors of this report take the responsibility for the content. They declare to check the relevance, truthfulness and accuracy of the generative AI systems used and the output they produce and to use it in a reflective, critical and targeted manner.\nThey also declare to not upload personal data and other data requiring heightened protection as well as data that is subject to contractual or legal confidentiality.\n[3]\n\n\n\nReferences\n\n\n[1] “ChatGPT Version GPT-5.5,” ChatGPT. OpenAI. Accessed: Jun. 17, 2026. [Online]. Available: https://chatgpt.com\n\n\n[2] “Claude Version Claude Sonnet 4.6,” Claude. Anthropic. Accessed: Jun. 17, 2026. [Online]. Available: https://claude.ai\n\n\n[3] L. S. and F. M. -ZHAW, “Annex on the obligation to declare the use of generative AI for graded assignments.”",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Usage of AI Models</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/appendix-authorship.html",
+    "href": "chapters/appendix-authorship.html",
+    "title": "Appendix B — Statement of authorship",
+    "section": "",
+    "text": "Appendix B — Statement of authorship\n\n\n\nThe students affirm independent completion of their work without outside help.\nThe students declare that all printed and electronic sources used in the text and the bibliography are correctly indicated, i.e., that the work does not contain any plagiarism.\nIn the event of misconduct of any kind, Paragraph 39 and Paragraph 40 of the General Academic Regulations for Bachelor’s and Master’s degree programmes at the Zurich University of Applied Sciences (dated 29 January 2008) and the provisions of the Disciplinary Measures of the University Regulations shall apply.\n[1]\n\n\n\nReferences\n\n\n[1] L. S. and F. M. -ZHAW, “Selbststaendigkeitserklaerung studentische Arbeiten.” Accessed: Jun. 19, 2026. [Online]. Available: N_FO_Selbststaendigkeitserklaerung_studentische_Arbeiten_englisch.docx",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Statement of authorship</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/appendix-wordcount.html",
+    "href": "chapters/appendix-wordcount.html",
+    "title": "Appendix C — Wordcount",
+    "section": "",
+    "text": "Appendix C — Wordcount\n\n\n\n\n2’150 words\nand\n15’636 characters including spaces and references, excluding code listing",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Wordcount</span>"
+    ]
   }
 ]
