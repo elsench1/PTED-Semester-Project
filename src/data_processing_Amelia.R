@@ -874,3 +874,23 @@ ggplot2::ggsave(
   height = 6
 )
 
+
+###############################################################################
+# save important processed outputs
+
+dir.create("data/processedData", recursive = TRUE, showWarnings = FALSE)
+
+amelia_plot_inputs <- list(
+  person = "Amelia",
+  analysis = analysis,
+  analysis_day = analysis_day,
+  summary_data = summary_data,
+  summary_data_day = summary_data_day,
+  pie_data = pie_data,
+  travel_times = travel_times
+)
+
+saveRDS(
+  amelia_plot_inputs,
+  "data/processedData/amelia_plot_inputs.rds"
+)
