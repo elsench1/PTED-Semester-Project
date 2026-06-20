@@ -5,11 +5,10 @@
 
 /.quarto/
 **/*.quarto_ipynb
-<<<<<<< HEAD
+
 .positai
 =======
 
-ABGABE AM 21.!
 
 # keep private data safe
 /Data
