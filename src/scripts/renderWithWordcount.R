@@ -10,7 +10,7 @@ library(stringr)
 # This profile is used for the official word/character count.
 # It should match the structure of the submitted report.
 # With multiple YAML files, this means that _quarto-pdf.yml is used.
-count_profile <- "pdf"
+count_profile <- "count"
 
 # HTML is used as an intermediate format because it is easier and cleaner to count
 # than extracting text from the final PDF.
