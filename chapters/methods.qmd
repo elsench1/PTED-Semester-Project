@@ -32,7 +32,7 @@ Other packages used for processing or plotting include; jsonlite, dplyr, purrr, 
 
 
 
-### GPS loggrt data:
+### GPS logger data:
 
 - Imported GPS Logger GPX track points, transformed them to EPSG:2056, sorted them by time and removed empty or implausible records.
 - Calculated time gaps, distances, speed and acceleration between consecutive points. Stops were detected using a 50 m / 5 min threshold; longer gaps and movement phases were used to segment the tracks.
