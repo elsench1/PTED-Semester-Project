@@ -635,30 +635,7 @@ df_line <- df_filter_sf |>
 
 
 
-###############################################################################################################################
-# test plot
-
-# test <- df_sf_2056 |> 
-#   filter(segment_id == 79)
-# 
-# test_sf <- st_as_sf(test, coords = c("E", "N"), crs = 2056)
-# 
-# 
-# test_line <- test_sf |>
-#   dplyr::summarise(do_union = FALSE) |>
-#   st_cast("LINESTRING")
-# 
-# tm_shape(test_line) +
-#   tm_lines(col = "black", lwd = 0.8) +
-#   tm_shape(test) +
-#   tm_dots(
-#     col = "at_uni",
-#     palette = c("TRUE" = "red", "FALSE" = "blue"),
-#     size = 0.3
-#   )
-
-
-###############################################################################################################################
+###############################################################################
 # preparation visualisations
 
 pie_data <- analysis |>
@@ -715,44 +692,8 @@ summary_data_day <- analysis_day |>
 
 
 
-###############################################################################################################################
+###############################################################################
 # visualisation
-
-# tm_shape(df_line) +
-#   tm_lines(col = "black", lwd = 0.8) +
-#   tm_shape(df_sf_2056) +
-#   tm_dots(
-#     col = "static",
-#     palette = c("TRUE" = "red", "FALSE" = "blue"),
-#     size = 0.3
-#   )
-# 
-# 
-# 
-# tm_shape(df_line) +
-#   tm_shape(df_sf_2056[df_sf_2056$static, ]) +
-#   tm_dots(
-#     col = "red",
-#     size = 0.3
-#   )
-# 
-
-
-
-
-# plot_param_sum <- ggplot(summary_data, aes(x = metric, y = value, fill = metric)) +
-#   geom_col(width = 0.6, show.legend = FALSE) +
-#   geom_text(aes(label = round(value, 1)), vjust = 1.5, color = "white", fontface = "bold") +
-#   facet_wrap(~ metric, scales = "free", ncol = 3, strip.position = "bottom") +
-#   labs(x = NULL, y = NULL, title = "Comparison moving parameters") +
-#   theme(
-#     axis.text.x = element_blank(),
-#     axis.ticks.x = element_blank(),
-#     strip.placement = "outside",
-#     strip.text = element_text(face = "bold", size = 12),
-#     plot.title = element_text(hjust = 0.5, size = 14, margin = margin(b = 20)),
-#     plot.margin = margin(t = 20, r = 10, b = 10, l = 10)
-#   )
 
 
 plot_param_sum <- ggplot(summary_data_day, aes(x = metric, y = value, fill = metric)) +
@@ -767,62 +708,6 @@ plot_param_sum <- ggplot(summary_data_day, aes(x = metric, y = value, fill = met
     plot.title = element_text(hjust = 0.5, size = 14, margin = margin(b = 20)),
     plot.margin = margin(t = 20, r = 10, b = 10, l = 10)
   )
-
-
-
-
- 
-# plot_tm_movement_2 <- tm_basemap("CartoDB.Positron") +
-#   #tm_shape(df_line) +
-#   #tm_lines(col = "black", lwd = 0.8) +
-#   tm_shape(subset(df_sf_2056, !static)) +
-#   tm_dots(
-#     fill = "day",
-#     fill.scale = tm_scale(values = "brewer.blues", values.range = c(0.4, 1)),
-#     fill.legend = tm_legend(title = "Moving, days of tracking"),
-#     size = 0.5
-#   ) +
-#   tm_shape(subset(df_sf_2056, static)) +
-#   tm_dots(
-#     fill = "day",
-#     fill.scale = tm_scale(values = "brewer.reds", values.range = c(0.4, 1)),
-#     fill.legend = tm_legend(title = "Static, days of tracking"),
-#     size = 0.5
-#   )
-# 
-# tmap_save(plot_tm_movement_2, "chapters/plots/tm_movement_2.png")
-
-
-
-
-
-
-
-
-
-# Vorlagen
-
-# tm_basemap("CartoDB.Positron")
-# tm_basemap("OpenStreetMap")
-
-# tmap_save(
-#   tm        = name,
-#   filename  = "karte.png",
-#   width     = 10,        # Breite in Zoll (oder Pixel wenn dpi angegeben)
-#   height    = 7,         # Höhe in Zoll
-#   dpi       = 300,       # Auflösung (für Druck: 300+)
-#   units     = "in",      # "in", "cm", "mm", "px"
-#   asp       = 0          # 0 = Seitenverhältnis automatisch anpassen
-# )
-# 
-# ggsave(
-#   filename = "plot.pdf",   # Format wird aus Dateiendung erkannt
-#   plot     = name,
-#   width    = 10,
-#   height   = 7,
-#   units    = "in",         # "in", "cm", "mm", "px"
-#   dpi      = 300           # irrelevant für PDF/SVG (Vektorgrafik)
-# )
 
 
 
