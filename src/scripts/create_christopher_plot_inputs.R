@@ -404,7 +404,7 @@ if (nrow(state_runs) >= 2) {
 
 home_zhaw_data <- travel_times |>
   dplyr::transmute(
-    metric = "home_zhaw",
+    metric = "Travel time home - ZHAW (min)",
     value = travel_time_min
   )
 
