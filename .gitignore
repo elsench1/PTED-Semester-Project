@@ -16,3 +16,9 @@ ABGABE AM 21.!
 /data
 /data1
 >>>>>>> 4897e3fa73b3633ca8ac09ece42be5c8ad892220
+
+
+
+# chapters/plots/... should not be staged
+# afer rendering, they are also in the /docs folder
+/chapters/plots
