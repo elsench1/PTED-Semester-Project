@@ -1,0 +1,6 @@
+source("src/scripts/create_polygons_of_fixed_areas.R")
+source("src/scripts/prepareChristophersData.R")
+source("src/scripts/TrackMatchingChristopher.R")
+source("src/scripts/create_christopher_plot_inputs.R")
+source("src/data_processing_Amelia.R")
+source("src/comparison_visuals.R")
