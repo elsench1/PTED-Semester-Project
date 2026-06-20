@@ -1,10 +1,10 @@
-# Appendix
+# Additional Information
 
 ## Usage of AI Models
 
 Complementary, the following AI was used for the listed areas in this project:
-@ChatGPT
-@Claude
+- ChatGPT @ChatGPT
+- Claude @Claude
 
 - Paraphrasing text 
 - support with coding for more complex processing
@@ -27,13 +27,15 @@ In the event of misconduct of any kind, Paragraph 39 and Paragraph 40 of the Gen
 
 <!-- WORDCOUNT-START -->
 
-1'909 words
+1'636 words
 
 and
 
-13'837 characters including spaces and references, excluding code listing
+11'849 characters including spaces and references, excluding code listing
 
 <!-- WORDCOUNT-END -->
+
+
 
 
 
