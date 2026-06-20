@@ -10,7 +10,7 @@ After moderate pre processing effort, the google timeline data over more than tw
 
 In the google timeline data, the accuracy is stated to be up to several hundred meters. Therefore the matching with roadtypes can be difficult, as roads are only few meters wide. An example of road type mismatch is the way from home to ZHAW and back in @fig-road_type_mismatch. From Rapperswil train station to Wädenswil train station, only the train was used. But in the road type matching, several points are not matched as 'Train' and sometimes even far away from the railroads.
 
-<!-- ![Example of mismatched road types on the way from home to ZHAW (only train from Rapperswil to Wädenswil).](plots/road_type_home_zhaw.png){#fig-road_type_mismatch} -->
+![Example of mismatched road types on the way from home to ZHAW (only train from Rapperswil to Wädenswil).](plots/road_type_pie_comp.png){#fig-road_type_mismatch}
 
 
 Another attempt to evaluate the accuracy of the road type matching is to have a look at the from google stated activities at these points. Of course these activities can be wrong as well, but as they include more than the coordinates of the points (acceleration etc.) in their analysis, it is estimated to be more accurate. The percentages of different road types within the different google activities is shown in @fig-road_type_activity.
