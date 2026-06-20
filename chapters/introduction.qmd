@@ -1,29 +1,9 @@
 # Introduction
 
-## original
-
-This project investigates the movement behavior of two individuals. A tracking of their movement was conducted using different tracking methods, one using GPS-based app (Christopher) and one using Google Timeline @GoogleTimeline (Amelia).
-Descriptive spatio-temporal trajectory analysis are applied to compare the mobility behavior. The analysis focuses on movement trajectories as sequences of timestamped geographic coordinates and further spatial analysis will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap @OpenStreetMap road network data to conclude frequently used road types. The interpretation of the results are supported by the participants’ own knowledge of their daily movements.
-
-The following research questions get analysed:
-
-* Which road types are most frequently used based on the recorded trajectories?
-* How far is the average or maximal movement radius from their home when they travel?
-* How far do they travel on average and at what speed?
-* How long are the individuals out of their home on average?
-* How long is the commuting time from home to ZHAW?
-
-As there are differences in data structure, sampling intervals, GPS accuracy and preprocessing effort in both datasets, an additional objective is to evaluate how different tracking methods influence the quality and reliability of trajectories, movement analysis and processability. 
-
-
-
-## chat gpt
-
-
-This project compares the mobility behaviour of two individuals using two different tracking methods: a GPS logger app for Christopher and Google Timeline data for Amelia. The aim is to analyse how personal movement patterns can be described from timestamped geographic coordinates and how the choice of tracking method affects data quality and processing effort.
+This project compares the mobility behaviour of two individuals using two different tracking methods: a GPS logger app for Christopher and Google Timeline @GoogleTimeline data for Amelia. The aim is to analyse how personal movement patterns can be described from timestamped geographic coordinates and how the choice of tracking method affects data quality and processing effort.
 
 Descriptive spatio-temporal trajectory analysis was used to calculate movement indicators such as travelled distance, average speed, time spent away from home, commuting time to ZHAW and maximum distance from home. In addition, the trajectories were matched with OpenStreetMap road network data to estimate which road types were used most frequently. The interpretation of the results was supported by the participants’ own knowledge of their daily movements.
+Furthermore, the project compares how GPS Logger and Google Timeline data differ in accuracy, preprocessing effort and reliability for mobility analysis.
 
-The project addresses the following questions: Which road types are most frequently used? How far and how fast do the individuals travel? How much time do they spend away from home? How long is the commute from home to ZHAW? Finally, the project compares how GPS Logger and Google Timeline data differ in accuracy, preprocessing effort and reliability for mobility analysis.
 
 

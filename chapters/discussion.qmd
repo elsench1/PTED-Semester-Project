@@ -1,6 +1,6 @@
 # Discussion
 
-## Google Timeline data
+## Google Timeline data accuracy
 
 In the Google Timeline data, the positional accuracy can be several hundred meters. Therefore, the road type matching is sometimes inaccurate. An example is the commute from home to ZHAW and back in @fig-road_type_mismatch. From Rapperswil train station to Wädenswil train station, only the train was used, but several points were not matched as rail and some were even located far away from the railway line.
 
@@ -12,9 +12,11 @@ Another way to evaluate the road type matching is to compare it with the activit
 
 Some mismatches can be explained. For example, walking points matched to rail may occur when changing trains at stations, and tram lines can overlap spatially with main roads. Nevertheless, several combinations, such as cycling on rail or train movement on local roads, are most likely classification errors.
 
+
 ## Processing effort and accuracy
 
 Cleaning and filtering the GPS Logger data proved considerably more time-consuming than processing the Google Timeline data. Within buildings and tunnels, GPS measurements frequently deviated from the actual position, and repeated app crashes introduced gaps in the dataset. Furthermore, the high temporal resolution of the GPS data resulted in a very large number of recorded points, which increased processing effort. In contrast, speed and distance calculations based on Google Timeline data were less detailed, as the sampling interval ranged up to several minutes. Additionally, the positional accuracy of Google Timeline was generally lower than that of the GPS Logger data.
+
 
 ## Overall interpretation and limitations
 

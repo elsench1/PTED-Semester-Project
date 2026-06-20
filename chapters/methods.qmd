@@ -2,7 +2,6 @@
 
 The following methods and data were used in this project. AI tools were used to support text refinement and to assist with more advanced coding tasks.
 
-
 ## Data
 
 This project uses two primary mobility data sources, tracked from two individuals: Google Timeline data and GPS Logger data. 
