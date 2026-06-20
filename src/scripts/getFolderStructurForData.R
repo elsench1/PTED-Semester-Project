@@ -4,7 +4,8 @@ folders <- c(
   "data",
   file.path("data", "rawData"),
   file.path("data", "processedData"),
-  file.path("data", "metaData")
+  file.path("data", "metaData"),
+  file.path("data", "csl")
 )
 
 for (folder in folders) {
@@ -35,7 +36,11 @@ explanation_text <- c(
   "",
   "## metaData",
   "",
-  "The `metaData` folder contains metadata. For example, this can include lists of hidden coordinates or other supporting information that describes or documents the data."
+  "The `metaData` folder contains metadata. For example, this can include lists of hidden coordinates or other supporting information that describes or documents the data.",
+  "",
+  "## csl",
+  "",
+  "files for citation"
 )
 
 # Create explanation file only if it does not already exist
