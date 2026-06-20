@@ -692,24 +692,6 @@ summary_data_day <- analysis_day |>
 
 
 
-###############################################################################
-# visualisation
-
-
-plot_param_sum <- ggplot(summary_data_day, aes(x = metric, y = value, fill = metric)) +
-  geom_boxplot(show.legend = FALSE, width = 0.5) +
-  facet_wrap(~ metric, scales = "free", ncol = 3, strip.position = "bottom") +
-  labs(x = NULL, y = NULL, title = "Comparison moving parameters") +
-  theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    strip.placement = "outside",
-    strip.text = element_text(face = "bold", size = 12),
-    plot.title = element_text(hjust = 0.5, size = 14, margin = margin(b = 20)),
-    plot.margin = margin(t = 20, r = 10, b = 10, l = 10)
-  )
-
-
 
 ###############################################################################
 # visualisation
