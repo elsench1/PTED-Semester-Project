@@ -1,55 +1,77 @@
-source("src/data_processing_Amelia.R")
+# src/comparison_visuals.R
+
+library(ggplot2)
+library(dplyr)
+
+source("src/R/plot_functions.R")
+
 theme_set(theme_minimal())
 
+dir.create("chapters/plots", recursive = TRUE, showWarnings = FALSE)
 
-#source("src/draft.R")
+amelia_rds_path <- "data/processedData/amelia_plot_inputs.rds"
 
+if (!file.exists(amelia_rds_path)) {
+  stop(
+    "Missing file: ",
+    amelia_rds_path,
+    "\nRun src/data_processing_Amelia.R first to create the RDS file."
+  )
+}
 
-summary_data_day_personB <- summary_data_day
-pie_data_personB <- pie_data
+amelia <- readRDS(amelia_rds_path)
 
+required_fields <- c(
+  "person",
+  "summary_data_day",
+  "pie_data"
+)
+
+missing_fields <- setdiff(required_fields, names(amelia))
+
+if (length(missing_fields) > 0) {
+  stop(
+    "The Amelia RDS file is missing required fields: ",
+    paste(missing_fields, collapse = ", ")
+  )
+}
+
+plot_inputs <- list(amelia)
 
 summary_data_day_comp <- bind_rows(
-  summary_data_day |> mutate(person = "Amelia"),
-  summary_data_day_personB |> mutate(person = "Christopher")
+  lapply(
+    plot_inputs,
+    function(x) {
+      x$summary_data_day |>
+        mutate(person = x$person)
+    }
+  )
 )
 
 pie_data_comp <- bind_rows(
-  pie_data |> mutate(person = "Amelia"),
-  pie_data_personB |> mutate(person = "Christopher")
+  lapply(
+    plot_inputs,
+    function(x) {
+      x$pie_data |>
+        mutate(person = x$person)
+    }
+  )
 )
 
+plot_param_sum_comp <- make_param_sum_comp_plot(summary_data_day_comp)
 
+ggsave(
+  "chapters/plots/param_sum_comp.png",
+  plot = plot_param_sum_comp,
+  width = 9.5,
+  height = 6
+)
 
-plot_param_sum_comp <- ggplot(summary_data_day_comp, aes(x = person, y = value, fill = person)) +
-  geom_boxplot(width = 0.5) +
-  facet_wrap(~ metric, scales = "free", ncol = 3, strip.position = "bottom") +
-  labs(x = NULL, y = NULL, fill = "", title = "Comparison moving parameters") +
-  theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    strip.placement = "outside",
-    strip.text = element_text(face = "bold", size = 12),
-    plot.title = element_text(hjust = 0.5, size = 14, margin = margin(b = 20)),
-    plot.margin = margin(t = 20, r = 10, b = 10, l = 10),
-    legend.position = "bottom"
-  )
+plot_road_type_pie_comp <- make_road_type_pie_comp_plot(pie_data_comp)
 
-ggsave("chapters/plots/param_sum_comp.png", plot_param_sum_comp)
-
-
-plot_road_type_pie_comp <- ggplot(pie_data_comp, aes(x = "", y = share, fill = transport_group)) +
-  geom_col(width = 1, color = "white") +
-  coord_polar(theta = "y") +
-  geom_text(aes(label = scales::percent(share, accuracy = 1)),
-            position = position_stack(vjust = 0.5), size = 3.5) +
-  scale_fill_brewer(palette = "Set3") +
-  facet_wrap(~ person) +
-  labs(fill = "Transport type", title = "") +
-  theme_void() +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    strip.text = element_text(face = "bold", size = 13)
-  )
-
-ggsave("chapters/plots/road_type_pie_comp.png", plot_road_type_pie_comp)
+ggsave(
+  "chapters/plots/road_type_pie_comp.png",
+  plot = plot_road_type_pie_comp,
+  width = 8,
+  height = 5
+)
