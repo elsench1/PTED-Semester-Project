@@ -24,7 +24,27 @@
     "href": "chapters/introduction.html",
     "title": "2  Introduction",
     "section": "",
-    "text": "2  Introduction\n\n\n\nThis project investigates the movement behavior of two individuals. A tracking of their movement was conducted using different tracking methods, one using GPS-based app (Christopher) and one using Google Timeline [1] (Amelia). Descriptive spatio-temporal trajectory analysis are applied to compare the mobility behavior. The analysis focuses on movement trajectories as sequences of timestamped geographic coordinates and further spatial analysis will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap [2] road network data to conclude frequently used road types. The interpretation of the results are supported by the participants’ own knowledge of their daily movements.\nThe following research questions get analysed:\n\nWhich road types are most frequently used based on the recorded trajectories?\nHow far is the average or maximal movement radius from their home when they travel?\nHow far do they travel on average and at what speed?\nHow long are the individuals out of their home on average?\nHow long is the commuting time from home to ZHAW?\n\nAs there are differences in data structure, sampling intervals, GPS accuracy and preprocessing effort in both datasets, an additional objective is to evaluate how different tracking methods influence the quality and reliability of trajectories, movement analysis and processability.\n\n\n\nReferences\n\n\n[1] “Google Maps - Google Timeline.” Accessed: Jun. 17, 2026. [Online]. Available: https://www.google.com/maps/timeline\n\n\n[2] “OpenStreetMap,” OpenStreetMap. Accessed: Jun. 17, 2026. [Online]. Available: https://www.openstreetmap.org/",
+    "text": "2.1 original\nThis project investigates the movement behavior of two individuals. A tracking of their movement was conducted using different tracking methods, one using GPS-based app (Christopher) and one using Google Timeline [1] (Amelia). Descriptive spatio-temporal trajectory analysis are applied to compare the mobility behavior. The analysis focuses on movement trajectories as sequences of timestamped geographic coordinates and further spatial analysis will include distance calculations, home-based radius analysis, and spatial overlay with OpenStreetMap [2] road network data to conclude frequently used road types. The interpretation of the results are supported by the participants’ own knowledge of their daily movements.\nThe following research questions get analysed:\nAs there are differences in data structure, sampling intervals, GPS accuracy and preprocessing effort in both datasets, an additional objective is to evaluate how different tracking methods influence the quality and reliability of trajectories, movement analysis and processability.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/introduction.html#original",
+    "href": "chapters/introduction.html#original",
+    "title": "2  Introduction",
+    "section": "",
+    "text": "Which road types are most frequently used based on the recorded trajectories?\nHow far is the average or maximal movement radius from their home when they travel?\nHow far do they travel on average and at what speed?\nHow long are the individuals out of their home on average?\nHow long is the commuting time from home to ZHAW?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/introduction.html#chat-gpt",
+    "href": "chapters/introduction.html#chat-gpt",
+    "title": "2  Introduction",
+    "section": "2.2 chat gpt",
+    "text": "2.2 chat gpt\nThis project compares the mobility behaviour of two individuals using two different tracking methods: a GPS logger app for Christopher and Google Timeline data for Amelia. The aim is to analyse how personal movement patterns can be described from timestamped geographic coordinates and how the choice of tracking method affects data quality and processing effort.\nDescriptive spatio-temporal trajectory analysis was used to calculate movement indicators such as travelled distance, average speed, time spent away from home, commuting time to ZHAW and maximum distance from home. In addition, the trajectories were matched with OpenStreetMap road network data to estimate which road types were used most frequently. The interpretation of the results was supported by the participants’ own knowledge of their daily movements.\nThe project addresses the following questions: Which road types are most frequently used? How far and how fast do the individuals travel? How much time do they spend away from home? How long is the commute from home to ZHAW? Finally, the project compares how GPS Logger and Google Timeline data differ in accuracy, preprocessing effort and reliability for mobility analysis.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -34,7 +54,7 @@
     "href": "chapters/methods.html",
     "title": "3  Material and Methods",
     "section": "",
-    "text": "3.1 Data\nThe following methods and data were used in this project. AI tools were used to support text refinement and to assist with more advanced coding tasks.\nThis project uses two primary mobility data sources, tracked from two individuals: Google Timeline data and GPS Logger data. Google Timeline provides sparse but semantically enriched location records, including latitude/longitude coordinates, timestamps, and partially pre-classified activity labels (e.g., walking, driving, cycling). However, its temporal resolution is low and irregular, which limits fine-grained movement analysis. The Coordinates are not as precise as GPS data and can deviate several meters from the known location. Over a tracking period of 17 days (08.04.2026 to 24.04.2026), a total of 5’420 points were recorded, of which 658 points were attributable to movement-related activity.\nIn contrast, GPS Logger data offers high-frequency, continuous tracking at fixed time intervals, containing raw coordinates and timestamps. This allows for detailed trajectory reconstruction but introduces noise, tracking holes (crashing app) and requires preprocessing.",
+    "text": "3.1 Data\nThe following methods and data were used in this project. AI tools were used to support text refinement and to assist with more advanced coding tasks.\nThis project uses two primary mobility data sources, tracked from two individuals: Google Timeline data and GPS Logger data. Google Timeline provides sparse but semantically enriched location records, including latitude/longitude coordinates, timestamps, and partially pre-classified activity labels (e.g., walking, driving, cycling). However, its temporal resolution is low and irregular, which limits fine-grained movement analysis. The Coordinates are not as precise as GPS data and can deviate several meters from the known location. Over a tracking period of 17 days (08.04.2026 to 24.04.2026), a total of 5’420 points were recorded, of which 658 points were attributable to movement-related activity.\nThe GPS Logger data consisted of raw coordinates and timestamps recorded at a planned interval of 1 s. The dataset covered 35 days (12.03.2016 to 15.04.2026) and contained approximately 2’009’100 points. In theory, the app recorded continuously, but in practice gaps occurred due to app crashes and missing GPS signal in tunnels. Under open sky the signal was highly precise, while in buildings, especially lower floors and basements, larger positional errors occurred.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material and Methods</span>"
     ]
@@ -44,7 +64,7 @@
     "href": "chapters/methods.html#used-r-packages",
     "title": "3  Material and Methods",
     "section": "3.2 Used R packages",
-    "text": "3.2 Used R packages\nThe project is implemented in R [1], [2] using a combination of data wrangling, time-series handling, spatial analysis, and cartographic visualization packages. The tidyverse and lubridate packages get used for cleaning, restructuring, filtering, summarising the movement data and management of time data. Spatial processing is mainly carried out with the sf package. OpenStreetMap road network data is accessed using osmdata and linked to the mobility trajectories through nearest-feature matching. For visualisation, ggplot2 gets used for statistical plots and the package tmap and leaflet will be used to display the movement data on maps. Other packages used for processing or plotting include; jsonlite, dplyr, purrr, stringr, osmextract, data.table.",
+    "text": "3.2 Used R packages\nThe project was implemented in R/RStudio. Data cleaning and time handling used dplyr, tidyr, purrr, stringr, readr, data.table and lubridate. Spatial processing used sf. Google Timeline data were imported with jsonlite, while OSM road and rail data were processed using osmdata and osmextract. Figures and maps were created with ggplot2, tmap, leaflet and scales. Rcpp was used for GPS stop detection, making this step about 20 times faster.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material and Methods</span>"
     ]
@@ -53,8 +73,8 @@
     "objectID": "chapters/methods.html#pre-processing",
     "href": "chapters/methods.html#pre-processing",
     "title": "3  Material and Methods",
-    "section": "3.3 Pre processing",
-    "text": "3.3 Pre processing\n\n3.3.1 google timeline data\n\nImporting Google Timeline JSON data, extracting coordinates, timestamps and convert them, as well as delete errors.\nCalculating distances and time differences between two consecutive points. From these, the moving window is computed as the mean of both neighboring points.\nDetecting stationary and moving phases using distance-based thresholds (&lt; 100 m) and segment trajectories.\nEstimating relevant locations such as home and ZHAW with most frequent coordinates in certain time frames.\n\n\n\n3.3.2 GPS data:",
+    "section": "3.3 Pre-processing",
+    "text": "3.3 Pre-processing\n\n3.3.1 google timeline data\n\nImporting Google Timeline JSON data, extracting coordinates, timestamps and convert them, as well as delete errors.\nCalculating distances and time differences between two consecutive points. From these, the moving window is computed as the mean of both neighboring points.\nDetecting stationary and moving phases using distance-based thresholds (&lt; 100 m) and segment trajectories.\nEstimating relevant locations such as home and ZHAW with most frequent coordinates in certain time frames.\n\n\n\n3.3.2 GPS logger data:\n\nImported GPS Logger GPX track points, transformed them to EPSG:2056, sorted them by time and removed empty or implausible records.\nCalculated time gaps, distances, speed and acceleration between consecutive points. Stops were detected using a 50 m / 5 min threshold; longer gaps and movement phases were used to segment the tracks.\n\nProcessing the GPS Logger data was time-consuming due to its high temporal resolution, large number of points, signal noise and tracking gaps.\nSeveral approaches were tested to reduce the large GPS dataset, but most gave poor results. Removing stationary periods was the most effective step. Aggregating nearby points could have further reduced noise and data volume, but was not implemented.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material and Methods</span>"
     ]
@@ -74,7 +94,7 @@
     "href": "chapters/methods.html#validation",
     "title": "3  Material and Methods",
     "section": "3.5 Validation",
-    "text": "3.5 Validation\nThe validation of the different calculated parameters and the road type matching with OpenStreetMap is based on methods described by [3]. The used methods include visualization and event validity. As the tracking data was collected by the authors, they do have knowledge of the correct events and can assign errors and estimate miscalculated values.",
+    "text": "3.5 Validation\nThe validation of the different calculated parameters and the road type matching with OpenStreetMap is based on methods described by [1]. The used methods include visualization and event validity. As the tracking data was collected by the authors, they do have knowledge of the correct events and can assign errors and estimate miscalculated values.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Material and Methods</span>"
     ]
@@ -104,7 +124,7 @@
     "href": "chapters/results.html#christophers-movement",
     "title": "4  Results",
     "section": "4.2 Christopher’s movement",
-    "text": "4.2 Christopher’s movement\n\n\n\n\n\n\nFigure 4.3: Tracked moving data with GPS app, red is static and blue is moving.\n\n\n\n\n\n\n\n\n\nFigure 4.4: Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Christopher.",
+    "text": "4.2 Christopher’s movement\nChristopher’s GPS Logger data shows more detailed trajectories than the Google Timeline data. After removing stationary periods, the main movement patterns become clearly visible. Most longer trips follow railway corridors, indicating that commuting and other long-distance movements were mainly done by train. The high spatial resolution also makes local movements visible, although gaps and noisy points remain due to tunnels, app crashes and poor GPS signal indoors.\n\n\n\n\n\n\nFigure 4.3: Tracked moving data with GPS app, red is static and blue is moving.\n\n\n\n\n\n\n\n\n\nFigure 4.4: Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Christopher.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Results</span>"
     ]
@@ -187,7 +207,7 @@
     "href": "chapters/appendix.html#wordcount",
     "title": "Appendix A — Appendix",
     "section": "A.3 Wordcount",
-    "text": "A.3 Wordcount\n\n1’587 words\nand\n12’109 characters including spaces and references, excluding code listing",
+    "text": "A.3 Wordcount\n\n1’909 words\nand\n13’837 characters including spaces and references, excluding code listing",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
