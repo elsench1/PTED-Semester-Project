@@ -237,59 +237,7 @@ gps_tagged <- gps_tagged |>
 
 
 ###############################################################################
-# daily metrics
-
-analysis_day <- gps_tagged |>
-  sf::st_drop_geometry() |>
-  dplyr::group_by(day) |>
-  dplyr::summarise(
-    dist_day = sum(
-      dplyr::if_else(
-        valid_movement_step,
-        step_dist_m / 1000,
-        0
-      ),
-      na.rm = TRUE
-    ),
-    
-    time_out_home = sum(
-      dplyr::if_else(
-        outside_home_interval,
-        dt_min / 60,
-        0
-      ),
-      na.rm = TRUE
-    ),
-    
-    time_at_zhaw = sum(
-      dplyr::if_else(
-        zhaw_interval,
-        dt_min / 60,
-        0
-      ),
-      na.rm = TRUE
-    ),
-    
-    max_radius = max_na(dist_home) / 1000,
-    
-    avgSpeed_day = mean_na(
-      speed_kmh[valid_movement_step & moving]
-    ),
-    
-    .groups = "drop"
-  )
-
-
-###############################################################################
-# door-to-door travel times between home and ZHAW
-#
-# Important:
-# This does NOT use movement segments.
-# It uses state changes:
-# home -> other -> zhaw
-# zhaw -> other -> home
-#
-# Waiting time at train stations is included.
+# state runs for home / ZHAW / other
 
 travel_states <- gps_tagged |>
   sf::st_drop_geometry() |>
@@ -320,6 +268,122 @@ state_runs <- travel_states |>
     .groups = "drop"
   ) |>
   dplyr::arrange(start_time)
+
+state_runs <- state_runs |>
+  dplyr::mutate(
+    next_state = dplyr::lead(state),
+    next_start_time = dplyr::lead(start_time),
+    next_start_time_local = dplyr::lead(start_time_local),
+    prev_state = dplyr::lag(state),
+    prev_end_time = dplyr::lag(end_time),
+    prev_end_time_local = dplyr::lag(end_time_local)
+  )
+
+
+###############################################################################
+# time out of home from state runs
+#
+# Definition:
+# time_out_home = time from leaving home until arriving home again.
+#
+# This includes:
+# - travel time
+# - waiting time
+# - time at ZHAW
+# - time at other places
+
+home_departures <- state_runs |>
+  dplyr::filter(
+    state == "home",
+    !is.na(next_state),
+    next_state != "home"
+  ) |>
+  dplyr::transmute(
+    departure_time = end_time,
+    departure_time_local = end_time_local
+  )
+
+home_returns <- state_runs |>
+  dplyr::filter(
+    state == "home",
+    !is.na(prev_state),
+    prev_state != "home"
+  ) |>
+  dplyr::transmute(
+    arrival_time = start_time,
+    arrival_time_local = start_time_local
+  )
+
+out_home_periods <- tibble::tibble(
+  departure_time = as.POSIXct(character(), tz = "Europe/Zurich"),
+  departure_time_local = as.POSIXct(character(), tz = "Europe/Zurich"),
+  arrival_time = as.POSIXct(character(), tz = "Europe/Zurich"),
+  arrival_time_local = as.POSIXct(character(), tz = "Europe/Zurich"),
+  date = as.Date(character()),
+  duration_h = numeric()
+)
+
+if (nrow(home_departures) > 0 && nrow(home_returns) > 0) {
+  for (i in seq_len(nrow(home_departures))) {
+    departure_time <- home_departures$departure_time[i]
+    
+    next_return <- home_returns |>
+      dplyr::filter(arrival_time > departure_time) |>
+      dplyr::slice(1)
+    
+    if (nrow(next_return) == 0) {
+      next
+    }
+    
+    arrival_time <- next_return$arrival_time[1]
+    
+    duration_h <- as.numeric(
+      difftime(
+        arrival_time,
+        departure_time,
+        units = "hours"
+      )
+    )
+    
+    if (
+      !is.na(duration_h) &&
+      duration_h > 0 &&
+      duration_h <= 24
+    ) {
+      out_home_periods <- dplyr::bind_rows(
+        out_home_periods,
+        tibble::tibble(
+          departure_time = departure_time,
+          departure_time_local = home_departures$departure_time_local[i],
+          arrival_time = arrival_time,
+          arrival_time_local = next_return$arrival_time_local[1],
+          date = as.Date(home_departures$departure_time_local[i]),
+          duration_h = duration_h
+        )
+      )
+    }
+  }
+}
+
+time_out_home_day <- out_home_periods |>
+  dplyr::group_by(date) |>
+  dplyr::summarise(
+    time_out_home = sum(duration_h, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  dplyr::rename(day = date)
+
+
+###############################################################################
+# door-to-door travel times between home and ZHAW
+#
+# Definition:
+# home -> other -> zhaw
+# zhaw -> other -> home
+#
+# Waiting time is included.
+# Home -> other -> home is ignored.
+# Home -> roundtrip -> home is ignored.
 
 travel_times <- tibble::tibble(
   date = as.Date(character()),
@@ -352,13 +416,6 @@ if (nrow(state_runs) >= 2) {
       next
     }
     
-    # If we return to the origin before reaching the target,
-    # it was not a home-ZHAW trip.
-    #
-    # Examples ignored:
-    # home -> other -> home
-    # home -> roundtrip -> home
-    # zhaw -> other -> zhaw
     if (!is.na(origin_return_idx) && origin_return_idx < target_idx) {
       next
     }
@@ -404,10 +461,61 @@ if (nrow(state_runs) >= 2) {
 
 home_zhaw_data <- travel_times |>
   dplyr::transmute(
-    metric = "Travel time home - ZHAW (min)",
+    metric = "home_zhaw",
     value = travel_time_min
   )
 
+
+###############################################################################
+# daily metrics
+
+analysis_day_base <- gps_tagged |>
+  sf::st_drop_geometry() |>
+  dplyr::group_by(day) |>
+  dplyr::summarise(
+    dist_day = sum(
+      dplyr::if_else(
+        valid_movement_step,
+        step_dist_m / 1000,
+        0
+      ),
+      na.rm = TRUE
+    ),
+    
+    time_at_zhaw = sum(
+      dplyr::if_else(
+        zhaw_interval,
+        dt_min / 60,
+        0
+      ),
+      na.rm = TRUE
+    ),
+    
+    max_radius = max_na(dist_home) / 1000,
+    
+    avgSpeed_day = mean_na(
+      speed_kmh[valid_movement_step & moving]
+    ),
+    
+    .groups = "drop"
+  )
+
+analysis_day <- analysis_day_base |>
+  dplyr::left_join(
+    time_out_home_day,
+    by = "day"
+  ) |>
+  dplyr::mutate(
+    time_out_home = tidyr::replace_na(time_out_home, 0)
+  ) |>
+  dplyr::select(
+    day,
+    dist_day,
+    time_out_home,
+    time_at_zhaw,
+    max_radius,
+    avgSpeed_day
+  )
 
 ###############################################################################
 # road type pie data
