@@ -20,7 +20,7 @@ theme_set(theme_minimal())
 # loading data
 
 
-records_json <- jsonlite::read_json("data/rawData/Trackingdata_Amelia/Zeitachse_google_timeline.json",simplifyVector = TRUE)
+records_json <- read_json("data/rawData/Trackingdata_Amelia/Zeitachse_google_timeline.json",simplifyVector = TRUE)
 
 records <- records_json[[1]]
 
@@ -836,7 +836,7 @@ plot_tm_movement <- make_tm_movement_plot(
   df_sf_2056 = df_sf_2056
 )
 
-tmap::tmap_save(
+tmap_save(
   plot_tm_movement,
   "chapters/plots/tm_movement.png"
 )
@@ -844,7 +844,7 @@ tmap::tmap_save(
 
 plot_activity_road_type <- make_activity_road_type_plot(df_sf_2056)
 
-ggplot2::ggsave(
+ggsave(
   "chapters/plots/activity_road_type.png",
   plot = plot_activity_road_type,
   width = 6,
@@ -854,7 +854,7 @@ ggplot2::ggsave(
 
 plot_road_type_pie <- make_road_type_pie_plot(pie_data)
 
-ggplot2::ggsave(
+ggsave(
   "chapters/plots/road_type_pie.png",
   plot = plot_road_type_pie,
   width = 8,
@@ -867,7 +867,7 @@ plot_param_sum <- make_param_sum_plot(summary_data_day)
 
 plot_param_sum_day <- make_param_sum_day_plot(summary_data_day)
 
-ggplot2::ggsave(
+ggsave(
   "chapters/plots/param_sum_day.png",
   plot = plot_param_sum_day,
   width = 9.5,
