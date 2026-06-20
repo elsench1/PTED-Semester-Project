@@ -38,7 +38,7 @@ When comparing the movement behavior of Amelia and Christopher, several similari
 
 By examining the road types used, the likely mode of travel can be estimated. "Rail" corresponds to train travel, "main road" typically indicates bus or passenger vehicle use (and in some cases cycling), while "local road" may correspond to walking, cycling, or driving. Comparing the time shares spent on different road types reveals clear differences between the two. Christopher appears to travel primarily by train, whereas Amelia spends more time on roads in general (note that some points may be misclassified).
 
-![Share of time on the road types of Amelia and Christopher.](plots/road_type_pie_comp.png){#road_type_pie_comp}
+![Share of time on the road types of Amelia and Christopher.](plots/road_type_pie_comp.png){#road_type_pie_comp width="80%"}
 
 
 
