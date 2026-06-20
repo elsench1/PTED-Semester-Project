@@ -196,6 +196,7 @@ make_param_sum_comp_plot <- function(summary_data_day_comp) {
     theme(
       axis.text.x = element_blank(),
       axis.ticks.x = element_blank(),
+      panel.grid.major.x = element_blank(),
       strip.placement = "outside",
       strip.text = element_text(face = "bold", size = 12),
       plot.title = element_text(

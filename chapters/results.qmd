@@ -1,29 +1,27 @@
 # Results
 
-## Google timeline data
+## Amelia's movement
 
 After moderate pre processing effort, the google timeline data over more than two weeks looks like in @fig-move_google. Blue are the movement points and red are the static points. As some of the trajectories have little data points, the travelled distances and speed are likely to be underestimated.
 
 ![Tracked moving data with google timeline, red is static and blue is moving.](plots/tm_movement_amelia.png){#fig-move_google}
 
 
-The other parameters are calculated once per day and once an average over the whole tracking period. In @fig-param_day it is shown, that the parameters vary widely at different days.
+The other parameters are calculated once per day and once an average over the whole tracking period. In @fig-param_day_a it is shown, that the parameters vary widely at different days.
 
-![Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day.](plots/param_sum_day_amelia.png){#fig-param_day}
-
-
-
-
-## GPS data
+![Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Amelia.](plots/param_sum_day_amelia.png){#fig-param_day_a}
 
 
 
 
+## Christopher's movement
 
 
 
+![Tracked moving data with GPS app, red is static and blue is moving.](plots/tm_movement_christopher.png){#fig-move_gps}
 
 
+![Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Christopher.](plots/param_sum_day_christopher.png){#fig-param_day_c}
 
 
 
@@ -32,8 +30,12 @@ The other parameters are calculated once per day and once an average over the wh
 
 ## Comparison
 
+When comparing the movement behavior of Amelia and Christopher, several similarities emerge. Both travel at a similar average speed, suggesting comparable ratios of train/vehicle use versus walking. Commuting times to ZHAW are also similar on average. Amelia travels slightly more on average, both in total distance and time spent outside the home, though this is strongly influenced by a few outliers that raise the mean. Regarding maximum travel radius, Christopher appears to travel the same distance more consistently, as his mean value lies at the top of the boxplot's interquartile range.
 
 ![Comparison of movement parameters of Amelia and Christopher.](plots/param_sum_comp.png){#param_sum_comp}
+
+
+By examining the road types used, the likely mode of travel can be estimated. "Rail" corresponds to train travel, "main road" typically indicates bus or passenger vehicle use (and in some cases cycling), while "local road" may correspond to walking, cycling, or driving. Comparing the time shares spent on different road types reveals clear differences between the two. Christopher appears to travel primarily by train, whereas Amelia spends more time on roads in general (note that some points may be misclassified).
 
 ![Share of time on the road types of Amelia and Christopher.](plots/road_type_pie_comp.png){#road_type_pie_comp}
 
