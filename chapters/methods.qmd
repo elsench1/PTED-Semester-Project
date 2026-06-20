@@ -8,17 +8,14 @@ This project uses two primary mobility data sources, tracked from two individual
 Google Timeline provides sparse but semantically enriched location records, including latitude/longitude coordinates, timestamps, and partially pre-classified activity labels (e.g., walking, driving, cycling). However, its temporal resolution is low and irregular, which limits fine-grained movement analysis. The Coordinates are not as precise as GPS data and can deviate several meters from the known location.
 Over a tracking period of 17 days (08.04.2026 to 24.04.2026), a total of 5'420 points were recorded, of which 658 points were attributable to movement-related activity.
 
-In contrast, GPS Logger data offers high-frequency, continuous tracking at fixed time intervals, containing raw coordinates and timestamps. 
-This allows for detailed trajectory reconstruction but introduces noise, tracking holes (crashing app) and requires preprocessing.
+The GPS Logger data consisted of raw coordinates and timestamps recorded at a planned interval of 1 s. The dataset covered 35 days (12.03.2016 to 15.04.2026) and contained approximately 2'009'100 points. In theory, the app recorded continuously, but in practice gaps occurred due to app crashes and missing GPS signal in tunnels. Under open sky the signal was highly precise, while in buildings, especially lower floors and basements, larger positional errors occurred.
 
 
 
 ## Used R packages
 
-The project is implemented in R @RProject, @RStudio using a combination of data wrangling, time-series handling, spatial analysis, and cartographic visualization packages. The tidyverse and lubridate packages get used for cleaning, restructuring, filtering, summarising the movement data and management of time data. 
-Spatial processing is mainly carried out with the sf package. OpenStreetMap road network data is accessed using osmdata and linked to the mobility trajectories through nearest-feature matching.
-For visualisation, ggplot2 gets used for statistical plots and the package tmap and leaflet will be used to display the movement data on maps. 
-Other packages used for processing or plotting include; jsonlite, dplyr, purrr, stringr, osmextract, data.table.
+The project was implemented in R/RStudio. Data cleaning and time handling used dplyr, tidyr, purrr, stringr, readr, data.table and lubridate. Spatial processing used sf. Google Timeline data were imported with jsonlite, while OSM road and rail data were processed using osmdata and osmextract. Figures and maps were created with ggplot2, tmap, leaflet and scales. Rcpp was used for GPS stop detection, making this step about 20 times faster.
+
 
 
 ## Pre-processing
@@ -36,6 +33,11 @@ Other packages used for processing or plotting include; jsonlite, dplyr, purrr, 
 
 - Imported GPS Logger GPX track points, transformed them to EPSG:2056, sorted them by time and removed empty or implausible records.
 - Calculated time gaps, distances, speed and acceleration between consecutive points. Stops were detected using a 50 m / 5 min threshold; longer gaps and movement phases were used to segment the tracks.
+
+Processing the GPS Logger data was time-consuming due to its high temporal resolution, large number of points, signal noise and tracking gaps.
+
+Several approaches were tested to reduce the large GPS dataset, but most gave poor results. Removing stationary periods was the most effective step. Aggregating nearby points could have further reduced noise and data volume, but was not implemented.
+
 
 
 ## Parameter calculation 
