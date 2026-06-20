@@ -200,10 +200,10 @@ div.csl-indent {
   <ul>
   <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="header-section-number">3.1</span> Data</a></li>
   <li><a href="#used-r-packages" id="toc-used-r-packages" class="nav-link" data-scroll-target="#used-r-packages"><span class="header-section-number">3.2</span> Used R packages</a></li>
-  <li><a href="#pre-processing" id="toc-pre-processing" class="nav-link" data-scroll-target="#pre-processing"><span class="header-section-number">3.3</span> Pre processing</a>
+  <li><a href="#pre-processing" id="toc-pre-processing" class="nav-link" data-scroll-target="#pre-processing"><span class="header-section-number">3.3</span> Pre-processing</a>
   <ul class="collapse">
   <li><a href="#google-timeline-data" id="toc-google-timeline-data" class="nav-link" data-scroll-target="#google-timeline-data"><span class="header-section-number">3.3.1</span> google timeline data</a></li>
-  <li><a href="#gps-data" id="toc-gps-data" class="nav-link" data-scroll-target="#gps-data"><span class="header-section-number">3.3.2</span> GPS data:</a></li>
+  <li><a href="#gps-logger-data" id="toc-gps-logger-data" class="nav-link" data-scroll-target="#gps-logger-data"><span class="header-section-number">3.3.2</span> GPS logger data:</a></li>
   </ul></li>
   <li><a href="#parameter-calculation" id="toc-parameter-calculation" class="nav-link" data-scroll-target="#parameter-calculation"><span class="header-section-number">3.4</span> Parameter calculation</a></li>
   <li><a href="#validation" id="toc-validation" class="nav-link" data-scroll-target="#validation"><span class="header-section-number">3.5</span> Validation</a></li>
@@ -222,14 +222,14 @@ div.csl-indent {
 <section id="data" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="data"><span class="header-section-number">3.1</span> Data</h2>
 <p>This project uses two primary mobility data sources, tracked from two individuals: Google Timeline data and GPS Logger data. Google Timeline provides sparse but semantically enriched location records, including latitude/longitude coordinates, timestamps, and partially pre-classified activity labels (e.g., walking, driving, cycling). However, its temporal resolution is low and irregular, which limits fine-grained movement analysis. The Coordinates are not as precise as GPS data and can deviate several meters from the known location. Over a tracking period of 17 days (08.04.2026 to 24.04.2026), a total of 5’420 points were recorded, of which 658 points were attributable to movement-related activity.</p>
-<p>In contrast, GPS Logger data offers high-frequency, continuous tracking at fixed time intervals, containing raw coordinates and timestamps. This allows for detailed trajectory reconstruction but introduces noise, tracking holes (crashing app) and requires preprocessing.</p>
+<p>The GPS Logger data consisted of raw coordinates and timestamps recorded at a planned interval of 1 s. The dataset covered 35 days (12.03.2016 to 15.04.2026) and contained approximately 2’009’100 points. In theory, the app recorded continuously, but in practice gaps occurred due to app crashes and missing GPS signal in tunnels. Under open sky the signal was highly precise, while in buildings, especially lower floors and basements, larger positional errors occurred.</p>
 </section>
 <section id="used-r-packages" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="used-r-packages"><span class="header-section-number">3.2</span> Used R packages</h2>
-<p>The project is implemented in R <span class="citation" data-cites="RProject"><a href="#ref-RProject" role="doc-biblioref">[1]</a></span>, <span class="citation" data-cites="RStudio"><a href="#ref-RStudio" role="doc-biblioref">[2]</a></span> using a combination of data wrangling, time-series handling, spatial analysis, and cartographic visualization packages. The tidyverse and lubridate packages get used for cleaning, restructuring, filtering, summarising the movement data and management of time data. Spatial processing is mainly carried out with the sf package. OpenStreetMap road network data is accessed using osmdata and linked to the mobility trajectories through nearest-feature matching. For visualisation, ggplot2 gets used for statistical plots and the package tmap and leaflet will be used to display the movement data on maps. Other packages used for processing or plotting include; jsonlite, dplyr, purrr, stringr, osmextract, data.table.</p>
+<p>The project was implemented in R/RStudio. Data cleaning and time handling used dplyr, tidyr, purrr, stringr, readr, data.table and lubridate. Spatial processing used sf. Google Timeline data were imported with jsonlite, while OSM road and rail data were processed using osmdata and osmextract. Figures and maps were created with ggplot2, tmap, leaflet and scales. Rcpp was used for GPS stop detection, making this step about 20 times faster.</p>
 </section>
 <section id="pre-processing" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="pre-processing"><span class="header-section-number">3.3</span> Pre processing</h2>
+<h2 data-number="3.3" class="anchored" data-anchor-id="pre-processing"><span class="header-section-number">3.3</span> Pre-processing</h2>
 <section id="google-timeline-data" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="google-timeline-data"><span class="header-section-number">3.3.1</span> google timeline data</h3>
 <ul>
@@ -239,8 +239,14 @@ div.csl-indent {
 <li>Estimating relevant locations such as home and ZHAW with most frequent coordinates in certain time frames.</li>
 </ul>
 </section>
-<section id="gps-data" class="level3" data-number="3.3.2">
-<h3 data-number="3.3.2" class="anchored" data-anchor-id="gps-data"><span class="header-section-number">3.3.2</span> GPS data:</h3>
+<section id="gps-logger-data" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="gps-logger-data"><span class="header-section-number">3.3.2</span> GPS logger data:</h3>
+<ul>
+<li>Imported GPS Logger GPX track points, transformed them to EPSG:2056, sorted them by time and removed empty or implausible records.</li>
+<li>Calculated time gaps, distances, speed and acceleration between consecutive points. Stops were detected using a 50 m / 5 min threshold; longer gaps and movement phases were used to segment the tracks.</li>
+</ul>
+<p>Processing the GPS Logger data was time-consuming due to its high temporal resolution, large number of points, signal noise and tracking gaps.</p>
+<p>Several approaches were tested to reduce the large GPS dataset, but most gave poor results. Removing stationary periods was the most effective step. Aggregating nearby points could have further reduced noise and data volume, but was not implemented.</p>
 </section>
 </section>
 <section id="parameter-calculation" class="level2" data-number="3.4">
@@ -255,21 +261,15 @@ div.csl-indent {
 </section>
 <section id="validation" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="validation"><span class="header-section-number">3.5</span> Validation</h2>
-<p>The validation of the different calculated parameters and the road type matching with OpenStreetMap is based on methods described by <span class="citation" data-cites="validation"><a href="#ref-validation" role="doc-biblioref">[3]</a></span>. The used methods include visualization and event validity. As the tracking data was collected by the authors, they do have knowledge of the correct events and can assign errors and estimate miscalculated values.</p>
+<p>The validation of the different calculated parameters and the road type matching with OpenStreetMap is based on methods described by <span class="citation" data-cites="validation"><a href="#ref-validation" role="doc-biblioref">[1]</a></span>. The used methods include visualization and event validity. As the tracking data was collected by the authors, they do have knowledge of the correct events and can assign errors and estimate miscalculated values.</p>
 
 
 </section>
 <section id="bibliography" class="level1 unnumbered">
 <h1 class="unnumbered">References</h1>
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
-<div id="ref-RProject" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[1] </div><div class="csl-right-inline"><span>“R: <span>The</span> <span>R</span> <span>Project</span> for <span>Statistical</span> <span>Computing</span>.”</span> Accessed: Jun. 17, 2026. [Online]. Available: <a href="https://www.r-project.org/">https://www.r-project.org/</a></div>
-</div>
-<div id="ref-RStudio" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[2] </div><div class="csl-right-inline"><span class="nocase">P. team</span>, <span>“<span>RStudio</span>: <span>Integrated</span> <span>Development</span> <span>Environment</span> for <span>R</span>.”</span> Posit Software, PBC, Boston, MA, 2026. Accessed: Jun. 17, 2026. [Online]. Available: <a href="https://posit.co/">https://posit.co/</a></div>
-</div>
 <div id="ref-validation" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[3] </div><div class="csl-right-inline">E. J. Rykiel, <span>“Testing ecological models: The meaning of validation,”</span> <em>Ecological Modelling</em>, vol. 90, no. 3, pp. 229–244, Nov. 1996, doi: <a href="https://doi.org/10.1016/0304-3800(95)00152-2">10.1016/0304-3800(95)00152-2</a>.</div>
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">E. J. Rykiel, <span>“Testing ecological models: The meaning of validation,”</span> <em>Ecological Modelling</em>, vol. 90, no. 3, pp. 229–244, Nov. 1996, doi: <a href="https://doi.org/10.1016/0304-3800(95)00152-2">10.1016/0304-3800(95)00152-2</a>.</div>
 </div>
 </div>
 </section>
