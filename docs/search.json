@@ -10,6 +10,16 @@
     ]
   },
   {
+    "objectID": "chapters/abstract.html",
+    "href": "chapters/abstract.html",
+    "title": "Abstract",
+    "section": "",
+    "text": "Abstract\n\n\n\nThis study compares the mobility behaviour of two individuals tracked over several weeks using two different methods: Google Timeline and a GPS Logger app. Using spatio-temporal trajectory analysis in R, movement indicators were calculated, including travel distance, speed, time away from home, commuting time to ZHAW and road type usage based on OpenStreetMap data.\nThe results show similar average speeds and commute times for both individuals. Amelia shows higher mean distances and more time away from home, partly driven by outliers, while Christopher travels more consistently and primarily by train. A key finding concerns data quality: GPS Logger data offered higher spatial precision but required substantially more cleaning effort due to app crashes, noise and gaps. In contrast, Google Timeline data was easier to process but limited by lower temporal resolution, which reduced the reliability of detailed road type classification.",
+    "crumbs": [
+      "Abstract"
+    ]
+  },
+  {
     "objectID": "chapters/introduction.html",
     "href": "chapters/introduction.html",
     "title": "1  Introduction",
@@ -34,7 +44,7 @@
     "href": "chapters/introduction.html#chat-gpt",
     "title": "1  Introduction",
     "section": "1.2 chat gpt",
-    "text": "1.2 chat gpt\nThis project compares the mobility behaviour of two individuals using two different tracking methods: a GPS logger app for Christopher and Google Timeline data for Amelia. The aim is to analyse how personal movement patterns can be described from timestamped geographic coordinates and how the choice of tracking method affects data quality and processing effort.\nDescriptive spatio-temporal trajectory analysis was used to calculate movement indicators such as travelled distance, average speed, time spent away from home, commuting time to ZHAW and maximum distance from home. In addition, the trajectories were matched with OpenStreetMap road network data to estimate which road types were used most frequently. The interpretation of the results was supported by the participants’ own knowledge of their daily movements.\nThe project addresses the following questions: Which road types are most frequently used? How far and how fast do the individuals travel? How much time do they spend away from home? How long is the commute from home to ZHAW? Finally, the project compares how GPS Logger and Google Timeline data differ in accuracy, preprocessing effort and reliability for mobility analysis.\n\n\n\n\n[1] “Google Maps - Google Timeline.” Accessed: Jun. 17, 2026. [Online]. Available: https://www.google.com/maps/timeline\n\n\n[2] “OpenStreetMap,” OpenStreetMap. Accessed: Jun. 17, 2026. [Online]. Available: https://www.openstreetmap.org/",
+    "text": "1.2 chat gpt\nThis project compares the mobility behaviour of two individuals using two different tracking methods: a GPS logger app for Christopher and Google Timeline data for Amelia. The aim is to analyse how personal movement patterns can be described from timestamped geographic coordinates and how the choice of tracking method affects data quality and processing effort.\nDescriptive spatio-temporal trajectory analysis was used to calculate movement indicators such as travelled distance, average speed, time spent away from home, commuting time to ZHAW and maximum distance from home. In addition, the trajectories were matched with OpenStreetMap road network data to estimate which road types were used most frequently. The interpretation of the results was supported by the participants’ own knowledge of their daily movements.\nThe project addresses the following questions: Which road types are most frequently used? How far and how fast do the individuals travel? How much time do they spend away from home? How long is the commute from home to ZHAW? Finally, the project compares how GPS Logger and Google Timeline data differ in accuracy, preprocessing effort and reliability for mobility analysis.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -84,7 +94,7 @@
     "href": "chapters/methods.html#validation",
     "title": "2  Material and Methods",
     "section": "2.5 Validation",
-    "text": "2.5 Validation\nThe validation of the different calculated parameters and the road type matching with OpenStreetMap is based on methods described by [1]. The used methods include visualization and event validity. As the tracking data was collected by the authors, they do have knowledge of the correct events and can assign errors and estimate miscalculated values.\n\n\n\n\n[1] E. J. Rykiel, “Testing ecological models: The meaning of validation,” Ecological Modelling, vol. 90, no. 3, pp. 229–244, Nov. 1996, doi: 10.1016/0304-3800(95)00152-2.",
+    "text": "2.5 Validation\nThe validation of the different calculated parameters and the road type matching with OpenStreetMap is based on methods described by [1]. The used methods include visualization and event validity. As the tracking data was collected by the authors, they do have knowledge of the correct events and can assign errors and estimate miscalculated values.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Material and Methods</span>"
     ]
@@ -170,16 +180,6 @@
     ]
   },
   {
-    "objectID": "chapters/references.html",
-    "href": "chapters/references.html",
-    "title": "References",
-    "section": "",
-    "text": "References\n\n\n\n\n\n[1] E.\nJ. Rykiel, “Testing ecological models: The meaning of\nvalidation,” Ecological Modelling, vol. 90, no. 3, pp.\n229–244, Nov. 1996, doi: 10.1016/0304-3800(95)00152-2.\n\n\n[2] “OpenStreetMap,”\nOpenStreetMap. Accessed: Jun. 17, 2026. [Online]. Available: https://www.openstreetmap.org/\n\n\n[3] “ChatGPT\nVersion GPT-5.5,” ChatGPT.\nOpenAI. Accessed: Jun. 17, 2026. [Online]. Available: https://chatgpt.com\n\n\n[4] “Claude Version\nClaude Sonnet 4.6,” Claude.\nAnthropic. Accessed: Jun. 17, 2026. [Online]. Available: https://claude.ai\n\n\n[5] “Google Maps -\nGoogle Timeline.” Accessed: Jun. 17,\n2026. [Online]. Available: https://www.google.com/maps/timeline\n\n\n[6] L.\nS. and F. M. -ZHAW, “Selbststaendigkeitserklaerung studentische\nArbeiten.” Accessed: Jun. 19, 2026. [Online].\nAvailable: N_FO_Selbststaendigkeitserklaerung_studentische_Arbeiten_englisch.docx\n\n\n[7] L.\nS. and F. M. -ZHAW, “Annex on the obligation to declare the use of\ngenerative AI for graded assignments.”",
-    "crumbs": [
-      "References"
-    ]
-  },
-  {
     "objectID": "chapters/appendix.html",
     "href": "chapters/appendix.html",
     "title": "Appendix A — Appendix",
@@ -217,7 +217,7 @@
     "href": "chapters/appendix.html#wordcount",
     "title": "Appendix A — Appendix",
     "section": "A.3 Wordcount",
-    "text": "A.3 Wordcount\n\n2’150 words\nand\n15’636 characters including spaces and references, excluding code listing\n\n\n\n\n\n[1] “ChatGPT Version GPT-5.5,” ChatGPT. OpenAI. Accessed: Jun. 17, 2026. [Online]. Available: https://chatgpt.com\n\n\n[2] “Claude Version Claude Sonnet 4.6,” Claude. Anthropic. Accessed: Jun. 17, 2026. [Online]. Available: https://claude.ai\n\n\n[3] L. S. and F. M. -ZHAW, “Annex on the obligation to declare the use of generative AI for graded assignments.” \n\n\n[4] L. S. and F. M. -ZHAW, “Selbststaendigkeitserklaerung studentische Arbeiten.” Accessed: Jun. 19, 2026. [Online]. Available: N_FO_Selbststaendigkeitserklaerung_studentische_Arbeiten_englisch.docx",
+    "text": "A.3 Wordcount\n\n2’154 words\nand\n15’665 characters including spaces and references, excluding code listing",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
