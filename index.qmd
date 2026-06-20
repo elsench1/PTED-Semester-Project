@@ -1,12 +1,9 @@
 ---
-is-index: true   # prevents the chapter title from appearing twice on this page
+is-index: true
 ---
 
-<!-- HTML: render the ZHAW title page here (supervisors, imprint, etc.) -->
 ::: {.content-visible when-format="html"}
-
 {{< zhaw-title-block >}}
-
 :::
 
 ::: {.content-hidden when-format="html"}
@@ -16,11 +13,7 @@ is-index: true   # prevents the chapter title from appearing twice on this page
 
 {{< pagebreak >}}
 
-<!-- Typst: render the table of contents here (hidden in HTML, handled by sidebar) -->
-::: {.content-hidden when-format="html"}
-
 # Inhaltsverzeichnis {.unnumbered .unlisted}
 
 {{< table-of-contents >}}
-
 :::
