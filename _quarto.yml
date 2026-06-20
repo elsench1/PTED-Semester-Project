@@ -1,6 +1,11 @@
 project:
   type: book
   output-dir: docs
+  
+profile:
+  group:
+    - [html, pdf]
+  default: html
 
 book:
   title: "Comparison of travel behaviour of two individuals with different tracking methods"
@@ -10,22 +15,7 @@ book:
     - Christopher Elsener
   date: "2026-06-21"
   downloads: pdf           # adds a PDF download button to the HTML navbar
-
-  chapters:
-    - file: index.qmd
-      text: "Titelseite"   # sidebar label for the title page
-    - chapters/abstract.qmd
-    - chapters/introduction.qmd
-    - chapters/methods.qmd
-    - chapters/results.qmd
-    - chapters/discussion.qmd
-    - chapters/references.qmd
-    
-  appendices:
-    - chapters/appendix.qmd
-     # - chapters/proposal2.qmd
-    # - 7-anhang-rohdaten.qmd
-    # - 8-anhang-statistik.qmd
+  
 
 bibliography: chapters/references/references.bib
 csl: data/csl/styles/ieee.csl

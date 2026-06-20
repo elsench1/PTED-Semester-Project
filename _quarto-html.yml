@@ -1,0 +1,14 @@
+book:
+  chapters:
+    - file: index.qmd
+      text: "Titelseite"
+    - chapters/abstract.qmd
+    - chapters/introduction.qmd
+    - chapters/methods.qmd
+    - chapters/results.qmd
+    - chapters/discussion.qmd
+  appendices:
+    - chapters/appendix.qmd
+
+format:
+  zhaw-lsfm-html: default
