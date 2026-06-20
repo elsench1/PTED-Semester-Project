@@ -186,7 +186,7 @@ make_param_sum_comp_plot <- function(summary_data_day_comp) {
       x = NULL,
       y = NULL,
       fill = "",
-      title = "Comparison moving parameters"
+      title = "Comparison movement parameters"
     ) +
     theme(
       axis.text.x = element_blank(),

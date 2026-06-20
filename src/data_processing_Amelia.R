@@ -387,7 +387,7 @@ plot_osm_moving <- leaflet() |>
   addPolylines(data = network_map, color = "grey70", weight = 1) |>
   addCircleMarkers(data = pts_map, radius = 4, color = "black", weight = 1, fillColor = ~pal(transport_group_label), fillOpacity = 1, stroke = TRUE) |>
   addLegend("bottomright", pal = pal, values = pts_map$transport_group_label, title = "Matched road type")
-plot_osm_moving
+# plot_osm_moving
 
 # plot_osm_moving_type <- leaflet() |>
 #   addProviderTiles("OpenStreetMap") |>
@@ -529,7 +529,7 @@ home_zhaw_data <- travel_times |>
     values_to = "value"
   ) |>
   filter(!is.na(value)) |>
-  mutate(metric = "home_zhaw") |>
+  mutate(metric = "travel time home - ZHAW (min)") |>
   select( metric, value)
 
 

@@ -1,5 +1,7 @@
 # Material and Methods
 
+The following methods and data were used in this project. AI tools were used to support text refinement and to assist with more advanced coding tasks.
+
 ## Data
 
 This project uses two primary mobility data sources, tracked from two individuals: Google Timeline data and GPS Logger data. 
@@ -13,20 +15,20 @@ This allows for detailed trajectory reconstruction but introduces noise, trackin
 
 ## Used R packages
 
-The project is implemented in R @RProject, @RStudio using a combination of data wrangling, time-series handling, spatial analysis, and cartographic visualisation packages. The tidyverse and lubridate packages get used for cleaning, restructuring, filtering, summarising the movement data and management of time data. 
+The project is implemented in R @RProject, @RStudio using a combination of data wrangling, time-series handling, spatial analysis, and cartographic visualization packages. The tidyverse and lubridate packages get used for cleaning, restructuring, filtering, summarising the movement data and management of time data. 
 Spatial processing is mainly carried out with the sf package. OpenStreetMap road network data is accessed using osmdata and linked to the mobility trajectories through nearest-feature matching.
-For visualisation, ggplot2 gets used for statistical plots and the package tmap will be used to display the movement data on maps. Matched road types gets displayed using leaflet.
-Other packages used for processing or plotting include; jsonlite, dplyr, purrr, stringr, osmextract, data.table
+For visualisation, ggplot2 gets used for statistical plots and the package tmap and leaflet will be used to display the movement data on maps. 
+Other packages used for processing or plotting include; jsonlite, dplyr, purrr, stringr, osmextract, data.table.
 
 
 ## Pre processing
 
 ### google timeline data
 
-1. Importing Google Timeline JSON data, extracting coordinates, timestamps and convert them, as well as delete errors.
-2. Calculating distances and time differences between two consecutive points. From these, the moving window is computed as the mean of both neighboring points.
-3. Detecting stationary and moving phases using distance-based thresholds (< 100 m).
-4. Estimating relevant locations such as home and ZHAW with most frequent coordinates in certain time frames.
+- Importing Google Timeline JSON data, extracting coordinates, timestamps and convert them, as well as delete errors.
+- Calculating distances and time differences between two consecutive points. From these, the moving window is computed as the mean of both neighboring points.
+- Detecting stationary and moving phases using distance-based thresholds (< 100 m) and segment trajectories.
+- Estimating relevant locations such as home and ZHAW with most frequent coordinates in certain time frames.
 
 
 
@@ -36,16 +38,11 @@ Other packages used for processing or plotting include; jsonlite, dplyr, purrr, 
 
 ## Parameter calculation 
 
-1. Preparing the use of OpenStreetMap and its categories which includes loading the Swiss road/rail network lines, filtering to relevant categories, grouping these categories and match the points to the nearest feature. 
-2. Calculating mobility indicators:
- * daily travelled distance : sum of distance per day.
- * average movement speed:  computed from distance/time.
- * time spent outside home: sum of time per day.
- * maximum daily movement radius: maximum distance to home per day.
- * travel time from home to ZHAW: arrival/departure times at university and home.
- * road type use: calculation of time shares per transport group per day and across the entire tracking period.
- Additional for Google Timeline data: cross-tabulation/heatmap comparing Google Activity labels with OSM transport group.
-3. Visualising trajectories and movement patterns using maps and plots.
+- Preparing the use of OpenStreetMap and its categories which includes loading the Swiss road/rail network lines, filtering to relevant categories, grouping these categories and match the points to the nearest feature. 
+- Calculating movement parameters:
+ * Simple calculations for speed, time out of home, travel distances and travel time to ZHAW
+ * Road type as time share per road type group
+- Visualising trajectories and movement patterns using maps and plots.
 
 
 ## Validation
