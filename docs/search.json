@@ -177,7 +177,7 @@
     "href": "chapters/appendix.html#wordcount",
     "title": "Appendix A — Appendix",
     "section": "A.3 Wordcount",
-    "text": "A.3 Wordcount\n\n\n\nError in `loadNamespace()`:\n! there is no package called 'wordcountaddin'\n\n\n\n\n\n\n[1] “ChatGPT Version GPT-5.5,” ChatGPT. OpenAI. Accessed: Jun. 17, 2026. [Online]. Available: https://chatgpt.com\n\n\n[2] “Claude Version Claude Sonnet 4.6,” Claude. Anthropic. Accessed: Jun. 17, 2026. [Online]. Available: https://claude.ai\n\n\n[3] L. S. and F. M. -ZHAW, “Annex on the obligation to declare the use of generative AI for graded assignments.” \n\n\n[4] L. S. and F. M. -ZHAW, “Selbststaendigkeitserklaerung studentische Arbeiten.” Accessed: Jun. 19, 2026. [Online]. Available: N_FO_Selbststaendigkeitserklaerung_studentische_Arbeiten_englisch.docx",
+    "text": "A.3 Wordcount\n\n\n\nError in `loadNamespace()`:\n! es gibt kein Paket namens 'wordcountaddin'\n\n\n\n\n\n\n[1] “ChatGPT Version GPT-5.5,” ChatGPT. OpenAI. Accessed: Jun. 17, 2026. [Online]. Available: https://chatgpt.com\n\n\n[2] “Claude Version Claude Sonnet 4.6,” Claude. Anthropic. Accessed: Jun. 17, 2026. [Online]. Available: https://claude.ai\n\n\n[3] L. S. and F. M. -ZHAW, “Annex on the obligation to declare the use of generative AI for graded assignments.” \n\n\n[4] L. S. and F. M. -ZHAW, “Selbststaendigkeitserklaerung studentische Arbeiten.” Accessed: Jun. 19, 2026. [Online]. Available: N_FO_Selbststaendigkeitserklaerung_studentische_Arbeiten_englisch.docx",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
