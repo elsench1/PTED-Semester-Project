@@ -723,14 +723,14 @@ plot_tm_movement <- make_tm_movement_plot(
 
 tmap_save(
   plot_tm_movement,
-  "chapters/plots/tm_movement.png"
+  "chapters/plots/tm_movement_amelia.png"
 )
 
 
 plot_activity_road_type <- make_activity_road_type_plot(df_sf_2056)
 
 ggsave(
-  "chapters/plots/activity_road_type.png",
+  "chapters/plots/activity_road_type_amelia.png",
   plot = plot_activity_road_type,
   width = 6,
   height = 5
@@ -740,7 +740,7 @@ ggsave(
 plot_road_type_pie <- make_road_type_pie_plot(pie_data)
 
 ggsave(
-  "chapters/plots/road_type_pie.png",
+  "chapters/plots/road_type_pie_amelia.png",
   plot = plot_road_type_pie,
   width = 8,
   height = 5
@@ -753,7 +753,7 @@ plot_param_sum <- make_param_sum_plot(summary_data_day)
 plot_param_sum_day <- make_param_sum_day_plot(summary_data_day)
 
 ggsave(
-  "chapters/plots/param_sum_day.png",
+  "chapters/plots/param_sum_day_amelia.png",
   plot = plot_param_sum_day,
   width = 9.5,
   height = 6
