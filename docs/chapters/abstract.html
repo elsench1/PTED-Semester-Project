@@ -151,23 +151,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Discussion</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Appendix</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
@@ -183,8 +166,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>This study compares the mobility behaviour of two individuals tracked over several weeks using two different methods: Google Timeline and a GPS Logger app. Using spatio-temporal trajectory analysis in R, movement indicators were calculated, including travel distance, speed, time away from home, commuting time to ZHAW and road type usage based on OpenStreetMap data.</p>
-<p>The results show similar average speeds and commute times for both individuals. Amelia shows higher mean distances and more time away from home, partly driven by outliers, while Christopher travels more consistently and primarily by train. A key finding concerns data quality: GPS Logger data offered higher spatial precision but required substantially more cleaning effort due to app crashes, noise and gaps. In contrast, Google Timeline data was easier to process but limited by lower temporal resolution, which reduced the reliability of detailed road type classification.</p>
+<p>This study compares the mobility behavior of two individuals tracked over few weeks using two different methods: Google Timeline and a GPS logger app. Using spatio-temporal trajectory analysis in R, movement parameters were calculated, including travel distance, speed, time away from home, commuting time to ZHAW, and road type usage via spatial overlay with OpenStreetMap data. Results show similar average speeds and commute times for both individuals, though one (Amelia) shows higher mean distances and time away from home, driven by outliers, while the other (Christopher) travels more consistently and primarily by train. A key finding concerns data quality: GPS logger data offered higher spatial precision but required substantially more cleaning effort due to app crashes and noise, whereas Google Timeline data was easier to process but suffered from low temporal resolution, leading to inaccurate road type classification.</p>
 
 
 
