@@ -1,7 +1,4 @@
----
-bibliography: references/references.bib
----
+# References {.unnumbered}
 
-# Literaturverzeichnis {#sec-refs .unnumbered}
-
-{{< references >}}
+::: {#refs}
+:::
