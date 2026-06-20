@@ -4,7 +4,7 @@
 
 In the Google Timeline data, the positional accuracy can be several hundred meters. Therefore, the road type matching is sometimes inaccurate. An example is the commute from home to ZHAW and back in @fig-road_type_mismatch. From Rapperswil train station to Wädenswil train station, only the train was used, but several points were not matched as rail and some were even located far away from the railway line.
 
-![Example of mismatched road types on the way from home to ZHAW.](plots/road_type_home_zhaw.png){#fig-road_type_mismatch width="70%"}
+![Example of mismatched road types on the way from home to ZHAW.](plots/road_type_home_zhaw.png){#fig-road_type_mismatch width="90%"}
 
 Another way to evaluate the road type matching is to compare it with the activities stated by Google. These activities may also be uncertain, but they include more information than coordinates alone, such as acceleration. The percentages of different road types within the Google activities are shown in @fig-road_type_activity.
 
