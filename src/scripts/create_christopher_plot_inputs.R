@@ -360,3 +360,35 @@ if (nrow(gps_moving) >= 2) {
 } else {
   warning("Not enough moving GPS points to create tm_movement_christopher.png.")
 }
+
+###############################################################################
+# create Christopher plots
+
+plot_road_type_pie_christopher <- make_road_type_pie_plot(pie_data)
+
+ggsave(
+  "chapters/plots/road_type_pie_christopher.png",
+  plot = plot_road_type_pie_christopher,
+  width = 8,
+  height = 5
+)
+
+
+plot_param_sum_christopher <- make_param_sum_plot(summary_data_day)
+
+ggsave(
+  "chapters/plots/param_sum_christopher.png",
+  plot = plot_param_sum_christopher,
+  width = 9.5,
+  height = 6
+)
+
+
+plot_param_sum_day_christopher <- make_param_sum_day_plot(summary_data_day)
+
+ggsave(
+  "chapters/plots/param_sum_day_christopher.png",
+  plot = plot_param_sum_day_christopher,
+  width = 9.5,
+  height = 6
+)
