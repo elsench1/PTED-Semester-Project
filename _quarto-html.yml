@@ -11,4 +11,6 @@ book:
     - chapters/appendix.qmd
 
 format:
-  zhaw-lsfm-html: default
+  zhaw-lsfm-html:
+    reference-location: section
+    reference-section-title: References
