@@ -8,7 +8,7 @@ In the google timeline data, the accuracy is stated to be up to several hundred 
 
 Another attempt to evaluate the accuracy of the road type matching is to have a look at the from google stated activities at these points. As they include more than the coordinates of the points (acceleration etc.) in their analysis, it is estimated to be more accurate. The percentages of different road types within the different google activities is shown in @fig-road_type_activity.
 
-![Percentage of different road types within the google matched activity.](plots/activity_road_type_amelia.png){#fig-road_type_activity}
+![Percentage of different road types within the google matched activity.](plots/activity_road_type_amelia.png){#fig-road_type_activity width="85%"}
 
 At a first glance, some of the road types seem to be matched very wrong, but some of them can somehow be explained. The 26% of walking on the rail might be the changing of trains at train stations, the tram line is inside of the main road and therefore 68% matched with it. Nevertheless, a lot of the other percentages (e.g. cycling on rail or train on local road) cannot be explained other than being errors.
 
