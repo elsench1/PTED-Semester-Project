@@ -25,7 +25,8 @@ amelia <- readRDS(amelia_rds_path)
 required_fields <- c(
   "person",
   "summary_data_day",
-  "pie_data"
+  "pie_data",
+  "home_zhaw_data"
 )
 
 missing_fields <- setdiff(required_fields, names(amelia))

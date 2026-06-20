@@ -520,6 +520,17 @@ df_sf_2056 <- df_sf_2056 |>
     by = "date"
   )
 
+home_zhaw_data <- travel_times |>
+  st_drop_geometry() |>
+  select( travel_time_to_uni, travel_time_home) |>
+  pivot_longer(
+    cols = c(travel_time_to_uni, travel_time_home),
+    names_to = "source",
+    values_to = "value"
+  ) |>
+  filter(!is.na(value)) |>
+  mutate(metric = "home_zhaw") |>
+  select( metric, value)
 
 
 
@@ -585,6 +596,7 @@ analysis_day <- df_sf_2056 |>
   st_drop_geometry()
 
 
+
 analysis <- bind_cols(
   analysis_day |> 
     summarise(
@@ -600,7 +612,6 @@ analysis <- bind_cols(
       avgTimeZhaw = mean(c(travel_time_to_uni, travel_time_home), na.rm = TRUE)  #min
     ) |> 
     st_drop_geometry(),
-  
   road_summary_wide
 )
 
@@ -754,10 +765,12 @@ amelia_plot_inputs <- list(
   summary_data = summary_data,
   summary_data_day = summary_data_day,
   pie_data = pie_data,
-  travel_times = travel_times
+  travel_times = travel_times,
+  home_zhaw_data = home_zhaw_data
 )
 
 saveRDS(
   amelia_plot_inputs,
   "data/processedData/amelia_plot_inputs.rds"
 )
+

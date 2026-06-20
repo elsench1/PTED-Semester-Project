@@ -170,12 +170,18 @@ make_param_sum_comp_plot <- function(summary_data_day_comp) {
     aes(x = person, y = value, fill = person)
   ) +
     geom_boxplot(width = 0.5) +
+    geom_boxplot(
+      data = home_zhaw_data,
+      aes(x = person, y = value, fill = person),
+      width = 0.5
+    ) +
     facet_wrap(
       ~ metric,
       scales = "free",
       ncol = 3,
       strip.position = "bottom"
     ) +
+    scale_y_continuous(limits = c(0, NA)) +
     labs(
       x = NULL,
       y = NULL,
@@ -196,6 +202,7 @@ make_param_sum_comp_plot <- function(summary_data_day_comp) {
       legend.position = "bottom"
     )
 }
+
 
 
 make_road_type_pie_comp_plot <- function(pie_data_comp) {
