@@ -157,3 +157,62 @@ make_activity_road_type_plot <- function(df_sf_2056) {
       )
     )
 }
+
+make_param_sum_comp_plot <- function(summary_data_day_comp) {
+  ggplot2::ggplot(
+    summary_data_day_comp,
+    ggplot2::aes(x = person, y = value, fill = person)
+  ) +
+    ggplot2::geom_boxplot(width = 0.5) +
+    ggplot2::facet_wrap(
+      ~ metric,
+      scales = "free",
+      ncol = 3,
+      strip.position = "bottom"
+    ) +
+    ggplot2::labs(
+      x = NULL,
+      y = NULL,
+      fill = "",
+      title = "Comparison moving parameters"
+    ) +
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_blank(),
+      axis.ticks.x = ggplot2::element_blank(),
+      strip.placement = "outside",
+      strip.text = ggplot2::element_text(face = "bold", size = 12),
+      plot.title = ggplot2::element_text(
+        hjust = 0.5,
+        size = 14,
+        margin = ggplot2::margin(b = 20)
+      ),
+      plot.margin = ggplot2::margin(t = 20, r = 10, b = 10, l = 10),
+      legend.position = "bottom"
+    )
+}
+
+
+make_road_type_pie_comp_plot <- function(pie_data_comp) {
+  ggplot2::ggplot(
+    pie_data_comp,
+    ggplot2::aes(x = "", y = share, fill = transport_group)
+  ) +
+    ggplot2::geom_col(width = 1, color = "white") +
+    ggplot2::coord_polar(theta = "y") +
+    ggplot2::geom_text(
+      ggplot2::aes(label = scales::percent(share, accuracy = 1)),
+      position = ggplot2::position_stack(vjust = 0.5),
+      size = 3.5
+    ) +
+    ggplot2::scale_fill_brewer(palette = "Set3") +
+    ggplot2::facet_wrap(~ person) +
+    ggplot2::labs(
+      fill = "Transport type",
+      title = ""
+    ) +
+    ggplot2::theme_void() +
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(hjust = 0.5),
+      strip.text = ggplot2::element_text(face = "bold", size = 13)
+    )
+}
