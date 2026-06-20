@@ -8,8 +8,11 @@ book:
     - chapters/results.qmd
     - chapters/discussion.qmd
     - chapters/references.qmd
+
   appendices:
-    - chapters/appendix.qmd
+    - chapters/appendix-ai.qmd
+    - chapters/appendix-authorship.qmd
+    - chapters/appendix-wordcount.qmd
 
 format:
   zhaw-lsfm-html:
