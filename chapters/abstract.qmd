@@ -1,4 +1,4 @@
-## Abstract
+# Abstract {.unnumbered}
 
 This study compares the mobility behaviour of two individuals tracked over several weeks using two different methods: Google Timeline and a GPS Logger app. Using spatio-temporal trajectory analysis in R, movement indicators were calculated, including travel distance, speed, time away from home, commuting time to ZHAW and road type usage based on OpenStreetMap data.
 
