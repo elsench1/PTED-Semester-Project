@@ -330,3 +330,33 @@ ggsave(
   width = 9.5,
   height = 6
 )
+
+
+###############################################################################
+# create Christopher movement map
+
+gps_for_movement_plot <- gps_tagged |>
+  dplyr::mutate(
+    static = !moving
+  )
+
+gps_moving <- gps_for_movement_plot |>
+  dplyr::filter(!static)
+
+if (nrow(gps_moving) >= 2) {
+  df_line_christopher <- gps_moving |>
+    dplyr::summarise(do_union = FALSE) |>
+    sf::st_cast("LINESTRING")
+  
+  plot_tm_movement_christopher <- make_tm_movement_plot(
+    df_line = df_line_christopher,
+    df_sf_2056 = gps_for_movement_plot
+  )
+  
+  tmap::tmap_save(
+    plot_tm_movement_christopher,
+    "chapters/plots/tm_movement_christopher.png"
+  )
+} else {
+  warning("Not enough moving GPS points to create tm_movement_christopher.png.")
+}
