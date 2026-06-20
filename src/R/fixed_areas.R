@@ -58,7 +58,6 @@ load_home_area <- function(
   home_area
 }
 
-
 load_zhaw_areas <- function(
     gpkg_files = c(
       "data/metaData/zhaw_gruental.gpkg",
@@ -81,22 +80,27 @@ load_zhaw_areas <- function(
     function(path) {
       area_name <- tools::file_path_sans_ext(basename(path))
       
-      st_read(path, quiet = TRUE) |>
-        st_make_valid() |>
-        st_transform(target_crs) |>
-        st_union() |>
-        st_as_sf() |>
-        mutate(
-          area_id = area_name,
-          area_type = "zhaw"
-        ) |>
-        select(area_id, area_type, geometry)
+      area <- sf::st_read(path, quiet = TRUE) |>
+        sf::st_make_valid() |>
+        sf::st_transform(target_crs)
+      
+      area_geom <- area |>
+        sf::st_geometry() |>
+        sf::st_union() |>
+        sf::st_make_valid()
+      
+      sf::st_sf(
+        area_id = area_name,
+        area_type = "zhaw",
+        geometry = area_geom,
+        crs = target_crs
+      )
     }
   )
   
   if (!is.null(buffer_m) && buffer_m > 0) {
     zhaw_areas <- zhaw_areas |>
-      st_buffer(dist = buffer_m)
+      sf::st_buffer(dist = buffer_m)
   }
   
   zhaw_areas
@@ -123,9 +127,9 @@ load_fixed_areas <- function(
     buffer_m = zhaw_buffer_m
   )
   
-  fixed_areas <- bind_rows(
-    home_area |> select(area_id, area_type, geometry),
-    zhaw_areas |> select(area_id, area_type, geometry)
+  fixed_areas <- dplyr::bind_rows(
+    home_area |> dplyr::select(area_id, area_type),
+    zhaw_areas |> dplyr::select(area_id, area_type)
   )
   
   fixed_areas
