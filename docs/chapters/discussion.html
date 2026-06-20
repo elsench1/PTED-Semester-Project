@@ -178,8 +178,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#comparability" id="toc-comparability" class="nav-link active" data-scroll-target="#comparability"><span class="header-section-number">5.1</span> comparability</a></li>
-  <li><a href="#problems-inaccuracies-processing-efforts" id="toc-problems-inaccuracies-processing-efforts" class="nav-link" data-scroll-target="#problems-inaccuracies-processing-efforts"><span class="header-section-number">5.2</span> problems, inaccuracies, processing efforts</a></li>
+  <li><a href="#google-timeline-data" id="toc-google-timeline-data" class="nav-link active" data-scroll-target="#google-timeline-data"><span class="header-section-number">5.1</span> Google Timeline data</a></li>
+  <li><a href="#processing-efforts-and-accuracies" id="toc-processing-efforts-and-accuracies" class="nav-link" data-scroll-target="#processing-efforts-and-accuracies"><span class="header-section-number">5.2</span> Processing efforts and accuracies</a></li>
   </ul>
 </nav>
     </div>
@@ -190,12 +190,35 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="comparability" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="comparability"><span class="header-section-number">5.1</span> comparability</h2>
+<section id="google-timeline-data" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="google-timeline-data"><span class="header-section-number">5.1</span> Google Timeline data</h2>
+<p>In the google timeline data, the accuracy is stated to be up to several hundred meters. Therefore the matching with roadtypes is inaccurate. An example of road type mismatch is the commuting from home to ZHAW and back in <a href="#fig-road_type_mismatch" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>. From Rapperswil train station to Wädenswil train station, only the train was used. But in the road type matching, several points are not matched as ‘Train’ and sometimes even far away from the railroads.</p>
+<div id="fig-road_type_mismatch" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-road_type_mismatch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="plots/road_type_home_zhaw.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-road_type_mismatch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: Example of mismatched road types on the way from home to ZHAW (only train from Rapperswil to Wädenswil).
+</figcaption>
+</figure>
+</div>
+<p>Another attempt to evaluate the accuracy of the road type matching is to have a look at the from google stated activities at these points. As they include more than the coordinates of the points (acceleration etc.) in their analysis, it is estimated to be more accurate. The percentages of different road types within the different google activities is shown in <a href="#fig-road_type_activity" class="quarto-xref">Figure&nbsp;<span>5.2</span></a>.</p>
+<div id="fig-road_type_activity" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-road_type_activity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="plots/activity_road_type_amelia.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-road_type_activity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.2: Percentage of different road types within the google matched activity.
+</figcaption>
+</figure>
+</div>
+<p>At a first glance, some of the road types seem to be matched very wrong, but some of them can somehow be explained. The 26% of walking on the rail might be the changing of trains at train stations, the tram line is inside of the main road and therefore 68% matched with it. Nevertheless, a lot of the other percentages (e.g.&nbsp;cycling on rail or train on local road) cannot be explained other than being errors.</p>
 </section>
-<section id="problems-inaccuracies-processing-efforts" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="problems-inaccuracies-processing-efforts"><span class="header-section-number">5.2</span> problems, inaccuracies, processing efforts</h2>
-<p>Cleaning, filtering, synchronizing timestamps, and handling missing values are expected to be time-consuming tasks. Furthermore, differences in sampling intervals between the two datasets may influence calculated metrics such as average speed or daily travelled distance, making direct comparisons challenging. Additionally, the positional uncertainty may complicate analyses such as road type assignment, where small spatial inaccuracies can incorrectly match trajectories to nearby streets or paths.</p>
+<section id="processing-efforts-and-accuracies" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="processing-efforts-and-accuracies"><span class="header-section-number">5.2</span> Processing efforts and accuracies</h2>
+<p>Cleaning and filtering the GPS data proved considerably more time-consuming than processing the Google Timeline data. Within buildings and tunnels, GPS measurements frequently deviated substantially from the actual position, and repeated app crashes introduced multiple gaps in the dataset. Furthermore, the high sampling frequency of the GPS data resulted in an extremely large number of recorded points, further increasing processing effort. In contrast, speed and travel distance calculations based on the Google Timeline data were less accurate, as the sampling interval ranged up to several minutes. Additionally, the positional accuracy of the Google Timeline data was generally lower than that of the GPS data.</p>
 
 
 </section>
