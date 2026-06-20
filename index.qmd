@@ -9,6 +9,12 @@ is-index: true   # prevents the chapter title from appearing twice on this page
 
 :::
 
+::: {.content-hidden when-format="html"}
+# Abstract {.unnumbered}
+
+{{< include chapters/_abstract-body.qmd >}}
+
+{{< pagebreak >}}
 
 <!-- Typst: render the table of contents here (hidden in HTML, handled by sidebar) -->
 ::: {.content-hidden when-format="html"}

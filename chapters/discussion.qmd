@@ -1,20 +1,29 @@
 # Discussion
 
-## Google Timeline data
+## Google Timeline data accuracy
 
-In the google timeline data, the accuracy is stated to be up to several hundred meters. Therefore the matching with roadtypes is inaccurate. An example of road type mismatch is the commuting from home to ZHAW and back in @fig-road_type_mismatch. From Rapperswil train station to Wädenswil train station, only the train was used. But in the road type matching, several points are not matched as 'Train' and sometimes even far away from the railroads.
+In the Google Timeline data, the positional accuracy can be several hundred meters. Therefore, the road type matching is sometimes inaccurate. An example is the commute from home to ZHAW and back in @fig-road_type_mismatch. From Rapperswil train station to Wädenswil train station, only the train was used, but several points were not matched as rail and some were even located far away from the railway line.
 
-![Example of mismatched road types on the way from home to ZHAW (only train from Rapperswil to Wädenswil).](plots/road_type_home_zhaw.png){#fig-road_type_mismatch}
+![Example of mismatched road types on the way from home to ZHAW.](plots/road_type_home_zhaw.png){#fig-road_type_mismatch width="70%"}
 
-Another attempt to evaluate the accuracy of the road type matching is to have a look at the from google stated activities at these points. As they include more than the coordinates of the points (acceleration etc.) in their analysis, it is estimated to be more accurate. The percentages of different road types within the different google activities is shown in @fig-road_type_activity.
+Another way to evaluate the road type matching is to compare it with the activities stated by Google. These activities may also be uncertain, but they include more information than coordinates alone, such as acceleration. The percentages of different road types within the Google activities are shown in @fig-road_type_activity.
 
-![Percentage of different road types within the google matched activity.](plots/activity_road_type_amelia.png){#fig-road_type_activity}
+![Percentage of different road types within the Google matched activity.](plots/activity_road_type_amelia.png){#fig-road_type_activity width="85%"}
 
-At a first glance, some of the road types seem to be matched very wrong, but some of them can somehow be explained. The 26% of walking on the rail might be the changing of trains at train stations, the tram line is inside of the main road and therefore 68% matched with it. Nevertheless, a lot of the other percentages (e.g. cycling on rail or train on local road) cannot be explained other than being errors.
-
-
+Some mismatches can be explained. For example, walking points matched to rail may occur when changing trains at stations, and tram lines can overlap spatially with main roads. Nevertheless, several combinations, such as cycling on rail or train movement on local roads, are most likely classification errors.
 
 
-## Processing efforts and accuracies
+## Processing effort and accuracy
 
-Cleaning and filtering the GPS data proved considerably more time-consuming than processing the Google Timeline data. Within buildings and tunnels, GPS measurements frequently deviated substantially from the actual position, and repeated app crashes introduced multiple gaps in the dataset. Furthermore, the high temporal resolution of the GPS data resulted in an extremely large number of recorded points, further increasing processing effort. In contrast, speed and travel distance calculations based on the Google Timeline data were less accurate, as the sampling interval ranged up to several minutes. Additionally, the positional accuracy of the Google Timeline data was generally lower than that of the GPS data.
+Cleaning and filtering the GPS Logger data proved considerably more time-consuming than processing the Google Timeline data. Within buildings and tunnels, GPS measurements frequently deviated from the actual position, and repeated app crashes introduced gaps in the dataset. Furthermore, the high temporal resolution of the GPS data resulted in a very large number of recorded points, which increased processing effort. In contrast, speed and distance calculations based on Google Timeline data were less detailed, as the sampling interval ranged up to several minutes. Additionally, the positional accuracy of Google Timeline was generally lower than that of the GPS Logger data.
+
+
+## Overall interpretation and limitations
+
+The results show that both datasets can be used to describe general mobility patterns, but the reliability of the derived indicators depends strongly on the tracking method. Christopher’s GPS Logger data produced dense and spatially precise trajectories. This made the movement paths easier to interpret and improved the road type matching. In contrast, Amelia’s Google Timeline data contained fewer points and larger positional uncertainties. As a result, some movements were represented by straight connections between distant points, which can affect distance, speed and road type estimates.
+
+A clear difference is visible in the road type results. For Christopher, rail accounts for the largest share of matched movement points, with about 56%. This fits the visible trajectories and indicates that train travel was an important part of his mobility. Amelia’s road type distribution is more balanced between local roads, main roads and rail. However, the comparison with Google activity labels shows several mismatches, suggesting that road type classification is less reliable for Google Timeline data, especially where roads and railway lines are close to each other.
+
+The movement indicators show both similarities and differences between the two individuals. Average travel speed and commuting time to ZHAW are relatively similar, while Amelia shows higher variability in maximum radius, total distance and time away from home. Some of these differences probably reflect real mobility behaviour, but they may also be influenced by the different data sources.
+
+Several limitations should therefore be considered. The analysis is based on only two individuals and a relatively short observation period, so the results cannot be generalized. In addition, the datasets were collected with different methods, sampling intervals and accuracy levels. Future work could include a longer tracking period, more participants and more advanced map-matching methods. For GPS Logger data, aggregating nearby points could reduce noise and processing time. For Google Timeline data, manually validating selected trips would help to assess the reliability of the derived mobility indicators.

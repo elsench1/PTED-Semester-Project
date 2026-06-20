@@ -245,7 +245,6 @@ div.csl-indent {
 <li>Imported GPS Logger GPX track points, transformed them to EPSG:2056, sorted them by time and removed empty or implausible records.</li>
 <li>Calculated time gaps, distances, speed and acceleration between consecutive points. Stops were detected using a 50 m / 5 min threshold; longer gaps and movement phases were used to segment the tracks.</li>
 </ul>
-<p>Processing the GPS Logger data was time-consuming due to its high temporal resolution, large number of points, signal noise and tracking gaps.</p>
 <p>Several approaches were tested to reduce the large GPS dataset, but most gave poor results. Removing stationary periods was the most effective step. Aggregating nearby points could have further reduced noise and data volume, but was not implemented.</p>
 </section>
 </section>
