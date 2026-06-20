@@ -4,24 +4,25 @@
 
 After moderate pre processing effort, the google timeline data over more than two weeks looks like in @fig-move_google. Blue are the movement points and red are the static points. As some of the trajectories have little data points, the travelled distances and speed are likely to be underestimated.
 
-![Tracked moving data with google timeline, red is static and blue is moving.](plots/tm_movement_amelia.png){#fig-move_google}
+![Tracked moving data with google timeline, red is static and blue is moving.](plots/tm_movement_amelia.png){#fig-move_google width="50%"}
 
 
 The other parameters are calculated once per day and once an average over the whole tracking period. In @fig-param_day_a it is shown, that the parameters vary widely at different days.
 
-![Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Amelia.](plots/param_sum_day_amelia.png){#fig-param_day_a}
+![Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Amelia.](plots/param_sum_day_amelia.png){#fig-param_day_a width="90%"}
 
 
 
 
 ## Christopher's movement
 
+Christopher’s GPS Logger data shows more detailed trajectories than the Google Timeline data. After removing stationary periods, the main movement patterns become clearly visible. Most longer trips follow railway corridors, indicating that commuting and other long-distance movements were mainly done by train. The high spatial resolution also makes local movements visible, although gaps and noisy points remain due to tunnels, app crashes and poor GPS signal indoors.
 
 
-![Tracked moving data with GPS app, red is static and blue is moving.](plots/tm_movement_christopher.png){#fig-move_gps}
+![Tracked moving data with GPS app, red is static and blue is moving.](plots/tm_movement_christopher.png){#fig-move_gps width="25%"}
 
 
-![Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Christopher.](plots/param_sum_day_christopher.png){#fig-param_day_c}
+![Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Christopher.](plots/param_sum_day_christopher.png){#fig-param_day_c width="90%"}
 
 
 
