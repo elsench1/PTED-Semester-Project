@@ -10,6 +10,65 @@ library(ggplot2)
 source("src/R/fixed_areas.R")
 source("src/R/plot_functions.R")
 
+safe_min <- function(time, condition) {
+  values <- time[condition & !is.na(condition)]
+  
+  if (length(values) == 0) {
+    return(as.POSIXct(NA, tz = "Europe/Zurich"))
+  }
+  
+  min(values, na.rm = TRUE)
+}
+
+
+safe_max <- function(time, condition) {
+  values <- time[condition & !is.na(condition)]
+  
+  if (length(values) == 0) {
+    return(as.POSIXct(NA, tz = "Europe/Zurich"))
+  }
+  
+  max(values, na.rm = TRUE)
+}
+
+
+safe_max_before <- function(time, condition, before_time) {
+  if (is.na(before_time)) {
+    return(as.POSIXct(NA, tz = "Europe/Zurich"))
+  }
+  
+  values <- time[
+    condition &
+      !is.na(condition) &
+      time < before_time
+  ]
+  
+  if (length(values) == 0) {
+    return(as.POSIXct(NA, tz = "Europe/Zurich"))
+  }
+  
+  max(values, na.rm = TRUE)
+}
+
+
+safe_min_after <- function(time, condition, after_time) {
+  if (is.na(after_time)) {
+    return(as.POSIXct(NA, tz = "Europe/Zurich"))
+  }
+  
+  values <- time[
+    condition &
+      !is.na(condition) &
+      time > after_time
+  ]
+  
+  if (length(values) == 0) {
+    return(as.POSIXct(NA, tz = "Europe/Zurich"))
+  }
+  
+  min(values, na.rm = TRUE)
+}
+
 dir.create("data/processedData", recursive = TRUE, showWarnings = FALSE)
 dir.create("chapters/plots", recursive = TRUE, showWarnings = FALSE)
 
@@ -149,6 +208,79 @@ gps_tagged <- gps_tagged |>
     out_home = !at_home
   )
 
+###############################################################################
+# travel times between home and ZHAW by segment
+
+travel_segments <- gps_tagged |>
+  sf::st_drop_geometry() |>
+  dplyr::mutate(
+    state = dplyr::case_when(
+      at_home ~ "home",
+      at_zhaw ~ "uni",
+      TRUE ~ "other"
+    )
+  ) |>
+  dplyr::arrange(segment_id, time) |>
+  dplyr::group_by(segment_id) |>
+  dplyr::summarise(
+    date = as.Date(dplyr::first(time_local)),
+    
+    first_state = dplyr::first(state),
+    last_state = dplyr::last(state),
+    
+    first_home_time = safe_min(time, state == "home"),
+    last_home_time = safe_max(time, state == "home"),
+    
+    first_uni_time = safe_min(time, state == "uni"),
+    last_uni_time = safe_max(time, state == "uni"),
+    
+    has_home = any(state == "home", na.rm = TRUE),
+    has_uni = any(state == "uni", na.rm = TRUE),
+    
+    .groups = "drop"
+  ) |>
+  dplyr::filter(
+    has_home,
+    has_uni
+  ) |>
+  dplyr::mutate(
+    direction = dplyr::case_when(
+      first_home_time < first_uni_time ~ "travel_time_to_uni",
+      first_uni_time < first_home_time ~ "travel_time_home",
+      TRUE ~ NA_character_
+    ),
+    
+    value = dplyr::case_when(
+      direction == "travel_time_to_uni" ~ as.numeric(
+        difftime(first_uni_time, last_home_time, units = "mins")
+      ),
+      direction == "travel_time_home" ~ as.numeric(
+        difftime(first_home_time, last_uni_time, units = "mins")
+      ),
+      TRUE ~ NA_real_
+    )
+  ) |>
+  dplyr::filter(
+    !is.na(direction),
+    !is.na(value),
+    value > 0,
+    value <= 200
+  )
+
+travel_times <- travel_segments |>
+  dplyr::select(
+    date,
+    segment_id,
+    travel_direction = direction,
+    travel_time_min = value
+  )
+
+home_zhaw_data <- travel_times |>
+  dplyr::transmute(
+    metric = "home_zhaw",
+    value = travel_time_min
+  )
+##############################################################################
 analysis_day <- gps_tagged |>
   st_drop_geometry() |>
   group_by(day) |>
@@ -250,7 +382,12 @@ analysis <- bind_cols(
     st_drop_geometry() |>
     summarise(
       avgSpeed = mean_na(speed_kmh[valid_movement_step & moving]),
-      avgTimeZhaw = NA_real_
+      avgTimeZhaw = mean_na(
+        c(
+          travel_times$travel_time_to_uni,
+          travel_times$travel_time_home
+        )
+      )
     ),
   road_summary_wide
 )
@@ -309,7 +446,8 @@ christopher_plot_inputs <- list(
   summary_data = summary_data,
   summary_data_day = summary_data_day,
   pie_data = pie_data,
-  travel_times = NULL
+  travel_times = travel_times,
+  home_zhaw_data = home_zhaw_data
 )
 
 saveRDS(

@@ -29,14 +29,21 @@ required_fields <- c(
   "home_zhaw_data"
 )
 
-missing_fields <- setdiff(required_fields, names(amelia))
-
-if (length(missing_fields) > 0) {
-  stop(
-    "The Amelia RDS file is missing required fields: ",
-    paste(missing_fields, collapse = ", ")
-  )
+check_plot_input <- function(x, name) {
+  missing_fields <- setdiff(required_fields, names(x))
+  
+  if (length(missing_fields) > 0) {
+    stop(
+      "The ",
+      name,
+      " RDS file is missing required fields: ",
+      paste(missing_fields, collapse = ", ")
+    )
+  }
 }
+
+check_plot_input(amelia, "Amelia")
+check_plot_input(christopher, "Christopher")
 
 plot_inputs <- list(
   amelia,
