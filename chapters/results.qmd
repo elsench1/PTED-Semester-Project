@@ -22,6 +22,8 @@ Christopher’s GPS Logger data shows more detailed trajectories than the Google
 ![Tracked moving data with GPS app, red is static and blue is moving.](plots/tm_movement_christopher.png){#fig-move_gps width="25%"}
 
 
+The daily calculated parameter for Christopher also shows significant variation between days as shown in @fig-param_day_c.
+
 ![Parameter results of average travel speed, maximal distance from home, time out of home and total travelled distance for every tracked day of Christopher.](plots/param_sum_day_christopher.png){#fig-param_day_c width="90%"}
 
 
