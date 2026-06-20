@@ -28,6 +28,7 @@ book:
     # - 8-anhang-statistik.qmd
 
 bibliography: chapters/references/references.bib
+csl: data/csl/ieee.csl
 lang: en                   # controls automatic text (e.g. "Abgabedatum" vs "Submission date")
 
 institut: "Institute of Natural Resource Sciences"
