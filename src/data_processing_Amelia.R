@@ -522,7 +522,7 @@ df_sf_2056 <- df_sf_2056 |>
 
 home_zhaw_data <- travel_times |>
   st_drop_geometry() |>
-  select( travel_time_to_uni, travel_time_home) |>
+  select(travel_time_to_uni, travel_time_home) |>
   pivot_longer(
     cols = c(travel_time_to_uni, travel_time_home),
     names_to = "source",
@@ -530,7 +530,7 @@ home_zhaw_data <- travel_times |>
   ) |>
   filter(!is.na(value)) |>
   mutate(metric = "Travel time home - ZHAW (min)") |>
-  select( metric, value)
+  select(metric, value)
 
 
 
