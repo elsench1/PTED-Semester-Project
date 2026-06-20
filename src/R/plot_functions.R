@@ -165,16 +165,21 @@ make_activity_road_type_plot <- function(df_sf_2056) {
 }
 
 make_param_sum_comp_plot <- function(summary_data_day_comp) {
+  required_cols <- c("person", "metric", "value")
+  missing_cols <- setdiff(required_cols, names(summary_data_day_comp))
+  
+  if (length(missing_cols) > 0) {
+    stop(
+      "summary_data_day_comp is missing required columns: ",
+      paste(missing_cols, collapse = ", ")
+    )
+  }
+  
   ggplot(
     summary_data_day_comp,
     aes(x = person, y = value, fill = person)
   ) +
     geom_boxplot(width = 0.5) +
-    geom_boxplot(
-      data = home_zhaw_data,
-      aes(x = person, y = value, fill = person),
-      width = 0.5
-    ) +
     facet_wrap(
       ~ metric,
       scales = "free",
@@ -202,7 +207,6 @@ make_param_sum_comp_plot <- function(summary_data_day_comp) {
       legend.position = "bottom"
     )
 }
-
 
 
 make_road_type_pie_comp_plot <- function(pie_data_comp) {

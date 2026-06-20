@@ -57,10 +57,34 @@ summary_data_day_comp <- bind_rows(
       x$summary_data_day |>
         mutate(
           person = x$person,
-          day = as.character(day)
-        )
+          day = as.character(day),
+          metric = as.character(metric),
+          value = as.numeric(value)
+        ) |>
+        select(person, day, metric, value)
     }
   )
+)
+
+home_zhaw_comp <- bind_rows(
+  lapply(
+    plot_inputs,
+    function(x) {
+      x$home_zhaw_data |>
+        mutate(
+          person = x$person,
+          day = NA_character_,
+          metric = as.character(metric),
+          value = as.numeric(value)
+        ) |>
+        select(person, day, metric, value)
+    }
+  )
+)
+
+summary_data_day_comp <- bind_rows(
+  summary_data_day_comp,
+  home_zhaw_comp
 )
 
 pie_data_comp <- bind_rows(
