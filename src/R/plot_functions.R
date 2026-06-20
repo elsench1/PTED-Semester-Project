@@ -51,7 +51,7 @@ make_param_sum_plot <- function(summary_data_day) {
     summary_data_day,
     aes(x = metric, y = value, fill = metric)
   ) +
-    geom_boxplot(show.legend = FALSE, width = 0.5) +
+    geom_boxplot(show.legend = FALSE, width = 0.5, outlier.shape = NA) +
     facet_wrap(
       ~ metric,
       scales = "free",
@@ -179,7 +179,7 @@ make_param_sum_comp_plot <- function(summary_data_day_comp) {
     summary_data_day_comp,
     aes(x = person, y = value, fill = person)
   ) +
-    geom_boxplot(width = 0.5) +
+    geom_boxplot(width = 0.5, outlier.shape = NA) +
     facet_wrap(
       ~ metric,
       scales = "free",
